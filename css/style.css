@@ -1,0 +1,40 @@
+body {
+  background-color: rgb(199, 207, 214);
+  color: black;
+  margin: 0;
+}
+
+#header {
+  background-color: rgb(85, 116, 126);
+  color: white;
+  display: flex;
+  flex-direction: row;
+}
+
+#lists {
+  font-size: 1.4em;
+  font-family: "Pangolin", cursive;
+
+  margin: 2em 35% 2em 2em;
+  background-color: grey;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.btn--padding {
+  margin-right: 2em;
+}
+
+.header-item {
+  margin: 0.2em;
+}
+
+.list {
+  height: 200px;
+  background-color: white;
+}
+
+.list-li {
+  margin-left: 1.5em;
+}
