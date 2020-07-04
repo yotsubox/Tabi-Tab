@@ -1,3 +1,11 @@
+:root {
+  --list-item-order-min-width: 2.6em;
+  --list-item-order-padding-right: 0.2em;
+  --gray-box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+  --option-em-size: 1.2em;
+  --list-item-margin-left: 0.9em;
+}
+
 body {
   background-color: rgb(199, 207, 214);
   color: black;
@@ -11,7 +19,10 @@ body {
   flex-direction: row;
 }
 
-#lists {
+.lists {
+  /* D */
+  /* background-color: grey; */
+
   font-size: 1.4em;
   font-family: "Pangolin", cursive;
 
@@ -26,15 +37,122 @@ body {
   margin-right: 2em;
 }
 
-.header-item {
+.header__item {
   margin: 0.2em;
 }
 
 .list {
-  height: 200px;
+  margin-bottom: 1em;
   background-color: white;
+
+  box-shadow: var(--gray-box-shadow);
 }
 
-.list-li {
-  margin-left: 1.5em;
+.list__item-wrapper {
+  /* D */
+  /* background-color: blue; */
+
+  margin: 0.5em 4em 2em 1em;
+}
+
+.list__title {
+  font-size: 1.2em;
+  min-height: 1.2em;
+  margin: 2em 0em 0.1em 1.5em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.list__item {
+  /* D */
+  /* background-color: yellow; */
+  display: flex;
+  margin-left: var(--list-item-margin-left);
+}
+
+.list__item-order {
+  min-width: var(--list-item-order-min-width);
+  padding-right: var(--list-item-order-padding-right);
+  text-align: right;
+  list-style-type: decimal;
+}
+
+.list__item-content {
+  /* D */
+  /* background-color: red; */
+
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.list__item--add-more {
+  margin-left: calc(
+    var(--list-item-margin-left) + var(--list-item-order-min-width) +
+      var(--list-item-order-padding-right)
+  );
+  list-style-type: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.list-menu {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  background-color: white;
+  outline: 2px solid rgba(0, 0, 0, 0.1);
+
+  animation: lm-fade-in 0.1s ease forwards;
+}
+
+.list-menu__option {
+  /* D */
+  /* background-color: red; */
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 10px;
+}
+
+.list-menu__option-box {
+  min-width: var(--option-em-size);
+  min-height: var(--option-em-size);
+}
+
+.list-menu__option-name {
+  /* D */
+  /* background-color: orange; */
+
+  font-size: var(--option-em-size);
+  white-space: nowrap;
+}
+
+/* ANIMATION AND PSEUDO CLASS */
+.list__item--add-more:focus,
+.list__item-content:focus,
+.list__title:focus {
+  outline: 1px solid rgb(133, 158, 180);
+}
+
+.list-menu__option:hover:not(:focus),
+.list__item--add-more:hover:not(:focus),
+.list__item-content:hover:not(:focus),
+.list__title:hover:not(:focus) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* .list-menu:focus {
+  background-color: red;
+} */
+
+@keyframes lm-fade-in {
+  0% {
+    transform: scale(1.5, 0) rotate(-25deg);
+    background-color: transparent;
+  }
+
+  100% {
+    box-shadow: var(--gray-box-shadow);
+  }
 }

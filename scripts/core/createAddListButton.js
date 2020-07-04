@@ -1,15 +1,4 @@
-import { createNewList } from "./createNewList.js";
-
-/**
- * add new list to parent.
- * @param {MouseEvent} event
- */
-function addNewList(event) {
-  const listElem = createNewList();
-
-  const listsElem = this.parentElement;
-  listsElem.insertBefore(listElem, this);
-}
+import { TabList } from "./TabList/TabList.js";
 
 /**
  * create new "add new list" button.
@@ -21,8 +10,17 @@ export function createAddListButton(appendTarget = null) {
   addListButton.textContent = "Add new list";
 
   //functionalities
-  addListButton.addEventListener("click", addNewList);
+  addListButton.addEventListener("click", addNewListEvent);
 
   if (appendTarget) appendTarget.appendChild(addListButton);
   return addListButton;
+}
+
+function addNewListEvent() {
+  const button = this;
+  const listElem = new TabList().elem;
+  const listsElem = button.parentElement;
+
+  //insert list before button.
+  listsElem.insertBefore(listElem, button);
 }
