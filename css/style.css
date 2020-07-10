@@ -85,6 +85,10 @@ body {
   overflow: hidden;
 }
 
+.list__item-content--dragging {
+  background-color: rgb(189, 171, 194);
+}
+
 .list__item--add-more {
   margin-left: calc(
     var(--list-item-margin-left) + var(--list-item-order-min-width) +
@@ -136,7 +140,7 @@ body {
 
 .list-menu__option:hover:not(:focus),
 .list__item--add-more:hover:not(:focus),
-.list__item-content:hover:not(:focus),
+.list__item-content:hover:not(:focus):not(.list__item-content--dragging),
 .list__title:hover:not(:focus) {
   background-color: rgba(0, 0, 0, 0.05);
 }
