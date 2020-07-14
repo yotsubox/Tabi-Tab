@@ -1,4 +1,4 @@
-import { createElement } from "../utils/createElement.js";
+import { createElement } from "../Utils.js";
 
 export function newItem(orderNumber) {
   const elem = createElement("div", "list__item");

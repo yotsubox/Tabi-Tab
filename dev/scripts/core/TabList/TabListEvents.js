@@ -1,24 +1,25 @@
 import { Menu } from "./Menu.js";
-import { makeElementEditable } from "../utils/makeElementEditable.js";
 
 let draggedItem = null;
 let draggedOverItem = null;
 export function initItemEvents(list, item, itemWrapper, futureItem) {
   const itemContent = item.getContentElem();
-
-  makeElementEditable(itemContent);
   //edit content event
   itemContent.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
+    itemContent.blur(); //DO NOT MOVE THIS LINE.
 
-    if (list.getItemCount() === item.getOrderNumber()) futureItem.focus();
-
-    itemContent.textContent = itemContent.textContent.trim();
-
+    //if item is empty, remove.
     if (!itemContent.textContent.length) {
       list.removeItem(item);
       fixOrderNumber();
     }
+
+    if (list.getItemCount() === item.getOrderNumber()) futureItem.focus();
+  });
+
+  itemContent.addEventListener("blur", (e) => {
+    itemContent.textContent = itemContent.textContent.trim();
   });
 
   //dragging events
@@ -71,31 +72,35 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
 }
 
 export function initFutureItemEvents(list, futureItem) {
-  futureItem.addEventListener("keydown", (e) =>
-    newItemEvent(e, futureItem, list)
-  );
-
-  function newItemEvent(e, futureItem, list) {
+  futureItem.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
-
-    //if pressed enter but content is empty, prevent line-break
-    futureItem.textContent = futureItem.textContent.trim();
-    if (!futureItem.textContent.length) {
-      e.preventDefault();
-      return;
-    }
-
-    const item = list.newListItem();
-
-    //transfer text to newly created item and append.
-    const itemContent = item.children[1];
-    itemContent.textContent = futureItem.textContent;
-    futureItem.textContent = "";
-
-    list._itemWrapper.insertBefore(item, futureItem);
 
     //prevent line-break
     e.preventDefault();
+
+    futureItem.textContent = futureItem.textContent.trim();
+
+    //if content is empty
+    if (!futureItem.textContent.length) {
+      return;
+    }
+
+    newItem(e, futureItem, list);
+  });
+
+  futureItem.addEventListener("blur", () => {
+    futureItem.textContent = futureItem.textContent.trim();
+  });
+
+  function newItem(e, futureItem, list) {
+    const item = list.newListItem();
+
+    //transfer text to newly created item and append.
+    const itemContent = item.getContentElem();
+    itemContent.textContent = futureItem.textContent;
+    futureItem.textContent = "";
+
+    list.itemWrapper.insertBefore(item, futureItem);
   }
 }
 

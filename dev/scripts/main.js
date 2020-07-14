@@ -1,13 +1,13 @@
-import { createAddListButton } from "./core/createAddListButton.js";
+import { newAddListButton } from "./core/AddListButton/newAddListButton.js";
+import { LocalStorage } from "./core/LocalStorage/LocalStorage.js";
 
-const listsElem = document.createElement("div");
-document.body.appendChild(listsElem);
-listsElem.className = "lists";
-
+const listsWrapper = document.querySelector(".lists-wrapper");
 //add existing lists
 
 //"add list" button.
-const btn = createAddListButton(listsElem);
+const btn = newAddListButton(listsWrapper);
 
 //DEBUG
 btn.dispatchEvent(new MouseEvent("click"));
+LocalStorage.save();
+LocalStorage.load();

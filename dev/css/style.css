@@ -19,15 +19,16 @@ body {
   flex-direction: row;
 }
 
-.lists {
+.lists-wrapper {
   /* D */
   /* background-color: grey; */
 
+  margin: 2em 35% 2em 2em;
+}
+
+.lists {
   font-size: 1.4em;
   font-family: "Pangolin", cursive;
-
-  margin: 2em 35% 2em 2em;
-
   display: flex;
   flex-direction: column;
 }
