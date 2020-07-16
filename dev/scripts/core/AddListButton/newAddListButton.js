@@ -12,6 +12,13 @@ export function newAddListButton(appendTarget = null) {
   //functionalitiesP
   addListButton.addEventListener("click", addNewListEvent);
 
+  addListButton.addList = function (list) {
+    const listsElem = this.previousElementSibling;
+    //insert list before button.
+    listsElem.appendChild(list);
+  };
+
   if (appendTarget) appendTarget.appendChild(addListButton);
+
   return addListButton;
 }

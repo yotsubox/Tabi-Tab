@@ -1,6 +1,6 @@
-import { createElement } from "../Utils.js";
+import { createElement } from "../../Utils.js";
 
-export function newItem(orderNumber) {
+export function newItem(orderNumber, url = "") {
   const elem = createElement("div", "list__item");
   elem.draggable = true;
 
@@ -13,6 +13,7 @@ export function newItem(orderNumber) {
   elem._order = order;
 
   const content = createElement("div", "list__item-content");
+  content.textContent = url;
   elem._content = content;
 
   elem.appendChild(order);
@@ -30,6 +31,10 @@ export function newItem(orderNumber) {
 
   elem.getContentElem = function () {
     return elem._content;
+  };
+
+  elem.getURL = function () {
+    return elem._content.textContent;
   };
 
   return elem;

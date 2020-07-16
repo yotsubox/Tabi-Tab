@@ -1,4 +1,4 @@
-import { createElement, makeElementEditable } from "../Utils.js";
+import { createElement, makeElementEditable } from "../../Utils.js";
 
 export function newFutureItem() {
   const futureItem = createElement("div", "list__item list__item--add-more");

@@ -1,13 +1,17 @@
 import { newAddListButton } from "./core/AddListButton/newAddListButton.js";
 import { LocalStorage } from "./core/LocalStorage/LocalStorage.js";
+import { SavableObjects } from "./core/LocalStorage/SavableObjects.js";
 
 const listsWrapper = document.querySelector(".lists-wrapper");
 //add existing lists
 
 //"add list" button.
-const btn = newAddListButton(listsWrapper);
+export const addListButton = newAddListButton(listsWrapper);
 
 //DEBUG
-btn.dispatchEvent(new MouseEvent("click"));
-LocalStorage.save();
-LocalStorage.load();
+addListButton.dispatchEvent(new MouseEvent("click"));
+
+document.body.addEventListener("contextmenu", () => {
+  LocalStorage.save();
+  LocalStorage.load();
+});

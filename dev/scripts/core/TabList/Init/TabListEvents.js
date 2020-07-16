@@ -1,4 +1,4 @@
-import { Menu } from "./Menu.js";
+import { Menu } from "../Menu.js";
 
 let draggedItem = null;
 let draggedOverItem = null;
