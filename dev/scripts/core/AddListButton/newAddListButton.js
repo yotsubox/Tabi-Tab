@@ -6,19 +6,20 @@ import { addNewListEvent } from "./AddListButtonEvents.js";
  */
 export function newAddListButton(appendTarget = null) {
   const addListButton = document.createElement("button");
+
+  if (appendTarget) appendTarget.appendChild(addListButton);
+
   addListButton.className = "btn btn--padding";
   addListButton.textContent = "Add new list";
+  addListButton.listsElem = addListButton.previousElementSibling;
 
   //functionalitiesP
   addListButton.addEventListener("click", addNewListEvent);
 
   addListButton.addList = function (list) {
-    const listsElem = this.previousElementSibling;
     //insert list before button.
-    listsElem.appendChild(list);
+    this.listsElem.appendChild(list);
   };
-
-  if (appendTarget) appendTarget.appendChild(addListButton);
 
   return addListButton;
 }

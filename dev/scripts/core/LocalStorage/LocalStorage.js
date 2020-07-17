@@ -11,23 +11,32 @@ export class LocalStorage {
       storage.setItem(`+${id}`, savable.stringify());
       id++;
     }
+
+    //DEBUG
+    console.log("SAVED:");
+    console.log(`savables`, SavableObjects._stack);
+    console.log(`storage:`, storage);
   }
 
   static load() {
     const savableObjectsData = getSavableObjectsData();
 
+    this._removeCurrentlyRunningObjects();
     SavableObjects.clear();
 
     for (const data of savableObjectsData) {
       ObjectLoader.parse(data);
     }
-
-    console.log(savableObjectsData);
-    console.log(storage);
   }
 
-  static clear() {
+  static _clear() {
     storage.clear();
+  }
+
+  static _removeCurrentlyRunningObjects() {
+    for (const savable of SavableObjects) {
+      savable.remove();
+    }
   }
 }
 
