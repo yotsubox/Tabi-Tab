@@ -1,4 +1,4 @@
-import { Menu } from "../Menu.js";
+import { newMenu } from "../Menu/newMenu.js";
 
 let draggedItem = null;
 let draggedOverItem = null;
@@ -109,7 +109,7 @@ export function menuEvent(e) {
   const oldScrollX = window.scrollX;
   const oldScrollY = window.scrollY;
 
-  new Menu(e.clientX + oldScrollX, e.clientY + oldScrollY, this);
+  newMenu(e.clientX + oldScrollX, e.clientY + oldScrollY, this);
 
   //keep scroll at old position after creating menu.
   window.scrollTo(oldScrollX, oldScrollY);

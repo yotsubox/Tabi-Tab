@@ -1,5 +1,5 @@
 import { createElement } from "../Utils.js";
-import { SavableObjects } from "../LocalStorage/SavableObjects.js";
+import { SavableObjects } from "../SaveSystem/SavableObjects.js";
 import {
   addFunctionalities,
   addItemWrapper,
@@ -10,6 +10,7 @@ import {
 export function newTabListFromJSON(tabListJSON) {
   const tabList = createElement("div", "list");
   tabList._itemCount = 0;
+  tabList._settings = tabListJSON.settings;
 
   SavableObjects.add(tabList);
 

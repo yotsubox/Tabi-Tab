@@ -1,5 +1,5 @@
 import { newAddListButton } from "./core/AddListButton/newAddListButton.js";
-import { LocalStorage } from "./core/LocalStorage/LocalStorage.js";
+import { LocalStorage } from "./core/SaveSystem/LocalStorage.js";
 import { saveWhenCtrlS, saveEveryTenSec } from "./core/Events.js";
 
 //BASIC FUNCTIONALITIES.

@@ -1,4 +1,4 @@
-import { LocalStorage } from "../LocalStorage/LocalStorage.js";
+import { LocalStorage } from "../SaveSystem/LocalStorage.js";
 /**
  *
  * @param {KeyboardEvent} e

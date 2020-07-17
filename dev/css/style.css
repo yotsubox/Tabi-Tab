@@ -100,7 +100,7 @@ body {
   overflow: hidden;
 }
 
-.list-menu {
+.menu {
   display: flex;
   flex-direction: column;
 

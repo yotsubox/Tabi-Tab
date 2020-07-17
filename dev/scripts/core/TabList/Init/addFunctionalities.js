@@ -36,6 +36,7 @@ export function addFunctionalities(tabList) {
     const urls = [].map.call(this.getItems(), (item) => item.getURL());
     return JSON.stringify({
       type: Type.TabList,
+      settings: this._settings,
       titleName: this.getTitleName(),
       urls: urls,
     });
