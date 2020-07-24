@@ -1,5 +1,3 @@
-import { removeFormatting } from "../Events/removeFormattingOnPaste.js";
-
 export function makeElementEditable(target) {
   target.contentEditable = true;
   target.spellcheck = false;
