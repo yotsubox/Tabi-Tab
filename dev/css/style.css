@@ -12,13 +12,46 @@ body {
   margin: 0;
 }
 
+/* HEADER */
 #header {
+  height: 3em;
   background-color: rgb(85, 116, 126);
   color: white;
-  display: flex;
-  flex-direction: row;
+
+  padding: 0 0.5rem;
 }
 
+.flex-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.header--title {
+  font-size: 2em;
+  margin: 0;
+}
+
+.header__item {
+  /* D */
+  /* background-color: red; */
+
+  margin: 0.5rem 0.2rem;
+}
+
+.save-btn {
+  max-height: 2rem;
+}
+
+/* TAB LIST */
 .lists-wrapper {
   /* D */
   /* background-color: grey; */
@@ -35,10 +68,6 @@ body {
 
 .btn--padding {
   margin-right: 2em;
-}
-
-.header__item {
-  margin: 0.2em;
 }
 
 .list {
@@ -146,10 +175,12 @@ body {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* .list-menu:focus {
-  background-color: red;
-} */
+/* UTILS */
+.--gray-scale {
+  filter: grayscale(100%);
+}
 
+/* ANIMATION */
 @keyframes lm-fade-in {
   0% {
     transform: scale(1.5, 0) rotate(-25deg);

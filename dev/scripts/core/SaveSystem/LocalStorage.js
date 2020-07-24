@@ -1,10 +1,18 @@
 import { SavableObjects } from "./SavableObjects.js";
 import { ObjectLoader } from "./ObjectLoader.js";
+import { ChangesDetector } from "./ChangesDetector.js";
 
 const storage = window.localStorage;
 
 export class LocalStorage {
+  /**
+   * save changes.
+   * @returns {boolean} returns true if changes are saved. false if there are no changes or failed to save.
+   */
   static save() {
+    //if nothing has changed, do nothing.
+    if (!ChangesDetector.haveChangesBeenMade()) return false;
+
     let id = 0;
     for (const savable of SavableObjects) {
       //for some fucking reason, numbers (or number strings) as key do not work properly.
@@ -12,10 +20,15 @@ export class LocalStorage {
       id++;
     }
 
+    //things are now unchanged.
+    ChangesDetector.resetState();
+
     //DEBUG
     console.log("SAVED:");
     console.log(`savables`, SavableObjects._stack);
     console.log(`storage:`, storage);
+
+    return true;
   }
 
   static load() {

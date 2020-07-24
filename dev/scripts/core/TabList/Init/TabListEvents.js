@@ -1,4 +1,5 @@
 import { newMenu } from "../Menu/newMenu.js";
+import { ChangesDetector } from "../../SaveSystem/ChangesDetector.js";
 
 let draggedItem = null;
 let draggedOverItem = null;
@@ -6,7 +7,12 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
   const itemContent = item.getContentElem();
   //edit content event
   itemContent.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
+    if (e.key !== "Enter") {
+      //saving is now available
+      ChangesDetector.detected();
+      return;
+    }
+
     itemContent.blur(); //DO NOT MOVE THIS LINE.
 
     //if item is empty, remove.
@@ -54,6 +60,8 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
   });
 
   item.addEventListener("dragend", () => {
+    ChangesDetector.detected();
+
     draggedItem
       .getContentElem()
       .classList.remove("list__item-content--dragging");
@@ -102,6 +110,23 @@ export function initFutureItemEvents(list, futureItem) {
 
     list.itemWrapper.insertBefore(item, futureItem);
   }
+}
+
+export function initTitleEvents(title, tabList) {
+  title.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") {
+      //saving is now available
+      ChangesDetector.detected();
+      return;
+    }
+
+    if (tabList.getItemCount() === 0) tabList.futureItem.focus();
+    else title.blur();
+  });
+
+  title.addEventListener("blur", () => {
+    title.textContent = title.textContent.trim();
+  });
 }
 
 export function menuEvent(e) {

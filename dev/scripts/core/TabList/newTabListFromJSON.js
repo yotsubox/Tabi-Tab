@@ -2,9 +2,9 @@ import { createElement } from "../Utils.js";
 import { SavableObjects } from "../SaveSystem/SavableObjects.js";
 import {
   addFunctionalities,
-  addItemWrapper,
-  addFutureItem,
-  addTitle,
+  newItemWrapper,
+  newFutureItem,
+  newTitle,
 } from "./TabListInit.js";
 
 export function newTabListFromJSON(tabListJSON) {
@@ -14,10 +14,12 @@ export function newTabListFromJSON(tabListJSON) {
 
   SavableObjects.add(tabList);
 
-  tabList.itemWrapper = addItemWrapper(tabList);
-  tabList.titleElem = addTitle(tabList, tabListJSON.titleName); //for some reason using 'title' as variable name results in undefined value.
+  tabList.itemWrapper = newItemWrapper(tabList);
 
-  tabList.futureItem = addFutureItem(tabList);
+  //for some reason using 'title' as variable name results in undefined value.
+  tabList.titleElem = newTitle(tabList, tabListJSON.titleName);
+
+  tabList.futureItem = newFutureItem(tabList);
 
   addFunctionalities(tabList);
 
