@@ -1,18 +1,17 @@
+let _stack = [];
 /**
  * A stack that store objects needed to be saved (such as tab lists).
  */
 export class SavableObjects {
-  static _stack = [];
-
   static add(saveable) {
-    this._stack.push(saveable);
+    _stack.push(saveable);
   }
 
   static *[Symbol.iterator]() {
-    for (const savable of this._stack) yield savable;
+    for (const savable of _stack) yield savable;
   }
 
   static clear() {
-    this._stack = [];
+    _stack = [];
   }
 }

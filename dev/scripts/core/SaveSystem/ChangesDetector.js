@@ -1,18 +1,18 @@
+let _changed = false;
+const _listenersData = {
+  onChange: [],
+  onSave: [],
+};
+
+/**
+ * Class that detects changes and dispatches events related to changes.
+ */
 export class ChangesDetector {
-  static _changed = false;
-  static _onChangeListenersData = [];
-  static _onSaveListenersData = [];
-
-  static _listenersData = {
-    onChange: ChangesDetector._onChangeListenersData,
-    onSave: ChangesDetector._onSaveListenersData,
-  };
-
   static haveChangesBeenMade() {
     // DEBUG
-    console.log("haveChangesBeenMade", ChangesDetector._changed);
+    console.log("haveChangesBeenMade", _changed);
 
-    return ChangesDetector._changed;
+    return _changed;
   }
 
   /**
@@ -22,7 +22,7 @@ export class ChangesDetector {
    * @param {object | null} thisArg the object to call method from (null if is a function)
    */
   static addEventListener(type, listener, thisArg, ...args) {
-    ChangesDetector._listenersData[type].push({
+    _listenersData[type].push({
       listener,
       thisArg,
       args,
@@ -30,7 +30,7 @@ export class ChangesDetector {
   }
 
   static _dispatchEvent(type) {
-    const listenersData = ChangesDetector._listenersData[type];
+    const listenersData = _listenersData[type];
     //callback
     for (const { listener, thisArg, args } of listenersData) {
       listener.apply(thisArg, args);
@@ -43,9 +43,9 @@ export class ChangesDetector {
    */
   static detected() {
     //only call once.
-    if (ChangesDetector._changed) return;
+    if (_changed) return;
 
-    ChangesDetector._changed = true;
+    _changed = true;
 
     ChangesDetector._dispatchEvent("onChange");
   }
@@ -55,7 +55,7 @@ export class ChangesDetector {
    * dispatch "onSave" event.
    */
   static resetState() {
-    ChangesDetector._changed = false;
+    _changed = false;
 
     ChangesDetector._dispatchEvent("onSave");
   }

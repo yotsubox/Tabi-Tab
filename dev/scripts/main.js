@@ -16,5 +16,3 @@ export const addListButton = newAddListButton(listsWrapper);
 
 //LOAD PREVIOUSLY SAVE OBJECTS.
 LocalStorage.load();
-
-//DEBUG
