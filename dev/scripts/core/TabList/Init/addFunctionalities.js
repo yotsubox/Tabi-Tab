@@ -12,7 +12,7 @@ export function addFunctionalities(tabList) {
 
   tabList.removeItem = function (item) {
     item.remove();
-    this.itemCount--;
+    this._itemCount--;
   };
 
   tabList.getTitleName = function () {

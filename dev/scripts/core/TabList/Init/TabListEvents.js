@@ -12,20 +12,22 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
       ChangesDetector.detected();
       return;
     }
-
-    itemContent.blur(); //DO NOT MOVE THIS LINE.
-
-    //if item is empty, remove.
-    if (!itemContent.textContent.length) {
-      list.removeItem(item);
-      fixOrderNumber();
-    }
+    e.preventDefault();
 
     if (list.getItemCount() === item.getOrderNumber()) futureItem.focus();
+    else item.nextElementSibling.getContentElem().focus();
+
+    itemContent.blur(); //DO NOT MOVE THIS LINE.
   });
 
   itemContent.addEventListener("blur", (e) => {
     itemContent.textContent = itemContent.textContent.trim();
+
+    //if item is empty, remove and focus on next item.
+    if (!itemContent.textContent.length) {
+      list.removeItem(item);
+      fixOrderNumber();
+    }
   });
 
   //dragging events
