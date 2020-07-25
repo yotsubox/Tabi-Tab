@@ -115,7 +115,7 @@ body {
   overflow: hidden;
 }
 
-.list__item-content--dragging {
+.list__item-contentBox--dragging {
   background-color: rgb(189, 171, 194);
 }
 
@@ -163,14 +163,14 @@ body {
 
 /* ANIMATION AND PSEUDO CLASS */
 .list__item--add-more:focus,
-.list__item-content:focus,
+.list__item-contentBox:focus,
 .list__title:focus {
   outline: 1px solid rgb(133, 158, 180);
 }
 
 .list-menu__option:hover:not(:focus),
 .list__item--add-more:hover:not(:focus),
-.list__item-content:hover:not(:focus):not(.list__item-content--dragging),
+.list__item-contentBox:hover:not(:focus):not(.list__item-contentBox--dragging),
 .list__title:hover:not(:focus) {
   background-color: rgba(0, 0, 0, 0.05);
 }

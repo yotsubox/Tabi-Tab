@@ -1,7 +1,7 @@
-import { newAddListButton } from "./core/AddListButton/newAddListButton.js";
-import { LocalStorage } from "./core/SaveSystem/LocalStorage.js";
+import { NewTabListButton } from "./core/NewTabListButton.js";
+import { LocalStorage } from "./core/SaveSystem.js";
 import { saveWhenCtrlS, saveEveryTenSec } from "./core/Events.js";
-import { SaveButton } from "./core/SaveButton/SaveButton.js";
+import { SaveButton } from "./core/SaveButton.js";
 
 //BASIC FUNCTIONALITIES.
 saveWhenCtrlS();
@@ -12,7 +12,7 @@ export const saveButton = SaveButton.FromExistingElem(
   document.querySelector(".save-btn")
 );
 export const listsWrapper = document.querySelector(".lists-wrapper");
-export const addListButton = newAddListButton(listsWrapper);
+export const addListButton = NewTabListButton.Create(listsWrapper);
 
-//LOAD PREVIOUSLY SAVE OBJECTS.
+//LOAD PREVIOUSLY SAVED OBJECTS.
 LocalStorage.load();

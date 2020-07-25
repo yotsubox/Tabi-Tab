@@ -1,10 +1,8 @@
-import { Type, makeElementEditable } from "../../Utils.js";
-import { initItemEvents } from "./TabListEvents.js";
-import { newItem } from "../TabListInit.js";
-import { menuEvent } from "./TabListEvents.js";
+import { Type } from "../../Utils.js";
+import { Item, showMenu, addItemEventListeners } from "../Init.js";
 
 export function addFunctionalities(tabList) {
-  tabList.addEventListener("contextmenu", menuEvent);
+  tabList.addEventListener("contextmenu", showMenu);
 
   tabList.getItemCount = function () {
     return this._itemCount;
@@ -23,11 +21,10 @@ export function addFunctionalities(tabList) {
     return this.querySelectorAll(".list__item:not(.list__item--add-more)");
   };
 
-  tabList.newListItem = function (url = "") {
+  tabList.newItem = function (url = "") {
     this._itemCount++;
-    const item = newItem(this._itemCount, url);
-    makeElementEditable(item.getContentElem());
-    initItemEvents(this, item, this.itemWrapper, this.futureItem);
+    const item = Item.Create(this._itemCount, url);
+    addItemEventListeners(this, item, this.itemWrapper, this.futureItem);
 
     return item;
   };

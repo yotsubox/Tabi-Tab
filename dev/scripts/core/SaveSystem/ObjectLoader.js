@@ -1,5 +1,5 @@
 import { Type } from "../Utils.js";
-import { newTabListFromJSON } from "../TabList/newTabListFromJSON.js";
+import { TabList } from "../TabList.js";
 import { addListButton } from "../../main.js";
 
 export class ObjectLoader {
@@ -13,11 +13,12 @@ export class ObjectLoader {
   }
 }
 
+//init
 const parseByTypeHandlers = [];
 parseByTypeHandlers[Type.TabList] = _parseTabList;
 
 function _parseTabList(tabListJSON) {
-  const tabList = newTabListFromJSON(tabListJSON);
+  const tabList = TabList.FromJSON(tabListJSON);
 
   addListButton.addList(tabList);
 }

@@ -1,7 +1,6 @@
-import { ChangesDetector } from "../../SaveSystem/ChangesDetector.js";
-import { LocalStorage } from "../../SaveSystem/LocalStorage.js";
+import { ChangesDetector, LocalStorage } from "../../SaveSystem.js";
 
-export function initSaveButtonEvents(saveButton) {
+export function addEventListeners(saveButton) {
   ChangesDetector.addEventListener(
     "onChange",
     saveButton.toggleGrayScale,

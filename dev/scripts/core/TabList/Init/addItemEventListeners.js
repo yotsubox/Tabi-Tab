@@ -1,9 +1,7 @@
-import { newMenu } from "../Menu/newMenu.js";
-import { ChangesDetector } from "../../SaveSystem/ChangesDetector.js";
-
+import { ChangesDetector } from "../../SaveSystem.js";
 let draggedItem = null;
 let draggedOverItem = null;
-export function initItemEvents(list, item, itemWrapper, futureItem) {
+export function addItemEventListeners(list, item, itemWrapper, futureItem) {
   const itemContent = item.getContentElem();
   //edit content event
   itemContent.addEventListener("keydown", (e) => {
@@ -33,7 +31,7 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
   //dragging events
   item.addEventListener("dragstart", (e) => {
     draggedItem = item;
-    item.getContentElem().classList.add("list__item-content--dragging");
+    item.getContentElem().classList.add("list__item-contentBox--dragging");
 
     //blank image element as "ghost" image
     e.dataTransfer.setDragImage(document.createElement("img"), 0, 0);
@@ -66,7 +64,7 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
 
     draggedItem
       .getContentElem()
-      .classList.remove("list__item-content--dragging");
+      .classList.remove("list__item-contentBox--dragging");
     //clean up
     draggedItem = null;
   });
@@ -79,65 +77,4 @@ export function initItemEvents(list, item, itemWrapper, futureItem) {
       item.setOrderNumber(i);
     }
   }
-}
-
-export function initFutureItemEvents(list, futureItem) {
-  futureItem.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
-
-    //prevent line-break
-    e.preventDefault();
-
-    futureItem.textContent = futureItem.textContent.trim();
-
-    //if content is empty
-    if (!futureItem.textContent.length) {
-      return;
-    }
-
-    newItem(e, futureItem, list);
-  });
-
-  futureItem.addEventListener("blur", () => {
-    futureItem.textContent = futureItem.textContent.trim();
-  });
-
-  function newItem(e, futureItem, list) {
-    const item = list.newListItem();
-
-    //transfer text to newly created item and append.
-    const itemContent = item.getContentElem();
-    itemContent.textContent = futureItem.textContent;
-    futureItem.textContent = "";
-
-    list.itemWrapper.insertBefore(item, futureItem);
-  }
-}
-
-export function initTitleEvents(title, tabList) {
-  title.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") {
-      //saving is now available
-      ChangesDetector.detected();
-      return;
-    }
-
-    if (tabList.getItemCount() === 0) tabList.futureItem.focus();
-    else title.blur();
-  });
-
-  title.addEventListener("blur", () => {
-    title.textContent = title.textContent.trim();
-  });
-}
-
-export function menuEvent(e) {
-  e.preventDefault();
-  const oldScrollX = window.scrollX;
-  const oldScrollY = window.scrollY;
-
-  newMenu(e.clientX + oldScrollX, e.clientY + oldScrollY, this);
-
-  //keep scroll at old position after creating menu.
-  window.scrollTo(oldScrollX, oldScrollY);
 }

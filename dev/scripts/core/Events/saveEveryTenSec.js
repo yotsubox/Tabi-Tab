@@ -1,4 +1,4 @@
-import { LocalStorage } from "../SaveSystem/LocalStorage.js";
+import { LocalStorage } from "../SaveSystem.js";
 
 export function saveEveryTenSec() {
   setTimeout(function repeat() {

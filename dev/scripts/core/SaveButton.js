@@ -1,5 +1,4 @@
-import { initSaveButtonEvents, addFunctionalities } from "./Init.js";
-import { createElement } from "../Utils/createElement.js";
+import { addEventListeners, addFunctionalities } from "./SaveButton/Init.js";
 
 export class SaveButton {
   /** make existing <img/> tag into a save button.
@@ -9,7 +8,7 @@ export class SaveButton {
     elem.classList.add("--gray-scale");
 
     addFunctionalities(elem);
-    initSaveButtonEvents(elem);
+    addEventListeners(elem);
     return elem;
   }
 }
