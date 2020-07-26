@@ -1,19 +1,26 @@
 export function addFunctionalities(item) {
   item.setOrderNumber = function (orderNumber) {
-    if (orderNumber === 0) item._order.textContent = "";
-    else item._order.textContent = orderNumber + ".";
-    item._orderNumber = orderNumber;
+    if (orderNumber === 0) this._order.textContent = "";
+    else this._order.textContent = orderNumber + ".";
+    this._orderNumber = orderNumber;
+  };
+
+  /**
+   * return it's parent (the list that contain itself)
+   */
+  item.getOwner = function () {
+    return this._owner;
   };
 
   item.getOrderNumber = function () {
-    return item._orderNumber;
+    return this._orderNumber;
   };
 
   item.getContentElem = function () {
-    return item._content;
+    return this._content;
   };
 
   item.getURL = function () {
-    return item._content.textContent;
+    return this._content.textContent;
   };
 }

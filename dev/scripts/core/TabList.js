@@ -13,17 +13,16 @@ export class TabList {
     const tabList = createElement("div", "list");
     tabList._itemCount = 0;
     tabList._settings = newDefaultSettings();
-    //tabList is saveable
-    SavableObjects.add(tabList);
-
-    tabList.itemWrapper = ItemWrapper.Create(tabList);
-
-    //for some reason using 'title' as variable name results in undefined value.
-    tabList.titleElem = Title.Create(tabList);
-
-    tabList.futureItem = FutureItem.Create(tabList);
 
     addFunctionalities(tabList);
+    SavableObjects.add(tabList);
+
+    tabList._itemWrapper = ItemWrapper.Create(tabList);
+
+    //for some reason using 'title' as variable name results in undefined value.
+    tabList._title = Title.Create(tabList);
+
+    tabList._futureItem = FutureItem.Create(tabList);
 
     return tabList;
   }
@@ -33,23 +32,25 @@ export class TabList {
     tabList._itemCount = 0;
     tabList._settings = tabListJSON.settings;
 
+    addFunctionalities(tabList);
     SavableObjects.add(tabList);
 
-    tabList.itemWrapper = ItemWrapper.Create(tabList);
+    tabList._itemWrapper = ItemWrapper.Create(tabList);
 
     //for some reason using 'title' as variable name results in undefined value.
-    tabList.titleElem = Title.Create(tabList, tabListJSON.titleName);
+    tabList._title = Title.Create(tabList, tabListJSON.titleName);
 
-    tabList.futureItem = FutureItem.Create(tabList);
+    tabList._futureItem = FutureItem.Create(tabList);
 
-    addFunctionalities(tabList);
-
-    //append items to list.
-    for (const url of tabListJSON.urls) {
-      const item = tabList.newItem(url);
-      tabList.itemWrapper.insertBefore(item, tabList.futureItem);
-    }
+    addItemsToTabListFromURLs(tabList, tabListJSON.urls);
 
     return tabList;
+  }
+}
+
+function addItemsToTabListFromURLs(tabList, urls) {
+  for (const url of urls) {
+    const item = tabList.newItem(url);
+    tabList._itemWrapper.insertBefore(item, tabList._futureItem);
   }
 }

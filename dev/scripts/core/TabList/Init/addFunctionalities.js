@@ -1,5 +1,5 @@
 import { Type } from "../../Utils.js";
-import { Item, showMenu, addItemEventListeners } from "../Init.js";
+import { Item, showMenu } from "../Init.js";
 
 export function addFunctionalities(tabList) {
   tabList.addEventListener("contextmenu", showMenu);
@@ -14,17 +14,24 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.getTitleName = function () {
-    return this.titleElem.textContent;
+    return this._title.textContent;
   };
 
   tabList.getItems = function () {
     return this.querySelectorAll(".list__item:not(.list__item--add-more)");
   };
 
+  tabList.getFutureItem = function () {
+    return this._futureItem;
+  };
+
+  tabList.getItemWrapper = function () {
+    return this._itemWrapper;
+  };
+
   tabList.newItem = function (url = "") {
     this._itemCount++;
-    const item = Item.Create(this._itemCount, url);
-    addItemEventListeners(this, item, this.itemWrapper, this.futureItem);
+    const item = Item.Create(this, this._itemCount, url);
 
     return item;
   };

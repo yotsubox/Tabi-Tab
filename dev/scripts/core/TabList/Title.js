@@ -11,7 +11,7 @@ export class Title {
 
     addEventListeners(title, tabList);
 
-    tabList.itemWrapper.appendChild(title);
+    tabList.getItemWrapper().appendChild(title);
     return title;
   }
 }

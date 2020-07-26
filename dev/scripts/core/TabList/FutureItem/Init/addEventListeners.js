@@ -19,14 +19,14 @@ export function addEventListeners(list, futureItem) {
     futureItem.textContent = futureItem.textContent.trim();
   });
 
-  function newItem(e, futureItem, list) {
-    const item = list.newItem();
+  function newItem(e, futureItem, tabList) {
+    const item = tabList.newItem();
 
     //transfer text to newly created item and append.
     const itemContent = item.getContentElem();
     itemContent.textContent = futureItem.textContent;
     futureItem.textContent = "";
 
-    list.itemWrapper.insertBefore(item, futureItem);
+    tabList.getItemWrapper().insertBefore(item, futureItem);
   }
 }

@@ -1,13 +1,14 @@
 import { createElement } from "../Utils.js";
 import { makeElementEditable } from "../Utils/makeElementEditable.js";
-import { addFunctionalities } from "./Item/Init.js";
+import { addFunctionalities, addEventListeners } from "./Item/Init.js";
 
 export class Item {
-  static Create(orderNumber, url = "") {
+  static Create(tabList, orderNumber, url = "") {
     const item = createElement("div", "list__item");
     item.draggable = true;
 
     item._orderNumber = orderNumber;
+    item._owner = tabList;
     // layout:
     // <order>. <contentBox>
     // e.g: 9. worms.com
@@ -25,6 +26,7 @@ export class Item {
     item.appendChild(contentBox);
 
     addFunctionalities(item);
+    addEventListeners(item);
 
     return item;
   }
