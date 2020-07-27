@@ -1,56 +1,44 @@
 import { createElement } from "./Utils.js";
-import { SavableObjects } from "./SaveSystem.js";
+import { SavableObjects, ChangesDetector } from "./SaveSystem.js";
 import {
-  ItemWrapper,
-  FutureItem,
-  Title,
   addFunctionalities,
-  newDefaultSettings,
+  initProperties,
+  initPropertiesFromJSON,
+  addItemsToTabListFromURLs,
+  assembleComponentsAndAppend,
 } from "./TabList/Init.js";
 
 export class TabList {
-  static NewTabList() {
-    const tabList = createElement("div", "list");
-    tabList._itemCount = 0;
-    tabList._settings = newDefaultSettings();
+  static Create(appendTarget) {
+    ChangesDetector.detected();
 
-    addFunctionalities(tabList);
+    const tabList = createElement(
+      "div",
+      "list --tab-list-un-minimize-animation"
+    );
     SavableObjects.add(tabList);
 
-    tabList._itemWrapper = ItemWrapper.Create(tabList);
-
-    //for some reason using 'title' as variable name results in undefined value.
-    tabList._title = Title.Create(tabList);
-
-    tabList._futureItem = FutureItem.Create(tabList);
+    addFunctionalities(tabList);
+    initProperties(tabList);
+    assembleComponentsAndAppend(tabList, appendTarget);
 
     return tabList;
   }
 
-  static FromJSON(tabListJSON) {
-    const tabList = createElement("div", "list");
-    tabList._itemCount = 0;
-    tabList._settings = tabListJSON.settings;
+  static FromJSON(appendTarget, tabListJSON) {
+    ChangesDetector.detected();
 
-    addFunctionalities(tabList);
+    const tabList = createElement(
+      "div",
+      "list --tab-list-un-minimize-animation"
+    );
     SavableObjects.add(tabList);
 
-    tabList._itemWrapper = ItemWrapper.Create(tabList);
-
-    //for some reason using 'title' as variable name results in undefined value.
-    tabList._title = Title.Create(tabList, tabListJSON.titleName);
-
-    tabList._futureItem = FutureItem.Create(tabList);
-
+    addFunctionalities(tabList);
+    initPropertiesFromJSON(tabList, tabListJSON);
+    assembleComponentsAndAppend(tabList, appendTarget);
     addItemsToTabListFromURLs(tabList, tabListJSON.urls);
 
     return tabList;
-  }
-}
-
-function addItemsToTabListFromURLs(tabList, urls) {
-  for (const url of urls) {
-    const item = tabList.newItem(url);
-    tabList._itemWrapper.insertBefore(item, tabList._futureItem);
   }
 }

@@ -8,7 +8,7 @@ export function addEventListeners(title, tabList) {
       return;
     }
 
-    if (tabList.getItemCount() === 0) tabList.futureItem.focus();
+    if (tabList.getItemCount() === 0) tabList.getFutureItem().focus();
     else title.blur();
   });
 

@@ -106,11 +106,11 @@ function putDraggedItemOnBottomOf(item) {
 
 //OTHERS
 function fixOrderNumber(tabList) {
-  const itemWrapper = tabList.getItemWrapper();
-  // -1 and i = 1 to exclude title and future item
-  const range = itemWrapper.children.length - 1;
-  for (let i = 1; i < range; i++) {
-    const item = itemWrapper.children[i];
-    item.setOrderNumber(i);
+  const itemContainer = tabList.getItemContainer();
+  // - 1 to exclude title and future item
+  const range = itemContainer.children.length - 1;
+  for (let i = 0; i < range; i++) {
+    const item = itemContainer.children[i];
+    item.setOrderNumber(i + 1);
   }
 }

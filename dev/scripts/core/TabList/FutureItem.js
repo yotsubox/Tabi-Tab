@@ -8,7 +8,6 @@ export class FutureItem {
 
     addEventListeners(tabList, futureItem);
 
-    tabList.getItemWrapper().appendChild(futureItem);
     return futureItem;
   }
 }

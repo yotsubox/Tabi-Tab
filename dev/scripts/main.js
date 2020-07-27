@@ -11,8 +11,9 @@ saveEveryTenSec();
 export const saveButton = SaveButton.FromExistingElem(
   document.querySelector(".save-btn")
 );
-export const listsWrapper = document.querySelector(".lists-wrapper");
-export const addListButton = NewTabListButton.Create(listsWrapper);
+export const tabListSection = document.querySelector(".tab-list-section");
+export const listContainer = document.querySelector(".list-container");
+export const addListButton = NewTabListButton.Create(tabListSection);
 
 //LOAD PREVIOUSLY SAVED OBJECTS.
 LocalStorage.load();

@@ -1,13 +1,10 @@
 import { TabList } from "../../TabList.js";
-import { ChangesDetector } from "../../SaveSystem.js";
+import { listContainer } from "../../../main.js";
 
 export function addEventListeners(addListButton) {
-  addListButton.addEventListener("click", addNewListEvent);
+  addListButton.addEventListener("click", createNewTabList);
 }
 
-function addNewListEvent() {
-  ChangesDetector.detected();
-
-  const listElem = TabList.NewTabList();
-  this.addList(listElem);
+function createNewTabList() {
+  const tabList = TabList.Create(listContainer);
 }

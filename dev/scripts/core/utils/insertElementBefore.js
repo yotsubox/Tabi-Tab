@@ -12,6 +12,6 @@ export function insertElementBefore(target, item) {
   }
 
   throw ReferenceError(
-    "target item does not have a parent, therefore can not be insert before."
+    `target item (${target.constructor.name}) does not have a parent, therefore can not be insert before.`
   );
 }

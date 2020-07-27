@@ -12,14 +12,9 @@ export class NewTabListButton {
 
     addListButton.className = "btn btn--padding";
     addListButton.textContent = "Add new list";
-    addListButton.listsElem = addListButton.previousElementSibling;
+    addListButton._listsElem = addListButton.previousElementSibling;
 
     addEventListeners(addListButton);
-
-    addListButton.addList = function (list) {
-      //insert list before button.
-      this.listsElem.appendChild(list);
-    };
 
     return addListButton;
   }

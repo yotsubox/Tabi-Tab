@@ -27,6 +27,6 @@ export function addEventListeners(list, futureItem) {
     itemContent.textContent = futureItem.textContent;
     futureItem.textContent = "";
 
-    tabList.getItemWrapper().insertBefore(item, futureItem);
+    tabList.getItemContainer().insertBefore(item, futureItem);
   }
 }
