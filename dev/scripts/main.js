@@ -1,13 +1,19 @@
-import { createAddListButton } from "./core/createAddListButton.js";
+import { NewTabListButton } from "./core/NewTabListButton.js";
+import { LocalStorage } from "./core/SaveSystem.js";
+import { saveWhenCtrlS, saveEveryTenSec } from "./core/Events.js";
+import { SaveButton } from "./core/SaveButton.js";
 
-const listsElem = document.createElement("div");
-document.body.appendChild(listsElem);
-listsElem.className = "lists";
+//BASIC FUNCTIONALITIES.
+saveWhenCtrlS();
+saveEveryTenSec();
 
-//add existing lists
+//MAIN COMPONENTS.
+export const saveButton = SaveButton.FromExistingElem(
+  document.querySelector(".save-btn")
+);
+export const tabListSection = document.querySelector(".tab-list-section");
+export const listContainer = document.querySelector(".list-container");
+export const addListButton = NewTabListButton.Create(tabListSection);
 
-//"add list" button.
-const btn = createAddListButton(listsElem);
-
-//DEBUG
-btn.dispatchEvent(new MouseEvent("click"));
+//LOAD PREVIOUSLY SAVED OBJECTS.
+LocalStorage.load();

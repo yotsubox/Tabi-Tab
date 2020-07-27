@@ -1,57 +1,29 @@
-import { createElement } from "../utils/createElement.js";
-
+import { createElement } from "../Utils.js";
+import { addOptions } from "./Menu/Init.js";
 export class Menu {
-  constructor(x, y, list) {
-    this._listElem = list;
-    this._x = x;
-    this._y = y;
+  static NewMenu(x, y, list, options) {
+    const menu = createElement("div", "menu");
+    document.body.appendChild(menu);
 
-    this._createMenuElem();
-    this._addOptions();
+    menu.tabIndex = 9; //random number, so that div can be focus-able.
+    menu.focus();
+
+    menu.owner = list;
+    menu.x = x;
+    menu.y = y;
+    //set position
+    menu.style.left = x + "px";
+    menu.style.top = y + "px";
+
+    addOptions(menu, options);
 
     //outline the target list to inform the user.
-    this._listElem.style.outline = "4px solid rgba(100, 158, 180, 0.8)";
+    menu.owner.style.outline = "4px solid rgba(100, 158, 180, 0.8)";
 
     //destructor
-    this.elem.addEventListener("blur", (e) => {
-      document.body.removeChild(this.elem);
-      this._listElem.style.outline = "";
+    menu.addEventListener("blur", (e) => {
+      document.body.removeChild(menu);
+      menu.owner.style.outline = "";
     });
-  }
-
-  _createMenuElem() {
-    this.elem = createElement("div", "list-menu");
-    document.body.appendChild(this.elem);
-
-    this.elem.tabIndex = 9; //random number, so that div can be focus-able.
-    this.elem.focus();
-
-    this.elem.style.left = this._x + "px";
-    this.elem.style.top = this._y + "px";
-  }
-
-  _addOptions() {
-    //priority
-    const oPriority = this._newCheckBoxOption("Priority", false);
-  }
-
-  _newCheckBoxOption(name, checked) {
-    const option = createElement("div", "list-menu__option");
-
-    const cBox = createElement("input", "list-menu__option-box");
-    cBox.type = "checkbox";
-    cBox.checked = checked;
-
-    //apparently mousedown happened before focus.
-    //this is to make check box not on focus, so that the menu won't close.
-    cBox.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-    });
-
-    const optionName = createElement("div", "list-menu__option-name");
-    optionName.textContent = name;
-
-    option.append(cBox, optionName);
-    this.elem.append(option);
   }
 }
