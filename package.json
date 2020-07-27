@@ -1,12 +1,11 @@
 {
-  "name": "scripts",
+  "name": "tabi-tab-dependencies",
   "version": "1.0.0",
-  "description": "stuff",
+  "description": "stuff required to compile and develope this project",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
-    "dev": "webpack-dev-server"
+    "compile": "webpack --config webpack.config.js",
+    "c-install": "npm install --save-dev webpack webpack-cli clean-webpack-plugin copy-webpack-plugin html-loader html-webpack-plugin style-loader"
   },
   "keywords": [],
   "author": "yotsubox",
