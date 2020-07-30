@@ -40,6 +40,10 @@ body {
   max-height: 2rem;
 }
 
+.btn--padding {
+  margin-right: 2em;
+}
+
 /* TAB LIST */
 .tab-list-section {
   /* D */
@@ -53,10 +57,6 @@ body {
   font-family: "Pangolin", "Times New Roman", Times, serif;
   display: flex;
   flex-direction: column;
-}
-
-.btn--padding {
-  margin-right: 2em;
 }
 
 .list {
@@ -93,7 +93,6 @@ body {
 .list__item-wrapper {
   /* D */
   /* background-color: blue; */
-
   margin: 0 var(--list__item-wrapper-margin-right) 2rem
     var(--list__item-wrapper-margin-left);
 }

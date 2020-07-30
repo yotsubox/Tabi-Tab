@@ -93,7 +93,6 @@ body {
 .list__item-wrapper {
   /* D */
   /* background-color: blue; */
-
   margin: 0 var(--list__item-wrapper-margin-right) 2rem
     var(--list__item-wrapper-margin-left);
 }

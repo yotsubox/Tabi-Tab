@@ -9,13 +9,13 @@ import {
 } from "./TabList/Init.js";
 
 export class TabList {
+  static _createTabListElement() {
+    return createElement("div", "list --tab-list-un-minimize-animation");
+  }
+
   static Create(appendTarget) {
     ChangesDetector.detected();
-
-    const tabList = createElement(
-      "div",
-      "list --tab-list-un-minimize-animation"
-    );
+    const tabList = TabList._createTabListElement();
     SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
@@ -26,12 +26,7 @@ export class TabList {
   }
 
   static FromJSON(appendTarget, tabListJSON) {
-    ChangesDetector.detected();
-
-    const tabList = createElement(
-      "div",
-      "list --tab-list-un-minimize-animation"
-    );
+    const tabList = TabList._createTabListElement();
     SavableObjects.add(tabList);
 
     addFunctionalities(tabList);

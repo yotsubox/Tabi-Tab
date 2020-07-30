@@ -1,6 +1,9 @@
+import { ChangesDetector } from "../../../SaveSystem/ChangesDetector.js";
+
 export function addEventListeners(list, futureItem) {
   futureItem.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
+    ChangesDetector.detected();
 
     //prevent line-break
     e.preventDefault();

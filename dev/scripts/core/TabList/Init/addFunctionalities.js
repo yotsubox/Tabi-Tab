@@ -45,9 +45,8 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.toggleMinimization = function () {
-    const itemContainer = tabList.getItemContainer();
-
-    this._minimized = itemContainer.classList.toggle("--collapse");
+    const itemContainer = this.getItemContainer();
+    tabList._minimized = itemContainer.classList.toggle("--collapse");
   };
 
   tabList.isMinimized = function () {
