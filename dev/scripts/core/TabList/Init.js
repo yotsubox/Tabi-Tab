@@ -10,4 +10,4 @@ export { initProperties } from "./Init/initProperties.js";
 export { assembleComponentsAndAppend } from "./Init/assembleComponentsAndAppend.js";
 export { initPropertiesFromJSON } from "./Init/initPropertiesFromJSON.js";
 export { addItemsToTabListFromURLs } from "./Init/addItemsToTabListFromURLs.js";
-export { getURLsFrom } from "./Init/getURLsFrom.js";
+export { getContentsFrom } from "./Init/getContentsFrom.js";

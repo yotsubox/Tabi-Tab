@@ -23,11 +23,6 @@ export class LocalStorage {
     //things are now unchanged.
     ChangesDetector.resetState();
 
-    //DEBUG
-    console.log("SAVED:");
-    console.log(`savables`, SavableObjects._stack);
-    console.log(`storage:`, storage);
-
     return true;
   }
 

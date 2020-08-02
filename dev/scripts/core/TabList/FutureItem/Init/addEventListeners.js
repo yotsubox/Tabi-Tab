@@ -19,7 +19,7 @@ export function addEventListeners(tabList, futureItem) {
 
 function focusOnPreviousElem(tabList) {
   const itemCount = tabList.getItemCount();
-  if (itemCount) tabList.getItems()[itemCount - 1].getContentElem().focus();
+  if (itemCount) tabList.getItems()[itemCount - 1].getContentBox().focus();
   else tabList.getTitle().focus();
 }
 

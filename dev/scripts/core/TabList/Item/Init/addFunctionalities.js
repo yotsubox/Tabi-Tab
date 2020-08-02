@@ -18,14 +18,18 @@ export function addFunctionalities(item) {
     return this._orderNumber;
   };
 
-  item.getContentElem = function () {
-    return this._content;
+  item.getContentBox = function () {
+    return this._contentBox;
   };
 
   item.getURL = function () {
-    if (this._content.textContent.startsWith("https://"))
-      return this._content.textContent;
-    else return `https://${this._content.textContent}`;
+    if (this._contentBox.textContent.startsWith("https://"))
+      return this._contentBox.textContent;
+    else return `https://${this._contentBox.textContent}`;
+  };
+
+  item.getContent = function () {
+    return this._contentBox.textContent;
   };
 
   item.next = function () {
@@ -46,7 +50,7 @@ export function addFunctionalities(item) {
   };
 
   item.setClickable = function (state) {
-    const contentClassList = this._content.classList;
+    const contentClassList = this._contentBox.classList;
 
     if (state) {
       this._clickable = true;
@@ -69,5 +73,10 @@ export function addFunctionalities(item) {
 
   item.updateTitleBox = function () {
     this._titleBox.updateTitle();
+  };
+
+  item.toggleButtons = function () {
+    this._deleteButton.classList.toggle("--hidden");
+    this._copyButton.classList.toggle("--hidden");
   };
 }

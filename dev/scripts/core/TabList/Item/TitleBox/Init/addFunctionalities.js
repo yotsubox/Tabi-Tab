@@ -1,5 +1,7 @@
 export function addFunctionalities(titleBox) {
   titleBox.updateTitle = async function () {
+    if (document.defaultView.origin === "null") return;
+
     const res = await fetch(this._owner.getURL(), {
       method: "GET",
       mode: "cors",

@@ -1,4 +1,4 @@
-import { Item, showMenu, getURLsFrom } from "../Init.js";
+import { Item, showMenu, getContentsFrom } from "../Init.js";
 
 export function addFunctionalities(tabList) {
   tabList.addEventListener("contextmenu", showMenu);
@@ -10,6 +10,7 @@ export function addFunctionalities(tabList) {
   tabList.removeItem = function (item) {
     item.remove();
     this._itemCount--;
+    this.fixOrderNumber();
   };
 
   tabList.getTitleName = function () {
@@ -52,8 +53,15 @@ export function addFunctionalities(tabList) {
     return this._minimized;
   };
 
+  tabList.fixOrderNumber = function () {
+    const items = tabList.getItems();
+    for (let i = 0; i < items.length; i++) {
+      items[i].setOrderNumber(i + 1);
+    }
+  };
+
   tabList.stringify = function () {
-    const urls = getURLsFrom(this.getItems());
+    const urls = getContentsFrom(this.getItems());
     return JSON.stringify({
       type: this._type,
       settings: this._settings,

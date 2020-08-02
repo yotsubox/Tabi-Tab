@@ -233,9 +233,6 @@ const _listenersData = {
  */
 class ChangesDetector {
   static haveChangesBeenMade() {
-    // DEBUG
-    console.log("haveChangesBeenMade", _changed);
-
     return _changed;
   }
 
@@ -328,11 +325,6 @@ class LocalStorage_LocalStorage {
 
     //things are now unchanged.
     ChangesDetector.resetState();
-
-    //DEBUG
-    console.log("SAVED:");
-    console.log(`savables`, SavableObjects._stack);
-    console.log(`storage:`, storage);
 
     return true;
   }
@@ -575,13 +567,17 @@ function addFunctionalities_addFunctionalities(item) {
   };
 
   item.getContentElem = function () {
-    return this._content;
+    return this._contentBox;
   };
 
   item.getURL = function () {
-    if (this._content.textContent.startsWith("https://"))
-      return this._content.textContent;
-    else return `https://${this._content.textContent}`;
+    if (this._contentBox.textContent.startsWith("https://"))
+      return this._contentBox.textContent;
+    else return `https://${this._contentBox.textContent}`;
+  };
+
+  item.getContent = function () {
+    return this._contentBox.textContent;
   };
 
   item.next = function () {
@@ -602,7 +598,7 @@ function addFunctionalities_addFunctionalities(item) {
   };
 
   item.setClickable = function (state) {
-    const contentClassList = this._content.classList;
+    const contentClassList = this._contentBox.classList;
 
     if (state) {
       this._clickable = true;
@@ -642,6 +638,8 @@ function Item_Init_addEventListeners_addEventListeners(item) {
     addEventListeners_detectChanges(e);
     doThingsWhenCertainKeysIsPressed(e, item);
   });
+
+  contentBox.addEventListener("focus", () => showButtons(item));
 
   contentBox.addEventListener("blur", () => cleanUp(item));
 
@@ -719,6 +717,10 @@ function notClickableWhenReleaseCtrl(e, item) {
 
 function openLinkInNewTabIfClickable(item) {
   if (item.isClickable()) window.open(item.getURL());
+}
+
+function showButtons(item) {
+  item.getContentElem().toggleButtons();
 }
 
 //BLUR
@@ -801,6 +803,8 @@ function putItemOnBottomOf(target, item) {
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox/Init/addFunctionalities.js
 function Init_addFunctionalities_addFunctionalities(titleBox) {
   titleBox.updateTitle = async function () {
+    if (document.defaultView.origin === "null") return;
+
     const res = await fetch(this._owner.getURL(), {
       method: "GET",
       mode: "cors",
@@ -839,6 +843,31 @@ class TitleBox_TitleBox {
   }
 }
 
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/ContentBox/Init/addFunctionalities.js
+function ContentBox_Init_addFunctionalities_addFunctionalities(contentBox) {
+  contentBox.toggleButtons = function () {};
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/ContentBox/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/contentBox.js
+
+
+
+class contentBox_ContentBox {
+  static Create(item, textContent = "") {
+    const contentBox = createElement("div", "list__item-content-box");
+    makeElementEditable(contentBox);
+    contentBox._owner = item;
+
+    ContentBox_Init_addFunctionalities_addFunctionalities(contentBox);
+
+    contentBox.textContent = textContent;
+    return contentBox;
+  }
+}
+
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Item.js
 
 
@@ -848,7 +877,7 @@ class TitleBox_TitleBox {
 
 
 class Item_Item {
-  static Create(tabList, orderNumber, url = "") {
+  static Create(tabList, orderNumber, textContent = "") {
     const item = createElement("div", "list__item");
     insertElementBefore(tabList.getFutureItem(), item);
 
@@ -862,22 +891,18 @@ class Item_Item {
     // layout:
     // <order>. <contentBox>
     // e.g: 9. worms.com
-    const order = createElement("div", "list__item-order");
-    order.textContent = orderNumber + ".";
-    item._order = order;
+    item._order = createElement("div", "list__item-order");
+    item._order.textContent = orderNumber + ".";
 
-    const contentBox = createElement("div", "list__item-content-box");
-    makeElementEditable(contentBox);
+    item._contentBox = contentBox_ContentBox.Create(item, textContent);
 
-    contentBox.textContent = url;
-    item._content = contentBox;
-
-    item.appendChild(order);
-    item.appendChild(contentBox);
+    item.appendChild(item._order);
+    item.appendChild(item._contentBox);
 
     addFunctionalities_addFunctionalities(item);
     Item_Init_addEventListeners_addEventListeners(item);
 
+    // THIS ONLY WORKS ONLINE SO... WASTED MY TIME FOR NOTHING.
     item._titleBox = TitleBox_TitleBox.Create(item);
     item._titleBox.classList.add("--collapse");
 
@@ -941,7 +966,7 @@ function TabList_Init_addFunctionalities_addFunctionalities(tabList) {
   };
 
   tabList.stringify = function () {
-    const urls = getURLsFrom(this.getItems());
+    const urls = getContentsFrom(this.getItems());
     return JSON.stringify({
       type: this._type,
       settings: this._settings,
@@ -1087,12 +1112,12 @@ function addItemsToTabListFromURLs(tabList, urls) {
   }
 }
 
-// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/getURLsFrom.js
-function getURLsFrom(items) {
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/getContentsFrom.js
+function getContentsFrom(items) {
   const urls = [];
 
   for (const item of items) {
-    const url = item.getURL();
+    const url = item.getContent();
     if (url) urls.push(url);
   }
   return urls;
@@ -1229,7 +1254,6 @@ function SaveButton_Init_addFunctionalities_addFunctionalities(saveButton) {
   saveButton.toggleGrayScale = function (state) {
     // DEBUG
     saveButton.classList.remove("--gray-scale");
-    console.log("CALLED", state);
 
     if (state) saveButton.classList.add("--gray-scale");
     else saveButton.classList.remove("--gray-scale");

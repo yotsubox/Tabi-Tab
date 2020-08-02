@@ -6,7 +6,6 @@
   --option-em-size: 1.2em;
   --list__item-margin-left: 1.2rem;
   --list__item-wrapper-margin-left: 1rem;
-  --list__item-wrapper-margin-right: 6rem;
   --default-focus-outline-color: rgb(133, 158, 180);
 }
 
@@ -85,7 +84,7 @@ body {
   margin-top: 1rem;
   margin-bottom: 0.2rem;
   margin-left: var(--list__item-order-min-width);
-  margin-right: var(--list__item-wrapper-margin-right);
+  margin-right: var(--list__item-order-min-width);
 
   white-space: nowrap;
   overflow: hidden;
@@ -94,8 +93,7 @@ body {
 .list__item-wrapper {
   /* D */
   /* background-color: blue; */
-  margin: 0 var(--list__item-wrapper-margin-right) 2rem
-    var(--list__item-wrapper-margin-left);
+  margin: 0 2rem var(--list__item-wrapper-margin-left);
 }
 
 .list__item {
@@ -124,6 +122,12 @@ body {
 
 .list__item-content-box--dragging {
   background-color: rgb(189, 171, 194);
+}
+
+.list__item-delete-btn,
+.list__item-copy-btn {
+  margin-left: 10px;
+  max-height: 20px;
 }
 
 .list__item-title-box {

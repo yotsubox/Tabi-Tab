@@ -9,9 +9,6 @@ const _listenersData = {
  */
 export class ChangesDetector {
   static haveChangesBeenMade() {
-    // DEBUG
-    console.log("haveChangesBeenMade", _changed);
-
     return _changed;
   }
 

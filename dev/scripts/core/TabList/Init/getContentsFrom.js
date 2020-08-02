@@ -1,8 +1,8 @@
-export function getURLsFrom(items) {
+export function getContentsFrom(items) {
   const urls = [];
 
   for (const item of items) {
-    const url = item.getURL();
+    const url = item.getContent();
     if (url) urls.push(url);
   }
   return urls;

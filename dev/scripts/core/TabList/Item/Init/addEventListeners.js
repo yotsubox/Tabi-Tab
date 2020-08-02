@@ -5,14 +5,19 @@ import { insertElementAfter, insertElementBefore } from "../../../Utils.js";
 let draggedItem = null;
 
 export function addEventListeners(item) {
-  const contentBox = item.getContentElem();
+  const contentBox = item.getContentBox();
 
   contentBox.addEventListener("keydown", (e) => {
     detectChanges(e);
     doThingsWhenCertainKeysIsPressed(e, item);
   });
 
-  contentBox.addEventListener("blur", () => cleanUp(item));
+  contentBox.addEventListener("focus", () => item.toggleButtons());
+
+  contentBox.addEventListener("blur", () => {
+    item.toggleButtons();
+    cleanUp(item);
+  });
 
   contentBox.addEventListener("click", () => openLinkInNewTabIfClickable(item));
 
@@ -48,12 +53,12 @@ function doThingsWhenCertainKeysIsPressed(e, item) {
 
   if (e.altKey && e.code === "ArrowUp") {
     putItemOnTopOf(item.prev(), item);
-    item.getContentElem().focus();
+    item.getContentBox().focus();
   }
 
   if (e.altKey && e.code === "ArrowDown") {
     putItemOnBottomOf(item.next(), item);
-    item.getContentElem().focus();
+    item.getContentBox().focus();
   }
 
   if (!e.altKey && e.code === "ArrowUp") focusOnPrevItemOf(item);
@@ -67,14 +72,14 @@ function detectChanges(e) {
 function focusOnNextItemOf(item) {
   const nextItem = item.next();
 
-  if (nextItem) nextItem.getContentElem().focus();
+  if (nextItem) nextItem.getContentBox().focus();
   else item.getOwner().getFutureItem().focus();
 }
 
 function focusOnPrevItemOf(item) {
   const prevItem = item.prev();
 
-  if (prevItem) prevItem.getContentElem().focus();
+  if (prevItem) prevItem.getContentBox().focus();
   else item.getOwner().getTitle().focus();
 }
 
@@ -93,20 +98,17 @@ function openLinkInNewTabIfClickable(item) {
 //BLUR
 function cleanUp(item) {
   const tabList = item.getOwner();
-  const itemContentBox = item.getContentElem();
+  const itemContentBox = item.getContentBox();
   itemContentBox.textContent = itemContentBox.textContent.trim();
 
   //if item is empty, remove and focus on next item.
-  if (!itemContentBox.textContent.length) {
-    tabList.removeItem(item);
-    fixOrderNumber(tabList);
-  }
+  if (!itemContentBox.textContent.length) tabList.removeItem(item);
 }
 
 //DRAG EVENTS
 function showDraggingEffect(e, item) {
   draggedItem = item;
-  item.getContentElem().classList.add("list__item-content-box--dragging");
+  item.getContentBox().classList.add("list__item-content-box--dragging");
 
   //blank image element as "ghost" image
   e.dataTransfer.setDragImage(document.createElement("img"), 0, 0);
@@ -117,7 +119,7 @@ function removeDraggingEffect() {
     ChangesDetector.detected();
 
     draggedItem
-      .getContentElem()
+      .getContentBox()
       .classList.remove("list__item-content-box--dragging");
     //clean up
     draggedItem = null;
@@ -139,26 +141,17 @@ function moveItemAway(e, item) {
 }
 
 //OTHERS
-function fixOrderNumber(tabList) {
-  const itemContainer = tabList.getItemContainer();
-  // - 1 to exclude title and future item
-  const range = itemContainer.children.length - 1;
-  for (let i = 0; i < range; i++) {
-    const item = itemContainer.children[i];
-    item.setOrderNumber(i + 1);
-  }
-}
 
 function putItemOnTopOf(target, item) {
   if (!target || !item || target === item) return;
 
   insertElementBefore(target, item);
-  fixOrderNumber(item.getOwner());
+  item.getOwner().fixOrderNumber(item.getOwner());
 }
 
 function putItemOnBottomOf(target, item) {
   if (!target || !item || target === item) return;
 
   insertElementAfter(target, item);
-  fixOrderNumber(item.getOwner());
+  item.getOwner().fixOrderNumber(item.getOwner());
 }
