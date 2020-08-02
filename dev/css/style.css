@@ -7,6 +7,7 @@
   --list__item-margin-left: 1.2rem;
   --list__item-wrapper-margin-left: 1rem;
   --list__item-wrapper-margin-right: 6rem;
+  --default-focus-outline-color: rgb(133, 158, 180);
 }
 
 body {
@@ -102,6 +103,7 @@ body {
   /* background-color: yellow; */
   display: flex;
   margin-left: var(--list__item-margin-left);
+  position: relative;
 }
 
 .list__item-order {
@@ -111,7 +113,7 @@ body {
   list-style-type: decimal;
 }
 
-.list__item-contentBox {
+.list__item-content-box {
   /* D */
   /* background-color: red; */
 
@@ -120,8 +122,20 @@ body {
   overflow: hidden;
 }
 
-.list__item-contentBox--dragging {
+.list__item-content-box--dragging {
   background-color: rgb(189, 171, 194);
+}
+
+.list__item-title-box {
+  background: var(--list-default-background-color);
+
+  position: absolute;
+  padding: 0.2rem;
+  margin-left: 120px;
+  left: 100%;
+  outline: 4px solid var(--default-focus-outline-color);
+
+  white-space: nowrap;
 }
 
 .list__item--add-more {
@@ -168,14 +182,14 @@ body {
 
 /* ANIMATION AND PSEUDO CLASSES */
 .list__item--add-more:focus,
-.list__item-contentBox:focus,
+.list__item-content-box:focus,
 .list__title:focus {
-  outline: 1px solid rgb(133, 158, 180);
+  outline: 1px solid var(--default-focus-outline-color);
 }
 
 .list-menu__option:hover:not(:focus),
 .list__item--add-more:hover:not(:focus),
-.list__item-contentBox:hover:not(:focus):not(.list__item-contentBox--dragging),
+.list__item-content-box:hover:not(:focus):not(.list__item-content-box--dragging),
 .list__title:hover:not(:focus) {
   background-color: rgba(0, 0, 0, 0.05);
 }
@@ -203,6 +217,15 @@ body {
 
 .--collapse {
   display: none;
+}
+
+.--hidden {
+  visibility: hidden;
+}
+
+.--clickable {
+  color: rgb(70, 43, 226);
+  text-decoration: underline;
 }
 
 .flex-group {

@@ -59,4 +59,22 @@ export class ChangesDetector {
 
     ChangesDetector._dispatchEvent("onSave");
   }
+
+  static isKeyCauseChanges(key) {
+    if (
+      key === "Control" ||
+      key === "Shift" ||
+      key === "Enter" ||
+      key === "Alt" ||
+      key === "Tab" ||
+      key === "CapsLock" ||
+      key === "ArrowUp" ||
+      key === "ArrowDown" ||
+      key === "ArrowLeft" ||
+      key === "ArrowRight"
+    )
+      return false;
+
+    return true;
+  }
 }

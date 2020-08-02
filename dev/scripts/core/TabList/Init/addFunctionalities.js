@@ -1,4 +1,3 @@
-import { Type } from "../../Utils.js";
 import { Item, showMenu, getURLsFrom } from "../Init.js";
 
 export function addFunctionalities(tabList) {
@@ -55,9 +54,8 @@ export function addFunctionalities(tabList) {
 
   tabList.stringify = function () {
     const urls = getURLsFrom(this.getItems());
-
     return JSON.stringify({
-      type: Type.TabList,
+      type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
       urls: urls,

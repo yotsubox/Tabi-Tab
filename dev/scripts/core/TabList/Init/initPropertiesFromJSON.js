@@ -1,6 +1,8 @@
 import { ItemContainer, FutureItem, Title, MinimizeButton } from "../Init.js";
+import { Type } from "../../Type.js";
 
 export function initPropertiesFromJSON(tabList, tabListJSON) {
+  tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;
   tabList._settings = tabListJSON.settings;
   tabList._minimizeButton = MinimizeButton.Create(tabList);

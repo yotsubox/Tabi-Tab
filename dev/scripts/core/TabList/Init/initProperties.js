@@ -5,8 +5,10 @@ import {
   MinimizeButton,
   newDefaultSettings,
 } from "../Init.js";
+import { Type } from "../../Type.js";
 
 export function initProperties(tabList) {
+  tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;
   tabList._settings = newDefaultSettings();
   tabList._minimizeButton = MinimizeButton.Create(tabList);

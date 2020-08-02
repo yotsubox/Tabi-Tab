@@ -1,3 +1,4 @@
 export const Type = Object.freeze({
-  TabList: 0,
+  TAB_LIST: 0,
+  TAB_LIST_ITEM: 1,
 });

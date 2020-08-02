@@ -124,9 +124,10 @@ function makeElementEditable(target) {
   });
 }
 
-// CONCATENATED MODULE: ./dev/scripts/core/Utils/Type.js
+// CONCATENATED MODULE: ./dev/scripts/core/Type.js
 const Type = Object.freeze({
-  TabList: 0,
+  TAB_LIST: 0,
+  TAB_LIST_ITEM: 1,
 });
 
 // CONCATENATED MODULE: ./dev/scripts/core/Utils/insertElementAfter.js
@@ -214,7 +215,7 @@ class ObjectLoader {
 
 //init
 const parseByTypeHandlers = [];
-parseByTypeHandlers[Type.TabList] = _parseTabList;
+parseByTypeHandlers[Type.TAB_LIST] = _parseTabList;
 
 function _parseTabList(tabListJSON) {
   TabList_TabList.FromJSON(listContainer, tabListJSON);
@@ -281,6 +282,24 @@ class ChangesDetector {
     _changed = false;
 
     ChangesDetector._dispatchEvent("onSave");
+  }
+
+  static isKeyCauseChanges(key) {
+    if (
+      key === "Control" ||
+      key === "Shift" ||
+      key === "Enter" ||
+      key === "Alt" ||
+      key === "Tab" ||
+      key === "CapsLock" ||
+      key === "ArrowUp" ||
+      key === "ArrowDown" ||
+      key === "ArrowLeft" ||
+      key === "ArrowRight"
+    )
+      return false;
+
+    return true;
   }
 }
 
@@ -431,16 +450,27 @@ class ItemContainer_ItemContainer {
 
 function addEventListeners_addEventListeners(title, tabList) {
   title.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") {
-      //saving is now available
-      ChangesDetector.detected();
-      return;
-    }
+    detectChanges(e);
 
-    if (tabList.getItemCount() === 0) tabList.getFutureItem().focus();
-    else title.blur();
+    if (e.key === "ArrowDown" || e.key === "Enter") {
+      e.preventDefault();
+      focusOnFirstItem(tabList);
+    }
   });
 
+  trimContentWhenBlur(title);
+}
+
+function focusOnFirstItem(tabList) {
+  if (tabList.getItemCount() === 0) tabList.getFutureItem().focus();
+  else tabList.getItems()[0].getContentElem().focus();
+}
+
+function detectChanges(e) {
+  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+}
+
+function trimContentWhenBlur(title) {
   title.addEventListener("blur", () => {
     title.textContent = title.textContent.trim();
   });
@@ -470,38 +500,39 @@ class Title_Title {
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/FutureItem/Init/addEventListeners.js
 
 
-function Init_addEventListeners_addEventListeners(list, futureItem) {
+function Init_addEventListeners_addEventListeners(tabList, futureItem) {
   futureItem.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") focusOnPreviousElem(tabList);
     if (e.key !== "Enter") return;
-    ChangesDetector.detected();
 
     //prevent line-break
     e.preventDefault();
 
     futureItem.textContent = futureItem.textContent.trim();
-
-    //if content is empty
-    if (!futureItem.textContent.length) {
-      return;
-    }
-
-    newItem(e, futureItem, list);
+    newItemIfNotEmpty(tabList);
   });
 
   futureItem.addEventListener("blur", () => {
     futureItem.textContent = futureItem.textContent.trim();
   });
+}
 
-  function newItem(e, futureItem, tabList) {
-    const item = tabList.newItem();
+function focusOnPreviousElem(tabList) {
+  const itemCount = tabList.getItemCount();
+  if (itemCount) tabList.getItems()[itemCount - 1].getContentElem().focus();
+  else tabList.getTitle().focus();
+}
 
-    //transfer text to newly created item and append.
-    const itemContent = item.getContentElem();
-    itemContent.textContent = futureItem.textContent;
-    futureItem.textContent = "";
+function newItemIfNotEmpty(tabList) {
+  const futureItem = tabList.getFutureItem();
 
-    tabList.getItemContainer().insertBefore(item, futureItem);
-  }
+  if (!futureItem.textContent.length) return;
+
+  ChangesDetector.detected();
+
+  //transfer text to newly created item and append.
+  tabList.newItem(futureItem.textContent);
+  futureItem.textContent = "";
 }
 
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/FutureItem/Init.js
@@ -523,6 +554,8 @@ class FutureItem_FutureItem {
 }
 
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/Init/addFunctionalities.js
+
+
 function addFunctionalities_addFunctionalities(item) {
   item.setOrderNumber = function (orderNumber) {
     if (orderNumber === 0) this._order.textContent = "";
@@ -546,7 +579,52 @@ function addFunctionalities_addFunctionalities(item) {
   };
 
   item.getURL = function () {
-    return this._content.textContent;
+    if (this._content.textContent.startsWith("https://"))
+      return this._content.textContent;
+    else return `https://${this._content.textContent}`;
+  };
+
+  item.next = function () {
+    const nextItem = this.nextElementSibling;
+    if (this._isValidItem(nextItem)) return nextItem;
+    return null;
+  };
+
+  item.prev = function () {
+    const prevItem = this.previousElementSibling;
+    if (this._isValidItem(prevItem)) return prevItem;
+    return null;
+  };
+
+  item._isValidItem = function (item) {
+    if (!item || item._type !== Type.TAB_LIST_ITEM) return false;
+    return true;
+  };
+
+  item.setClickable = function (state) {
+    const contentClassList = this._content.classList;
+
+    if (state) {
+      this._clickable = true;
+      contentClassList.add("--clickable");
+      return;
+    }
+
+    this._clickable = false;
+    if (contentClassList.contains("--clickable"))
+      contentClassList.remove("--clickable");
+  };
+
+  item.isClickable = function () {
+    return this._clickable;
+  };
+
+  item.toggleURLHeaderTitleBox = function () {
+    this._titleBox.classList.toggle("--collapse");
+  };
+
+  item.updateTitleBox = function () {
+    this._titleBox.updateTitle();
   };
 }
 
@@ -554,46 +632,93 @@ function addFunctionalities_addFunctionalities(item) {
 
 
 
-
-// GLOBAL VARIABLES USED FOR ALL ITEMS
+// GLOBAL VARIABLE USED FOR ALL ITEMS
 let draggedItem = null;
-let draggedOverItem = null;
 
 function Item_Init_addEventListeners_addEventListeners(item) {
   const contentBox = item.getContentElem();
 
-  contentBox.addEventListener("keydown", (e) => blurWhenPressEnter(e, item));
+  contentBox.addEventListener("keydown", (e) => {
+    addEventListeners_detectChanges(e);
+    doThingsWhenCertainKeysIsPressed(e, item);
+  });
 
   contentBox.addEventListener("blur", () => cleanUp(item));
 
-  //dragging events
+  contentBox.addEventListener("click", () => openLinkInNewTabIfClickable(item));
+
   item.addEventListener("dragstart", (e) => showDraggingEffect(e, item));
 
   item.addEventListener("dragover", (e) => moveItemAway(e, item));
 
   item.addEventListener("dragend", removeDraggingEffect);
+
+  item.addEventListener("mouseenter", (e) => {
+    item._mouseOver = true;
+    item.toggleURLHeaderTitleBox();
+  });
+  item.addEventListener("mouseleave", () => {
+    item._mouseOver = false;
+    item.setClickable(false);
+    item.toggleURLHeaderTitleBox();
+  });
+
+  document.addEventListener("keydown", (e) => clickableWhenCtrl(e, item));
+  document.addEventListener("keyup", (e) =>
+    notClickableWhenReleaseCtrl(e, item)
+  );
 }
 
-//KEY DOWN EVENT
-function blurWhenPressEnter(e, item) {
-  if (e.key !== "Enter") {
-    //saving is now available
-    ChangesDetector.detected();
-    return;
+//KEY DOWN EVENTS
+function doThingsWhenCertainKeysIsPressed(e, item) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    focusOnNextItemOf(item);
+    item.updateTitleBox();
   }
-  e.preventDefault();
 
-  focusOnNextItem(item);
+  if (e.altKey && e.code === "ArrowUp") {
+    putItemOnTopOf(item.prev(), item);
+    item.getContentElem().focus();
+  }
 
-  item.getContentElem().blur(); //DO NOT MOVE THIS LINE.
+  if (e.altKey && e.code === "ArrowDown") {
+    putItemOnBottomOf(item.next(), item);
+    item.getContentElem().focus();
+  }
+
+  if (!e.altKey && e.code === "ArrowUp") focusOnPrevItemOf(item);
+  if (!e.altKey && e.code === "ArrowDown") focusOnNextItemOf(item);
 }
 
-function focusOnNextItem(item) {
-  const tabList = item.getOwner();
-  const futureItem = tabList.getFutureItem();
+function addEventListeners_detectChanges(e) {
+  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+}
 
-  if (tabList.getItemCount() === item.getOrderNumber()) futureItem.focus();
-  else item.nextElementSibling.getContentElem().focus();
+function focusOnNextItemOf(item) {
+  const nextItem = item.next();
+
+  if (nextItem) nextItem.getContentElem().focus();
+  else item.getOwner().getFutureItem().focus();
+}
+
+function focusOnPrevItemOf(item) {
+  const prevItem = item.prev();
+
+  if (prevItem) prevItem.getContentElem().focus();
+  else item.getOwner().getTitle().focus();
+}
+
+function clickableWhenCtrl(e, item) {
+  if (item._mouseOver && e.ctrlKey) item.setClickable(true);
+}
+
+function notClickableWhenReleaseCtrl(e, item) {
+  if (item._mouseOver && e.code === "ControlLeft") item.setClickable(false);
+}
+
+function openLinkInNewTabIfClickable(item) {
+  if (item.isClickable()) window.open(item.getURL());
 }
 
 //BLUR
@@ -612,7 +737,7 @@ function cleanUp(item) {
 //DRAG EVENTS
 function showDraggingEffect(e, item) {
   draggedItem = item;
-  item.getContentElem().classList.add("list__item-contentBox--dragging");
+  item.getContentElem().classList.add("list__item-content-box--dragging");
 
   //blank image element as "ghost" image
   e.dataTransfer.setDragImage(document.createElement("img"), 0, 0);
@@ -624,7 +749,7 @@ function removeDraggingEffect() {
 
     draggedItem
       .getContentElem()
-      .classList.remove("list__item-contentBox--dragging");
+      .classList.remove("list__item-content-box--dragging");
     //clean up
     draggedItem = null;
   }
@@ -633,28 +758,15 @@ function removeDraggingEffect() {
 function moveItemAway(e, item) {
   e.preventDefault();
 
+  //not in the same tabList
+  if (item.getOwner() !== draggedItem.getOwner()) return;
+
   const box = item.getBoundingClientRect();
   const offsetY = e.clientY - (box.top + box.height / 2);
   const draggedItemIsOnTopOfItem = offsetY < 0;
 
-  if (draggedItemIsOnTopOfItem) putDraggedItemOnTopOf(item);
-  else putDraggedItemOnBottomOf(item);
-}
-
-function putDraggedItemOnTopOf(item) {
-  if (draggedOverItem === item) return;
-  draggedOverItem = item;
-
-  insertElementBefore(item, draggedItem);
-  fixOrderNumber(item.getOwner());
-}
-
-function putDraggedItemOnBottomOf(item) {
-  if (draggedOverItem === draggedItem) return;
-  draggedOverItem = draggedItem;
-
-  insertElementAfter(item, draggedItem);
-  fixOrderNumber(item.getOwner());
+  if (draggedItemIsOnTopOfItem) putItemOnTopOf(item, draggedItem);
+  else putItemOnBottomOf(item, draggedItem);
 }
 
 //OTHERS
@@ -668,11 +780,69 @@ function fixOrderNumber(tabList) {
   }
 }
 
+function putItemOnTopOf(target, item) {
+  if (!target || !item || target === item) return;
+
+  insertElementBefore(target, item);
+  fixOrderNumber(item.getOwner());
+}
+
+function putItemOnBottomOf(target, item) {
+  if (!target || !item || target === item) return;
+
+  insertElementAfter(target, item);
+  fixOrderNumber(item.getOwner());
+}
+
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/Init.js
 
 
 
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox/Init/addFunctionalities.js
+function Init_addFunctionalities_addFunctionalities(titleBox) {
+  titleBox.updateTitle = async function () {
+    const res = await fetch(this._owner.getURL(), {
+      method: "GET",
+      mode: "cors",
+    });
+
+    if (!res.ok) return;
+
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const title = doc.querySelector("head > title");
+
+    if (title) {
+      this.textContent = title.textContent;
+      this.classList.remove("--hidden");
+    }
+  };
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox.js
+
+
+
+class TitleBox_TitleBox {
+  static Create(item) {
+    const titleBox = createElement("div", "list__item-title-box --hidden");
+    item.append(titleBox);
+    titleBox._owner = item;
+
+    Init_addFunctionalities_addFunctionalities(titleBox);
+    titleBox.updateTitle();
+
+    return titleBox;
+  }
+}
+
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Item.js
+
+
+
 
 
 
@@ -680,10 +850,15 @@ function fixOrderNumber(tabList) {
 class Item_Item {
   static Create(tabList, orderNumber, url = "") {
     const item = createElement("div", "list__item");
+    insertElementBefore(tabList.getFutureItem(), item);
+
     item.draggable = true;
 
+    item._type = Type.TAB_LIST_ITEM;
     item._orderNumber = orderNumber;
     item._owner = tabList;
+    item._mouseOver = false;
+    item._clickable = false;
     // layout:
     // <order>. <contentBox>
     // e.g: 9. worms.com
@@ -691,7 +866,7 @@ class Item_Item {
     order.textContent = orderNumber + ".";
     item._order = order;
 
-    const contentBox = createElement("div", "list__item-contentBox");
+    const contentBox = createElement("div", "list__item-content-box");
     makeElementEditable(contentBox);
 
     contentBox.textContent = url;
@@ -703,6 +878,9 @@ class Item_Item {
     addFunctionalities_addFunctionalities(item);
     Item_Init_addEventListeners_addEventListeners(item);
 
+    item._titleBox = TitleBox_TitleBox.Create(item);
+    item._titleBox.classList.add("--collapse");
+
     return item;
   }
 }
@@ -710,8 +888,7 @@ class Item_Item {
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/addFunctionalities.js
 
 
-
-function Init_addFunctionalities_addFunctionalities(tabList) {
+function TabList_Init_addFunctionalities_addFunctionalities(tabList) {
   tabList.addEventListener("contextmenu", showMenu);
 
   tabList.getItemCount = function () {
@@ -765,9 +942,8 @@ function Init_addFunctionalities_addFunctionalities(tabList) {
 
   tabList.stringify = function () {
     const urls = getURLsFrom(this.getItems());
-
     return JSON.stringify({
-      type: Type.TabList,
+      type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
       urls: urls,
@@ -864,7 +1040,9 @@ function showMenu(e) {
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/initProperties.js
 
 
+
 function initProperties(tabList) {
+  tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;
   tabList._settings = newDefaultSettings();
   tabList._minimizeButton = MinimizeButton_MinimizeButton.Create(tabList);
@@ -890,7 +1068,9 @@ function assembleComponentsAndAppend(tabList, appendTarget) {
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/initPropertiesFromJSON.js
 
 
+
 function initPropertiesFromJSON(tabList, tabListJSON) {
+  tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;
   tabList._settings = tabListJSON.settings;
   tabList._minimizeButton = MinimizeButton_MinimizeButton.Create(tabList);
@@ -903,8 +1083,7 @@ function initPropertiesFromJSON(tabList, tabListJSON) {
 // CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/addItemsToTabListFromURLs.js
 function addItemsToTabListFromURLs(tabList, urls) {
   for (const url of urls) {
-    const item = tabList.newItem(url);
-    tabList._itemContainer.insertBefore(item, tabList._futureItem);
+    tabList.newItem(url);
   }
 }
 
@@ -949,7 +1128,7 @@ class TabList_TabList {
     const tabList = TabList_TabList._createTabListElement();
     SavableObjects.add(tabList);
 
-    Init_addFunctionalities_addFunctionalities(tabList);
+    TabList_Init_addFunctionalities_addFunctionalities(tabList);
     initProperties(tabList);
     assembleComponentsAndAppend(tabList, appendTarget);
 
@@ -960,7 +1139,7 @@ class TabList_TabList {
     const tabList = TabList_TabList._createTabListElement();
     SavableObjects.add(tabList);
 
-    Init_addFunctionalities_addFunctionalities(tabList);
+    TabList_Init_addFunctionalities_addFunctionalities(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
     assembleComponentsAndAppend(tabList, appendTarget);
     addItemsToTabListFromURLs(tabList, tabListJSON.urls);
@@ -1122,6 +1301,7 @@ const listContainer = document.querySelector(".list-container");
 const main_addListButton = NewTabListButton_NewTabListButton.Create(tabListSection);
 
 //LOAD PREVIOUSLY SAVED OBJECTS.
+
 LocalStorage_LocalStorage.load();
 
 
