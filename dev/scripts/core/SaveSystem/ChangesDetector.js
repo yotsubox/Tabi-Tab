@@ -29,9 +29,8 @@ export class ChangesDetector {
   static _dispatchEvent(type) {
     const listenersData = _listenersData[type];
     //callback
-    for (const { listener, thisArg, args } of listenersData) {
+    for (const { listener, thisArg, args } of listenersData)
       listener.apply(thisArg, args);
-    }
   }
 
   /**

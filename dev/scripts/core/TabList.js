@@ -2,6 +2,7 @@ import { createElement } from "./Utils.js";
 import { SavableObjects, ChangesDetector } from "./SaveSystem.js";
 import {
   addFunctionalities,
+  addEventListeners,
   initProperties,
   initPropertiesFromJSON,
   addItemsToTabListFromItemContents,
@@ -19,6 +20,7 @@ export class TabList {
     SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
+    addEventListeners(tabList);
     initProperties(tabList);
     assembleComponentsAndAppend(tabList, appendTarget);
 
@@ -30,10 +32,26 @@ export class TabList {
     SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
+    addEventListeners(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
     assembleComponentsAndAppend(tabList, appendTarget);
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
+    executeOptions(tabList, tabList._settings);
 
     return tabList;
   }
+}
+
+function executeOptions(tabList, settings) {
+  if (settings.unorderedList) {
+    tabList.getFutureItem().toggleUnorderedListStyle();
+  }
+
+  if (settings.minimized) {
+    tabList.toggleMinimization();
+    settings.minimized = true;
+  }
+
+  //changes made here do not count
+  ChangesDetector.resetState();
 }

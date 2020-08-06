@@ -1,3 +1,6 @@
 export function newDefaultSettings() {
-  return {};
+  return {
+    minimized: false,
+    unorderedList: false,
+  };
 }

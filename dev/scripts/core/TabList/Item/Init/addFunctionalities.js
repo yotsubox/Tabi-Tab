@@ -7,6 +7,10 @@ export function addFunctionalities(item) {
     this._orderNumber = orderNumber;
   };
 
+  item.toggleUnordered = function () {
+    this._order.classList.toggle("--hidden");
+    this._contentBox.classList.toggle("list__item-content-box--offset-left");
+  };
   /**
    * return it's parent (the list that contain itself)
    */

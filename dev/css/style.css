@@ -1,4 +1,5 @@
 :root {
+  --default-font-family: "Pangolin", "Times New Roman", Times, serif;
   --list-default-background-color: white;
   --list__item-order-min-width: 4rem;
   --list__item-order-padding-right: 0.2rem;
@@ -59,7 +60,7 @@ body {
 
 .list-container {
   font-size: 1.4em;
-  font-family: "Pangolin", "Times New Roman", Times, serif;
+  font-family: var(--default-font-family);
   display: flex;
   flex-direction: column;
 }
@@ -70,6 +71,10 @@ body {
   box-shadow: var(--gray-box-shadow);
   display: block;
   margin-bottom: 1em;
+}
+
+.list--outline {
+  outline: 4px solid rgba(100, 158, 180, 0.8);
 }
 
 .list__minimize-button {
@@ -136,6 +141,12 @@ body {
   background-color: rgb(189, 171, 194);
 }
 
+.list__item-content-box--offset-left,
+.list__future-item--offset-left {
+  position: relative;
+  right: 1em;
+}
+
 .list__item-delete-btn,
 .list__item-copy-btn {
   margin-left: 10px;
@@ -154,7 +165,7 @@ body {
   white-space: nowrap;
 }
 
-.list__item--add-more {
+.list__future-item {
   margin-left: calc(
     var(--list__item-margin-left) + var(--list__item-order-min-width) +
       var(--list__item-order-padding-right)
@@ -184,10 +195,16 @@ body {
   /* background-color: red; */
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
   padding: 10px;
+
+  font-family: var(--default-font-family);
+  font-size: 1rem;
 }
 
-.list-menu__option-box {
+.list-menu__option-check-box {
+  margin: 0;
+  margin-right: 0.5em;
   min-width: var(--option-em-size);
   min-height: var(--option-em-size);
 }
@@ -201,14 +218,14 @@ body {
 }
 
 /* ANIMATION AND PSEUDO CLASSES */
-.list__item--add-more:focus,
+.list__future-item:focus,
 .list__item-content-box:focus,
 .list__title:focus {
   outline: 1px solid var(--default-focus-outline-color);
 }
 
 .list-menu__option:hover:not(:focus),
-.list__item--add-more:hover:not(:focus),
+.list__future-item:hover:not(:focus),
 .list__item-content-box:hover:not(:focus):not(.list__item-content-box--dragging),
 .list__title:hover:not(:focus) {
   background-color: rgba(0, 0, 0, 0.05);
