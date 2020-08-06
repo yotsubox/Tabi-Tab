@@ -4,7 +4,7 @@ import {
   addFunctionalities,
   initProperties,
   initPropertiesFromJSON,
-  addItemsToTabListFromURLs,
+  addItemsToTabListFromItemContents,
   assembleComponentsAndAppend,
 } from "./TabList/Init.js";
 
@@ -32,7 +32,7 @@ export class TabList {
     addFunctionalities(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
     assembleComponentsAndAppend(tabList, appendTarget);
-    addItemsToTabListFromURLs(tabList, tabListJSON.urls);
+    addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
 
     return tabList;
   }

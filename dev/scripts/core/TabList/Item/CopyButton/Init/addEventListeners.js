@@ -3,6 +3,7 @@ export function addEventListeners(copyButton) {
     //prevent blur on contentBox.
     e.preventDefault();
 
-    copyButton.copyToClipboard();
+    //0 = left click
+    if (e.button === 0) copyButton.copyToClipboard();
   });
 }

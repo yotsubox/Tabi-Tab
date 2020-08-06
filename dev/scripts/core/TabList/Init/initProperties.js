@@ -2,6 +2,7 @@ import {
   ItemContainer,
   FutureItem,
   Title,
+  MinimizePadding,
   MinimizeButton,
   newDefaultSettings,
 } from "../Init.js";
@@ -12,6 +13,7 @@ export function initProperties(tabList) {
   tabList._itemCount = 0;
   tabList._settings = newDefaultSettings();
   tabList._minimizeButton = MinimizeButton.Create(tabList);
+  tabList._minimizePadding = MinimizePadding.Create();
   tabList._itemContainer = ItemContainer.Create(tabList);
   //for some reason using 'title' as variable name results in undefined value.
   tabList._title = Title.Create(tabList);

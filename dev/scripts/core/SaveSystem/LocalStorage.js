@@ -12,11 +12,14 @@ export class LocalStorage {
   static save() {
     //if nothing has changed, do nothing.
     if (!ChangesDetector.haveChangesBeenMade()) return false;
+    LocalStorage._clear();
 
     let id = 0;
     for (const savable of SavableObjects) {
+      const savableData = savable.stringify();
+      if (!savableData) continue;
       //for some fucking reason, numbers (or number strings) as key do not work properly.
-      storage.setItem(`+${id}`, savable.stringify());
+      storage.setItem(`+${id}`, savableData);
       id++;
     }
 
@@ -51,10 +54,9 @@ export class LocalStorage {
 //
 function getSavableObjectsData() {
   const savableObjectsData = [];
-  for (let i = 0; i < storage.length; i++) {
+  for (let id = 0; id < storage.length; id++) {
     //get data
-    const key = storage.key(i);
-    savableObjectsData.push(JSON.parse(storage.getItem(key)));
+    savableObjectsData.push(JSON.parse(storage.getItem(`+${id}`)));
   }
   return savableObjectsData;
 }

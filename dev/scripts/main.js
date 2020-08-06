@@ -16,5 +16,4 @@ export const listContainer = document.querySelector(".list-container");
 export const addListButton = NewTabListButton.Create(tabListSection);
 
 //LOAD PREVIOUSLY SAVED OBJECTS.
-
 LocalStorage.load();

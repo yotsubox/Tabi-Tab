@@ -3,6 +3,10 @@ let _stack = [];
  * A stack that store objects needed to be saved (such as tab lists).
  */
 export class SavableObjects {
+  static debug() {
+    console.log(_stack);
+  }
+
   static add(saveable) {
     _stack.push(saveable);
   }

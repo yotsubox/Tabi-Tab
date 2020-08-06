@@ -47,6 +47,7 @@ export function addFunctionalities(tabList) {
   tabList.toggleMinimization = function () {
     const itemContainer = this.getItemContainer();
     tabList._minimized = itemContainer.classList.toggle("--collapse");
+    tabList._minimizePadding.classList.toggle("--collapse");
   };
 
   tabList.isMinimized = function () {
@@ -61,12 +62,13 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.stringify = function () {
-    const urls = getContentsFrom(this.getItems());
+    if (tabList.getTitleName() === "" && tabList._itemCount === 0) return null;
+
     return JSON.stringify({
       type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
-      urls: urls,
+      itemContents: getContentsFrom(this.getItems()),
     });
   };
 }

@@ -1,4 +1,5 @@
 export { MinimizeButton } from "./MinimizeButton.js";
+export { MinimizePadding } from "./MinimizePadding.js";
 export { ItemContainer } from "./ItemContainer.js";
 export { Title } from "./Title.js";
 export { FutureItem } from "./FutureItem.js";
@@ -9,5 +10,5 @@ export { showMenu } from "./Init/showMenu.js";
 export { initProperties } from "./Init/initProperties.js";
 export { assembleComponentsAndAppend } from "./Init/assembleComponentsAndAppend.js";
 export { initPropertiesFromJSON } from "./Init/initPropertiesFromJSON.js";
-export { addItemsToTabListFromURLs } from "./Init/addItemsToTabListFromURLs.js";
+export { addItemsToTabListFromItemContents } from "./Init/addItemsToTabListFromItemContents.js";
 export { getContentsFrom } from "./Init/getContentsFrom.js";

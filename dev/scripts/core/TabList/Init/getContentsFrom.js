@@ -1,9 +1,9 @@
 export function getContentsFrom(items) {
-  const urls = [];
+  const itemContents = [];
 
   for (const item of items) {
-    const url = item.getContent();
-    if (url) urls.push(url);
+    const itemContent = item.getContent();
+    if (itemContent) itemContents.push(itemContent);
   }
-  return urls;
+  return itemContents;
 }

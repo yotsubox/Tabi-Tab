@@ -5,8 +5,13 @@
   --gray-box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
   --option-em-size: 1.2em;
   --list__item-margin-left: 1.2rem;
+  --list__item-margin-right: 4rem;
   --list__item-wrapper-margin-left: 1rem;
   --default-focus-outline-color: rgb(133, 158, 180);
+  --list__item-btn-size: 20px;
+  --list__item-btn-left-margin: 10px;
+
+  --list__item-btn-count: 2;
 }
 
 body {
@@ -78,6 +83,14 @@ body {
   background-color: var(--list-default-background-color);
 }
 
+.list__minimize-padding {
+  text-align: center;
+  font-size: 2rem;
+
+  position: relative;
+  bottom: 1rem;
+}
+
 .list__title {
   font-size: 1.2em;
 
@@ -85,7 +98,6 @@ body {
   margin-bottom: 0.2rem;
   margin-left: var(--list__item-order-min-width);
   margin-right: var(--list__item-order-min-width);
-
   white-space: nowrap;
   overflow: hidden;
 }
@@ -127,7 +139,7 @@ body {
 .list__item-delete-btn,
 .list__item-copy-btn {
   margin-left: 10px;
-  max-height: 20px;
+  max-height: var(--list__item-btn-size);
 }
 
 .list__item-title-box {
@@ -146,6 +158,10 @@ body {
   margin-left: calc(
     var(--list__item-margin-left) + var(--list__item-order-min-width) +
       var(--list__item-order-padding-right)
+  );
+  margin-right: calc(
+    (var(--list__item-btn-size) + var(--list__item-btn-left-margin)) *
+      var(--list__item-btn-count)
   );
   list-style-type: none;
   white-space: nowrap;
