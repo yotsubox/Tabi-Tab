@@ -23,7 +23,6 @@ export class CheckBoxOption {
     addEventListeners(option);
 
     option.append(option._checkBox, option._nameBar);
-    owner.append(option);
     return option;
   }
 }

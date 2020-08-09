@@ -1,5 +1,6 @@
 import { Item, getContentsFrom } from "../Init.js";
 import { ChangesDetector } from "../../SaveSystem.js";
+import { SavableObjects } from "../../SaveSystem/SavableObjects.js";
 
 export function addFunctionalities(tabList) {
   tabList.getItemCount = function () {
@@ -37,6 +38,8 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.newItem = function (url = "") {
+    ChangesDetector.detected();
+
     this._itemCount++;
     const item = Item.Create(this, this._itemCount, url);
 
@@ -73,10 +76,26 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.fixOrderNumber = function () {
+    ChangesDetector.detected();
+
     const items = this.getItems();
     for (let i = 0; i < items.length; i++) {
       items[i].setOrderNumber(i + 1);
     }
+  };
+
+  tabList.clearItems = function () {
+    ChangesDetector.detected();
+
+    this.getItems().forEach((item) => item.remove());
+    this._itemCount = 0;
+  };
+
+  tabList.remove = function () {
+    ChangesDetector.detected();
+
+    if (this.parentNode) this.parentNode.removeChild(this);
+    SavableObjects.delete(this);
   };
 
   tabList.stringify = function () {

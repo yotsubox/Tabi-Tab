@@ -13,7 +13,6 @@ export class TabList {
   static _createTabListElement() {
     return createElement("div", "list --tab-list-un-minimize-animation");
   }
-
   static Create(appendTarget) {
     ChangesDetector.detected();
     const tabList = TabList._createTabListElement();

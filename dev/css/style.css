@@ -77,7 +77,7 @@ body {
   outline: 4px solid rgba(100, 158, 180, 0.8);
 }
 
-.list__minimize-button {
+.list__minimize-btn {
   /* D */
 
   text-align: center;
@@ -151,6 +151,7 @@ body {
 .list__item-copy-btn {
   margin-left: 10px;
   max-height: var(--list__item-btn-size);
+  cursor: pointer;
 }
 
 .list__item-title-box {
@@ -231,7 +232,7 @@ body {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.list__minimize-button:hover {
+.list__minimize-btn:hover {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
@@ -263,6 +264,10 @@ body {
 .--clickable {
   color: rgb(70, 43, 226);
   text-decoration: underline;
+}
+
+.--pointer-cursor {
+  cursor: pointer;
 }
 
 .flex-group {

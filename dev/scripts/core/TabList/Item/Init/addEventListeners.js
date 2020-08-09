@@ -116,8 +116,6 @@ function showDraggingEffect(e, item) {
 
 function removeDraggingEffect() {
   {
-    ChangesDetector.detected();
-
     draggedItem
       .getContentBox()
       .classList.remove("list__item-content-box--dragging");

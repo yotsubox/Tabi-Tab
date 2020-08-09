@@ -8,6 +8,7 @@ import {
 export class ButtonOption {
   static Create(owner, name) {
     const option = createOptionElement();
+    option.classList.add("--pointer-cursor");
     option._owner = owner;
     option._listenersData = [];
 
@@ -18,7 +19,8 @@ export class ButtonOption {
     addEventListeners(option);
 
     option.append(option._nameBar);
-    owner.append(option);
+
+    return option;
   }
 }
 
