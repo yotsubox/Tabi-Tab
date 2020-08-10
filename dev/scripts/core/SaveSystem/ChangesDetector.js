@@ -9,9 +9,6 @@ const _listenersData = {
  */
 export class ChangesDetector {
   static haveChangesBeenMade() {
-    // DEBUG
-    console.log("haveChangesBeenMade", _changed);
-
     return _changed;
   }
 
@@ -32,9 +29,8 @@ export class ChangesDetector {
   static _dispatchEvent(type) {
     const listenersData = _listenersData[type];
     //callback
-    for (const { listener, thisArg, args } of listenersData) {
+    for (const { listener, thisArg, args } of listenersData)
       listener.apply(thisArg, args);
-    }
   }
 
   /**
@@ -58,5 +54,23 @@ export class ChangesDetector {
     _changed = false;
 
     ChangesDetector._dispatchEvent("onSave");
+  }
+
+  static isKeyCauseChanges(key) {
+    if (
+      key === "Control" ||
+      key === "Shift" ||
+      key === "Enter" ||
+      key === "Alt" ||
+      key === "Tab" ||
+      key === "CapsLock" ||
+      key === "ArrowUp" ||
+      key === "ArrowDown" ||
+      key === "ArrowLeft" ||
+      key === "ArrowRight"
+    )
+      return false;
+
+    return true;
   }
 }

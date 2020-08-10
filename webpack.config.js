@@ -43,5 +43,9 @@ module.exports = {
     contentBase: path.join(__dirname, "dist"),
     compress: false,
   },
-  devtool: "inline-source-map",
+
+  //FOR DEBUGGING
+  optimization: {
+    minimize: false,
+  },
 };

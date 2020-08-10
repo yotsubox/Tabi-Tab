@@ -1,65 +1,119 @@
 import { ChangesDetector } from "../../../SaveSystem.js";
-import { insertElementAfter } from "../../../Utils.js";
-import { insertElementBefore } from "../../../Utils/insertElementBefore.js";
+import { insertElementAfter, insertElementBefore } from "../../../Utils.js";
 
-// GLOBAL VARIABLES USED FOR ALL ITEMS
+// GLOBAL VARIABLE USED FOR ALL ITEMS
 let draggedItem = null;
-let draggedOverItem = null;
 
 export function addEventListeners(item) {
-  const contentBox = item.getContentElem();
+  const contentBox = item.getContentBox();
 
-  contentBox.addEventListener("keydown", (e) => blurWhenPressEnter(e, item));
+  contentBox.addEventListener("keydown", (e) => {
+    detectChanges(e);
+    doThingsWhenCertainKeysIsPressed(e, item);
+  });
 
-  contentBox.addEventListener("blur", () => cleanUp(item));
+  contentBox.addEventListener("focus", () => item.toggleButtons());
 
-  //dragging events
+  contentBox.addEventListener("blur", () => {
+    item.toggleButtons();
+    cleanUp(item);
+  });
+
+  contentBox.addEventListener("click", () => openLinkInNewTabIfClickable(item));
+
   item.addEventListener("dragstart", (e) => showDraggingEffect(e, item));
 
   item.addEventListener("dragover", (e) => moveItemAway(e, item));
 
   item.addEventListener("dragend", removeDraggingEffect);
+
+  item.addEventListener("mouseenter", (e) => {
+    item._mouseOver = true;
+    item.toggleURLHeaderTitleBox();
+  });
+
+  item.addEventListener("mouseleave", () => {
+    item._mouseOver = false;
+    item.setClickable(false);
+    item.toggleURLHeaderTitleBox();
+  });
+
+  document.addEventListener("keydown", (e) => clickableWhenCtrl(e, item));
+  document.addEventListener("keyup", (e) =>
+    notClickableWhenReleaseCtrl(e, item)
+  );
 }
 
-//KEY DOWN EVENT
-function blurWhenPressEnter(e, item) {
-  if (e.key !== "Enter") {
-    //saving is now available
-    ChangesDetector.detected();
-    return;
+//KEY DOWN EVENTS
+function doThingsWhenCertainKeysIsPressed(e, item) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    focusOnNextItemOf(item);
+    item.updateTitleBox();
   }
-  e.preventDefault();
 
-  focusOnNextItem(item);
+  if (e.altKey && e.code === "ArrowUp") {
+    putItemOnTopOf(item.prev(), item);
+    item.getContentBox().focus();
+  }
 
-  item.getContentElem().blur(); //DO NOT MOVE THIS LINE.
+  if (e.altKey && e.code === "ArrowDown") {
+    putItemOnBottomOf(item.next(), item);
+    item.getContentBox().focus();
+  }
+
+  if (!e.altKey && e.code === "ArrowUp") focusOnPrevItemOf(item);
+  if (!e.altKey && e.code === "ArrowDown") focusOnNextItemOf(item);
 }
 
-function focusOnNextItem(item) {
-  const tabList = item.getOwner();
-  const futureItem = tabList.getFutureItem();
+function detectChanges(e) {
+  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+}
 
-  if (tabList.getItemCount() === item.getOrderNumber()) futureItem.focus();
-  else item.nextElementSibling.getContentElem().focus();
+function focusOnNextItemOf(item) {
+  const nextItem = item.next();
+
+  if (nextItem) nextItem.getContentBox().focus();
+  else item.getOwner().getFutureItem().focus();
+}
+
+function focusOnPrevItemOf(item) {
+  const prevItem = item.prev();
+
+  if (prevItem) prevItem.getContentBox().focus();
+  else item.getOwner().getTitle().focus();
+}
+
+function clickableWhenCtrl(e, item) {
+  if (item._mouseOver && e.ctrlKey) item.setClickable(true);
+}
+
+function notClickableWhenReleaseCtrl(e, item) {
+  if (
+    item._mouseOver &&
+    (e.code === "ControlLeft" || e.code === "ControlRight")
+  )
+    item.setClickable(false);
+}
+
+function openLinkInNewTabIfClickable(item) {
+  if (item.isClickable()) window.open(item.getURL());
 }
 
 //BLUR
 function cleanUp(item) {
   const tabList = item.getOwner();
-  const itemContentBox = item.getContentElem();
+  const itemContentBox = item.getContentBox();
   itemContentBox.textContent = itemContentBox.textContent.trim();
 
   //if item is empty, remove and focus on next item.
-  if (!itemContentBox.textContent.length) {
-    tabList.removeItem(item);
-    fixOrderNumber(tabList);
-  }
+  if (!itemContentBox.textContent.length) tabList.removeItem(item);
 }
 
 //DRAG EVENTS
 function showDraggingEffect(e, item) {
   draggedItem = item;
-  item.getContentElem().classList.add("list__item-contentBox--dragging");
+  item.getContentBox().classList.add("list__item-content-box--dragging");
 
   //blank image element as "ghost" image
   e.dataTransfer.setDragImage(document.createElement("img"), 0, 0);
@@ -67,12 +121,10 @@ function showDraggingEffect(e, item) {
 
 function removeDraggingEffect() {
   {
-    ChangesDetector.detected();
-
     draggedItem
-      .getContentElem()
-      .classList.remove("list__item-contentBox--dragging");
-    //clean up
+      .getContentBox()
+      .classList.remove("list__item-content-box--dragging");
+
     draggedItem = null;
   }
 }
@@ -80,37 +132,28 @@ function removeDraggingEffect() {
 function moveItemAway(e, item) {
   e.preventDefault();
 
+  //not in the same tabList
+  if (item.getOwner() !== draggedItem.getOwner()) return;
+
   const box = item.getBoundingClientRect();
   const offsetY = e.clientY - (box.top + box.height / 2);
   const draggedItemIsOnTopOfItem = offsetY < 0;
 
-  if (draggedItemIsOnTopOfItem) putDraggedItemOnTopOf(item);
-  else putDraggedItemOnBottomOf(item);
-}
-
-function putDraggedItemOnTopOf(item) {
-  if (draggedOverItem === item) return;
-  draggedOverItem = item;
-
-  insertElementBefore(item, draggedItem);
-  fixOrderNumber(item.getOwner());
-}
-
-function putDraggedItemOnBottomOf(item) {
-  if (draggedOverItem === draggedItem) return;
-  draggedOverItem = draggedItem;
-
-  insertElementAfter(item, draggedItem);
-  fixOrderNumber(item.getOwner());
+  if (draggedItemIsOnTopOfItem) putItemOnTopOf(item, draggedItem);
+  else putItemOnBottomOf(item, draggedItem);
 }
 
 //OTHERS
-function fixOrderNumber(tabList) {
-  const itemContainer = tabList.getItemContainer();
-  // - 1 to exclude title and future item
-  const range = itemContainer.children.length - 1;
-  for (let i = 0; i < range; i++) {
-    const item = itemContainer.children[i];
-    item.setOrderNumber(i + 1);
-  }
+function putItemOnTopOf(target, item) {
+  if (!target || !item || target === item) return;
+
+  insertElementBefore(target, item);
+  item.getOwner().fixOrderNumber(item.getOwner());
+}
+
+function putItemOnBottomOf(target, item) {
+  if (!target || !item || target === item) return;
+
+  insertElementAfter(target, item);
+  item.getOwner().fixOrderNumber(item.getOwner());
 }

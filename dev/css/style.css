@@ -1,12 +1,18 @@
 :root {
+  --default-font-family: "Pangolin", "Times New Roman", Times, serif;
   --list-default-background-color: white;
   --list__item-order-min-width: 4rem;
   --list__item-order-padding-right: 0.2rem;
   --gray-box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
   --option-em-size: 1.2em;
   --list__item-margin-left: 1.2rem;
+  --list__item-margin-right: 4rem;
   --list__item-wrapper-margin-left: 1rem;
-  --list__item-wrapper-margin-right: 6rem;
+  --default-focus-outline-color: rgb(133, 158, 180);
+  --list__item-btn-size: 20px;
+  --list__item-btn-left-margin: 10px;
+
+  --list__item-btn-count: 2;
 }
 
 body {
@@ -40,6 +46,10 @@ body {
   max-height: 2rem;
 }
 
+.btn--padding {
+  margin-right: 2em;
+}
+
 /* TAB LIST */
 .tab-list-section {
   /* D */
@@ -50,13 +60,9 @@ body {
 
 .list-container {
   font-size: 1.4em;
-  font-family: "Pangolin", "Times New Roman", Times, serif;
+  font-family: var(--default-font-family);
   display: flex;
   flex-direction: column;
-}
-
-.btn--padding {
-  margin-right: 2em;
 }
 
 .list {
@@ -67,7 +73,11 @@ body {
   margin-bottom: 1em;
 }
 
-.list__minimize-button {
+.list--outline {
+  outline: 4px solid rgba(100, 158, 180, 0.8);
+}
+
+.list__minimize-btn {
   /* D */
 
   text-align: center;
@@ -78,14 +88,21 @@ body {
   background-color: var(--list-default-background-color);
 }
 
+.list__minimize-padding {
+  text-align: center;
+  font-size: 2rem;
+
+  position: relative;
+  bottom: 1rem;
+}
+
 .list__title {
   font-size: 1.2em;
 
   margin-top: 1rem;
   margin-bottom: 0.2rem;
   margin-left: var(--list__item-order-min-width);
-  margin-right: var(--list__item-wrapper-margin-right);
-
+  margin-right: var(--list__item-order-min-width);
   white-space: nowrap;
   overflow: hidden;
 }
@@ -93,9 +110,7 @@ body {
 .list__item-wrapper {
   /* D */
   /* background-color: blue; */
-
-  margin: 0 var(--list__item-wrapper-margin-right) 2rem
-    var(--list__item-wrapper-margin-left);
+  margin: 0 2rem var(--list__item-wrapper-margin-left);
 }
 
 .list__item {
@@ -103,6 +118,7 @@ body {
   /* background-color: yellow; */
   display: flex;
   margin-left: var(--list__item-margin-left);
+  position: relative;
 }
 
 .list__item-order {
@@ -112,7 +128,7 @@ body {
   list-style-type: decimal;
 }
 
-.list__item-contentBox {
+.list__item-content-box {
   /* D */
   /* background-color: red; */
 
@@ -121,14 +137,43 @@ body {
   overflow: hidden;
 }
 
-.list__item-contentBox--dragging {
+.list__item-content-box--dragging {
   background-color: rgb(189, 171, 194);
 }
 
-.list__item--add-more {
+.list__item-content-box--offset-left,
+.list__future-item--offset-left {
+  position: relative;
+  right: 1em;
+}
+
+.list__item-delete-btn,
+.list__item-copy-btn {
+  margin-left: 10px;
+  max-height: var(--list__item-btn-size);
+  cursor: pointer;
+}
+
+.list__item-title-box {
+  background: var(--list-default-background-color);
+
+  position: absolute;
+  padding: 0.2rem;
+  margin-left: 120px;
+  left: 100%;
+  outline: 4px solid var(--default-focus-outline-color);
+
+  white-space: nowrap;
+}
+
+.list__future-item {
   margin-left: calc(
     var(--list__item-margin-left) + var(--list__item-order-min-width) +
       var(--list__item-order-padding-right)
+  );
+  margin-right: calc(
+    (var(--list__item-btn-size) + var(--list__item-btn-left-margin)) *
+      var(--list__item-btn-count)
   );
   list-style-type: none;
   white-space: nowrap;
@@ -151,10 +196,16 @@ body {
   /* background-color: red; */
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
   padding: 10px;
+
+  font-family: var(--default-font-family);
+  font-size: 1rem;
 }
 
-.list-menu__option-box {
+.list-menu__option-check-box {
+  margin: 0;
+  margin-right: 0.5em;
   min-width: var(--option-em-size);
   min-height: var(--option-em-size);
 }
@@ -168,20 +219,20 @@ body {
 }
 
 /* ANIMATION AND PSEUDO CLASSES */
-.list__item--add-more:focus,
-.list__item-contentBox:focus,
+.list__future-item:focus,
+.list__item-content-box:focus,
 .list__title:focus {
-  outline: 1px solid rgb(133, 158, 180);
+  outline: 1px solid var(--default-focus-outline-color);
 }
 
 .list-menu__option:hover:not(:focus),
-.list__item--add-more:hover:not(:focus),
-.list__item-contentBox:hover:not(:focus):not(.list__item-contentBox--dragging),
+.list__future-item:hover:not(:focus),
+.list__item-content-box:hover:not(:focus):not(.list__item-content-box--dragging),
 .list__title:hover:not(:focus) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.list__minimize-button:hover {
+.list__minimize-btn:hover {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
@@ -204,6 +255,19 @@ body {
 
 .--collapse {
   display: none;
+}
+
+.--hidden {
+  visibility: hidden;
+}
+
+.--clickable {
+  color: rgb(70, 43, 226);
+  text-decoration: underline;
+}
+
+.--pointer-cursor {
+  cursor: pointer;
 }
 
 .flex-group {

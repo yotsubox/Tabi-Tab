@@ -1,11 +1,11 @@
 export function assembleComponentsAndAppend(tabList, appendTarget) {
-  const itemContainer = tabList.getItemContainer();
-  itemContainer.append(tabList.getFutureItem());
+  tabList._itemContainer.append(tabList._futureItem);
 
   tabList.append(
-    tabList.getMinimizeButton(),
-    tabList.getTitle(),
-    itemContainer
+    tabList._minimizeButton,
+    tabList._title,
+    tabList._itemContainer,
+    tabList._minimizePadding
   );
   appendTarget.appendChild(tabList);
 }

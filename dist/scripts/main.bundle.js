@@ -1,2 +1,1333 @@
-!function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(i,o,function(e){return t[e]}.bind(null,o));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";function i(t,e){const n=document.createElement(t);return n.className=e,n}function o(t){t.contentEditable=!0,t.spellcheck=!1,t.addEventListener("paste",t=>{t.preventDefault();const e=t.clipboardData.getData("text/plain");document.execCommand("insertHTML",!1,e)})}n.r(e),n.d(e,"saveButton",(function(){return N})),n.d(e,"tabListSection",(function(){return k})),n.d(e,"listContainer",(function(){return z})),n.d(e,"addListButton",(function(){return M}));const r=Object.freeze({TabList:0});let s=[];class a{static add(t){s.push(t)}static*[Symbol.iterator](){for(const t of s)yield t}static clear(){s=[]}}class c{static get _parseByType(){return u}static parse(t){this._parseByType[t.type](t)}}const u=[];u[r.TabList]=function(t){B.FromJSON(z,t)};let l=!1;const d={onChange:[],onSave:[]};class m{static haveChangesBeenMade(){return console.log("haveChangesBeenMade",l),l}static addEventListener(t,e,n,...i){d[t].push({listener:e,thisArg:n,args:i})}static _dispatchEvent(t){const e=d[t];for(const{listener:t,thisArg:n,args:i}of e)t.apply(n,i)}static detected(){l||(l=!0,m._dispatchEvent("onChange"))}static resetState(){l=!1,m._dispatchEvent("onSave")}}const f=window.localStorage;class g{static save(){if(!m.haveChangesBeenMade())return!1;let t=0;for(const e of a)f.setItem("+"+t,e.stringify()),t++;return m.resetState(),console.log("SAVED:"),console.log("savables",a._stack),console.log("storage:",f),!0}static load(){const t=function(){const t=[];for(let e=0;e<f.length;e++){const n=f.key(e);t.push(JSON.parse(f.getItem(n)))}return t}();this._removeCurrentlyRunningObjects(),a.clear();for(const e of t)c.parse(e)}static _clear(){f.clear()}static _removeCurrentlyRunningObjects(){for(const t of a)t.remove()}}function C(){this.getOwner().toggleMinimization(),this.updateText()}class p{static Create(t){const e=document.createElement("div","");var n;return e.classList.add("list__minimize-button"),e._owner=t,e._minimize=!1,(n=e).getOwner=function(){return this._owner},n.toggleText=function(){this.textContent?this.textContent="":n.updateText()},n.updateText=function(){const t=this.getOwner().isMinimized();this.textContent=t?"maximize":"minimize"},function(t){t.addEventListener("click",C),t.addEventListener("mouseover",()=>t.toggleText()),t.addEventListener("mouseout",()=>t.toggleText())}(e),e}}class v{static Create(t){return i("div","list__item-wrapper")}}class _{static Create(t,e="Title"){const n=document.createElement("div");return n.className="list__title",n.textContent=e,o(n),function(t,e){t.addEventListener("keydown",n=>{"Enter"===n.key?0===e.getItemCount()?e.getFutureItem().focus():t.blur():m.detected()}),t.addEventListener("blur",()=>{t.textContent=t.textContent.trim()})}(n,t),n}}class h{static Create(t){const e=i("div","list__item list__item--add-more");return o(e),function(t,e){e.addEventListener("keydown",n=>{"Enter"===n.key&&(n.preventDefault(),e.textContent=e.textContent.trim(),e.textContent.length&&function(t,e,n){const i=n.newItem();i.getContentElem().textContent=e.textContent,e.textContent="",n.getItemContainer().insertBefore(i,e)}(0,e,t))}),e.addEventListener("blur",()=>{e.textContent=e.textContent.trim()})}(t,e),e}}let b=null,y=null;function E(t){const e=t.getContentElem();e.addEventListener("keydown",e=>function(t,e){if("Enter"!==t.key)return void m.detected();t.preventDefault(),function(t){const e=t.getOwner(),n=e.getFutureItem();e.getItemCount()===t.getOrderNumber()?n.focus():t.nextElementSibling.getContentElem().focus()}(e),e.getContentElem().blur()}(e,t)),e.addEventListener("blur",()=>function(t){const e=t.getOwner(),n=t.getContentElem();n.textContent=n.textContent.trim(),n.textContent.length||(e.removeItem(t),w(e))}(t)),t.addEventListener("dragstart",e=>function(t,e){b=e,e.getContentElem().classList.add("list__item-contentBox--dragging"),t.dataTransfer.setDragImage(document.createElement("img"),0,0)}(e,t)),t.addEventListener("dragover",e=>function(t,e){t.preventDefault();const n=e.getBoundingClientRect(),i=t.clientY-(n.top+n.height/2);i<0?function(t){if(y===t)return;y=t,function(t,e){const n=t.parentElement;if(!n)throw ReferenceError(`target item (${t.constructor.name}) does not have a parent, therefore can not be insert before.`);n.insertBefore(e,t)}(t,b),w(t.getOwner())}(e):function(t){if(y===b)return;y=b,function(t,e){const n=t.parentElement;if(!n)throw ReferenceError("target item does not have a parent, therefore can not be insert after.");t.nextElementSibling?n.insertBefore(e,t.nextElementSibling):n.appendChild(e)}(t,b),w(t.getOwner())}(e)}(e,t)),t.addEventListener("dragend",x)}function x(){m.detected(),b.getContentElem().classList.remove("list__item-contentBox--dragging"),b=null}function w(t){const e=t.getItemContainer(),n=e.children.length-1;for(let t=0;t<n;t++){e.children[t].setOrderNumber(t+1)}}function L(t){t.addEventListener("contextmenu",O),t.getItemCount=function(){return this._itemCount},t.removeItem=function(t){t.remove(),this._itemCount--},t.getTitleName=function(){return this._title.textContent},t.getTitle=function(){return this._title},t.getItems=function(){return Array.from(this._itemContainer.children).slice(0,this._itemCount)},t.getFutureItem=function(){return this._futureItem},t.getItemContainer=function(){return this._itemContainer},t.getMinimizeButton=function(){return this._minimizeButton},t.newItem=function(t=""){this._itemCount++;return class{static Create(t,e,n=""){const r=i("div","list__item");r.draggable=!0,r._orderNumber=e,r._owner=t;const s=i("div","list__item-order");s.textContent=e+".",r._order=s;const a=i("div","list__item-contentBox");return o(a),a.textContent=n,r._content=a,r.appendChild(s),r.appendChild(a),function(t){t.setOrderNumber=function(t){this._order.textContent=0===t?"":t+".",this._orderNumber=t},t.getOwner=function(){return this._owner},t.getOrderNumber=function(){return this._orderNumber},t.getContentElem=function(){return this._content},t.getURL=function(){return this._content.textContent}}(r),E(r),r}}.Create(this,this._itemCount,t)},t.toggleMinimization=function(){const e=t.getItemContainer();this._minimized=e.classList.toggle("--collapse")},t.isMinimized=function(){return this._minimized},t.stringify=function(){const t=function(t){const e=[];for(const n of t){const t=n.getURL();t&&e.push(t)}return e}(this.getItems());return JSON.stringify({type:r.TabList,settings:this._settings,titleName:this.getTitleName(),urls:t})}}function S(t,e){(class{static NewCheckBoxOption(t,e,n){const o=i("div","list-menu__option"),r=i("input","list-menu__option-box");r.type="checkbox",r.checked=n,r.addEventListener("mousedown",t=>{t.preventDefault()});const s=i("div","list-menu__option-name");s.textContent=e,o.append(r,s),t.append(o)}}).NewCheckBoxOption(t,"Priority",!1)}function O(t){t.preventDefault();const e=window.scrollX,n=window.scrollY;(class{static NewMenu(t,e,n,o){const r=i("div","menu");document.body.appendChild(r),r.tabIndex=9,r.focus(),r.owner=n,r.x=t,r.y=e,r.style.left=t+"px",r.style.top=e+"px",S(r),r.owner.style.outline="4px solid rgba(100, 158, 180, 0.8)",r.addEventListener("blur",t=>{document.body.removeChild(r),r.owner.style.outline=""})}}).NewMenu(t.clientX+e,t.clientY+n,this),window.scrollTo(e,n)}function I(t,e){const n=t.getItemContainer();n.append(t.getFutureItem()),t.append(t.getMinimizeButton(),t.getTitle(),n),e.appendChild(t)}class B{static Create(t){m.detected();const e=i("div","list --tab-list-un-minimize-animation");return a.add(e),L(e),function(t){t._itemCount=0,t._settings={},t._minimizeButton=p.Create(t),t._itemContainer=v.Create(t),t._title=_.Create(t),t._futureItem=h.Create(t)}(e),I(e,t),e}static FromJSON(t,e){m.detected();const n=i("div","list --tab-list-un-minimize-animation");return a.add(n),L(n),function(t,e){t._itemCount=0,t._settings=e.settings,t._minimizeButton=p.Create(t),t._itemContainer=v.Create(t),t._title=_.Create(t,e.titleName),t._futureItem=h.Create(t)}(n,e),I(n,t),function(t,e){for(const n of e){const e=t.newItem(n);t._itemContainer.insertBefore(e,t._futureItem)}}(n,e.urls),n}}function T(){B.Create(z)}document.body.addEventListener("keydown",t=>{t.shiftKey||t.altKey||!t.ctrlKey||"s"!==t.key&&"S"!==t.key||(t.preventDefault(),g.save())}),setTimeout((function t(){g.save(),setTimeout(t,1e4)}),1e4);const N=class{static FromExistingElem(t){var e;return t.classList.add("--gray-scale"),(e=t).toggleGrayScale=function(t){e.classList.remove("--gray-scale"),console.log("CALLED",t),t?e.classList.add("--gray-scale"):e.classList.remove("--gray-scale")},function(t){m.addEventListener("onChange",t.toggleGrayScale,t,!1),m.addEventListener("onSave",t.toggleGrayScale,t,!0),t.addEventListener("click",()=>{m.haveChangesBeenMade()&&g.save()})}(t),t}}.FromExistingElem(document.querySelector(".save-btn")),k=document.querySelector(".tab-list-section"),z=document.querySelector(".list-container"),M=class{static Create(t=null){const e=document.createElement("button");return t&&t.appendChild(e),e.className="btn btn--padding",e.textContent="Add new list",e._listsElem=e.previousElementSibling,function(t){t.addEventListener("click",T)}(e),e}}.Create(k);g.load()}]);
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vc2NyaXB0cy9tYWluLmJ1bmRsZS5qcyJdLCJuYW1lcyI6WyJtb2R1bGVzIiwiaW5zdGFsbGVkTW9kdWxlcyIsIl9fd2VicGFja19yZXF1aXJlX18iLCJtb2R1bGVJZCIsImV4cG9ydHMiLCJtb2R1bGUiLCJpIiwibCIsImNhbGwiLCJtIiwiYyIsImQiLCJuYW1lIiwiZ2V0dGVyIiwibyIsIk9iamVjdCIsImRlZmluZVByb3BlcnR5IiwiZW51bWVyYWJsZSIsImdldCIsInIiLCJTeW1ib2wiLCJ0b1N0cmluZ1RhZyIsInZhbHVlIiwidCIsIm1vZGUiLCJfX2VzTW9kdWxlIiwibnMiLCJjcmVhdGUiLCJrZXkiLCJiaW5kIiwibiIsIm9iamVjdCIsInByb3BlcnR5IiwicHJvdG90eXBlIiwiaGFzT3duUHJvcGVydHkiLCJwIiwicyIsIl9fd2VicGFja19leHBvcnRzX18iLCJjcmVhdGVFbGVtZW50IiwidGFnTmFtZSIsImNsYXNzTmFtZSIsImVsZW0iLCJkb2N1bWVudCIsIm1ha2VFbGVtZW50RWRpdGFibGUiLCJ0YXJnZXQiLCJjb250ZW50RWRpdGFibGUiLCJzcGVsbGNoZWNrIiwiYWRkRXZlbnRMaXN0ZW5lciIsImUiLCJwcmV2ZW50RGVmYXVsdCIsInRleHQiLCJjbGlwYm9hcmREYXRhIiwiZ2V0RGF0YSIsImV4ZWNDb21tYW5kIiwibWFpbl9zYXZlQnV0dG9uIiwidGFiTGlzdFNlY3Rpb24iLCJsaXN0Q29udGFpbmVyIiwibWFpbl9hZGRMaXN0QnV0dG9uIiwiVHlwZSIsImZyZWV6ZSIsIlRhYkxpc3QiLCJfc3RhY2siLCJTYXZhYmxlT2JqZWN0cyIsIltvYmplY3QgT2JqZWN0XSIsInNhdmVhYmxlIiwicHVzaCIsIml0ZXJhdG9yIiwic2F2YWJsZSIsIk9iamVjdExvYWRlciIsIl9wYXJzZUJ5VHlwZSIsInBhcnNlQnlUeXBlSGFuZGxlcnMiLCJzYXZhYmxlT2JqZWN0SlNPTiIsInRoaXMiLCJ0eXBlIiwidGFiTGlzdEpTT04iLCJUYWJMaXN0X1RhYkxpc3QiLCJGcm9tSlNPTiIsIl9jaGFuZ2VkIiwiX2xpc3RlbmVyc0RhdGEiLCJvbkNoYW5nZSIsIm9uU2F2ZSIsIkNoYW5nZXNEZXRlY3RvciIsImNvbnNvbGUiLCJsb2ciLCJsaXN0ZW5lciIsInRoaXNBcmciLCJhcmdzIiwibGlzdGVuZXJzRGF0YSIsImFwcGx5IiwiX2Rpc3BhdGNoRXZlbnQiLCJzdG9yYWdlIiwid2luZG93IiwibG9jYWxTdG9yYWdlIiwiTG9jYWxTdG9yYWdlX0xvY2FsU3RvcmFnZSIsImhhdmVDaGFuZ2VzQmVlbk1hZGUiLCJpZCIsInNldEl0ZW0iLCJzdHJpbmdpZnkiLCJyZXNldFN0YXRlIiwic2F2YWJsZU9iamVjdHNEYXRhIiwibGVuZ3RoIiwiSlNPTiIsInBhcnNlIiwiZ2V0SXRlbSIsImdldFNhdmFibGVPYmplY3RzRGF0YSIsIl9yZW1vdmVDdXJyZW50bHlSdW5uaW5nT2JqZWN0cyIsImNsZWFyIiwiZGF0YSIsInJlbW92ZSIsInRvZ2dsZU1pbmltaXphdGlvbiIsImdldE93bmVyIiwidXBkYXRlVGV4dCIsIk1pbmltaXplQnV0dG9uX01pbmltaXplQnV0dG9uIiwidGFiTGlzdCIsImJ1dHRvbiIsIm1pbmltaXplQnV0dG9uIiwiY2xhc3NMaXN0IiwiYWRkIiwiX293bmVyIiwiX21pbmltaXplIiwidG9nZ2xlVGV4dCIsInRleHRDb250ZW50IiwibWluaW1pemVkIiwiaXNNaW5pbWl6ZWQiLCJhZGRFdmVudExpc3RlbmVycyIsIkl0ZW1Db250YWluZXJfSXRlbUNvbnRhaW5lciIsIlRpdGxlX1RpdGxlIiwidGl0bGVOYW1lIiwidGl0bGUiLCJnZXRJdGVtQ291bnQiLCJnZXRGdXR1cmVJdGVtIiwiZm9jdXMiLCJibHVyIiwiZGV0ZWN0ZWQiLCJ0cmltIiwiYWRkRXZlbnRMaXN0ZW5lcnNfYWRkRXZlbnRMaXN0ZW5lcnMiLCJGdXR1cmVJdGVtX0Z1dHVyZUl0ZW0iLCJmdXR1cmVJdGVtIiwibGlzdCIsIml0ZW0iLCJuZXdJdGVtIiwiZ2V0Q29udGVudEVsZW0iLCJnZXRJdGVtQ29udGFpbmVyIiwiaW5zZXJ0QmVmb3JlIiwiSW5pdF9hZGRFdmVudExpc3RlbmVyc19hZGRFdmVudExpc3RlbmVycyIsImRyYWdnZWRJdGVtIiwiZHJhZ2dlZE92ZXJJdGVtIiwiSXRlbV9Jbml0X2FkZEV2ZW50TGlzdGVuZXJzX2FkZEV2ZW50TGlzdGVuZXJzIiwiY29udGVudEJveCIsImdldE9yZGVyTnVtYmVyIiwibmV4dEVsZW1lbnRTaWJsaW5nIiwiZm9jdXNPbk5leHRJdGVtIiwiYmx1cldoZW5QcmVzc0VudGVyIiwiaXRlbUNvbnRlbnRCb3giLCJyZW1vdmVJdGVtIiwiZml4T3JkZXJOdW1iZXIiLCJjbGVhblVwIiwiZGF0YVRyYW5zZmVyIiwic2V0RHJhZ0ltYWdlIiwic2hvd0RyYWdnaW5nRWZmZWN0IiwiYm94IiwiZ2V0Qm91bmRpbmdDbGllbnRSZWN0Iiwib2Zmc2V0WSIsImNsaWVudFkiLCJ0b3AiLCJoZWlnaHQiLCJwYXJlbnQiLCJwYXJlbnRFbGVtZW50IiwiUmVmZXJlbmNlRXJyb3IiLCJjb25zdHJ1Y3RvciIsImluc2VydEVsZW1lbnRCZWZvcmUiLCJwdXREcmFnZ2VkSXRlbU9uVG9wT2YiLCJhcHBlbmRDaGlsZCIsImluc2VydEVsZW1lbnRBZnRlciIsInB1dERyYWdnZWRJdGVtT25Cb3R0b21PZiIsIm1vdmVJdGVtQXdheSIsInJlbW92ZURyYWdnaW5nRWZmZWN0IiwiaXRlbUNvbnRhaW5lciIsInJhbmdlIiwiY2hpbGRyZW4iLCJzZXRPcmRlck51bWJlciIsIkluaXRfYWRkRnVuY3Rpb25hbGl0aWVzX2FkZEZ1bmN0aW9uYWxpdGllcyIsInNob3dNZW51IiwiX2l0ZW1Db3VudCIsImdldFRpdGxlTmFtZSIsIl90aXRsZSIsImdldFRpdGxlIiwiZ2V0SXRlbXMiLCJBcnJheSIsImZyb20iLCJfaXRlbUNvbnRhaW5lciIsInNsaWNlIiwiX2Z1dHVyZUl0ZW0iLCJnZXRNaW5pbWl6ZUJ1dHRvbiIsIl9taW5pbWl6ZUJ1dHRvbiIsInVybCIsIm9yZGVyTnVtYmVyIiwiZHJhZ2dhYmxlIiwiX29yZGVyTnVtYmVyIiwib3JkZXIiLCJfb3JkZXIiLCJfY29udGVudCIsImdldFVSTCIsImFkZEZ1bmN0aW9uYWxpdGllc19hZGRGdW5jdGlvbmFsaXRpZXMiLCJDcmVhdGUiLCJfbWluaW1pemVkIiwidG9nZ2xlIiwidXJscyIsIml0ZW1zIiwiZ2V0VVJMc0Zyb20iLCJzZXR0aW5ncyIsIl9zZXR0aW5ncyIsImFkZE9wdGlvbnMiLCJtZW51Iiwib3B0aW9ucyIsImNoZWNrZWQiLCJvcHRpb24iLCJjQm94Iiwib3B0aW9uTmFtZSIsImFwcGVuZCIsIk5ld0NoZWNrQm94T3B0aW9uIiwib2xkU2Nyb2xsWCIsInNjcm9sbFgiLCJvbGRTY3JvbGxZIiwic2Nyb2xsWSIsIngiLCJ5IiwiYm9keSIsInRhYkluZGV4Iiwib3duZXIiLCJzdHlsZSIsImxlZnQiLCJvdXRsaW5lIiwicmVtb3ZlQ2hpbGQiLCJOZXdNZW51IiwiY2xpZW50WCIsInNjcm9sbFRvIiwiYXNzZW1ibGVDb21wb25lbnRzQW5kQXBwZW5kIiwiYXBwZW5kVGFyZ2V0IiwiaW5pdFByb3BlcnRpZXMiLCJpbml0UHJvcGVydGllc0Zyb21KU09OIiwiYWRkSXRlbXNUb1RhYkxpc3RGcm9tVVJMcyIsImNyZWF0ZU5ld1RhYkxpc3QiLCJzaGlmdEtleSIsImFsdEtleSIsImN0cmxLZXkiLCJzYXZlIiwic2V0VGltZW91dCIsInJlcGVhdCIsInNhdmVCdXR0b24iLCJ0b2dnbGVHcmF5U2NhbGUiLCJzdGF0ZSIsIlNhdmVCdXR0b25fSW5pdF9hZGRFdmVudExpc3RlbmVyc19hZGRFdmVudExpc3RlbmVycyIsIkZyb21FeGlzdGluZ0VsZW0iLCJxdWVyeVNlbGVjdG9yIiwiYWRkTGlzdEJ1dHRvbiIsIl9saXN0c0VsZW0iLCJwcmV2aW91c0VsZW1lbnRTaWJsaW5nIiwiTmV3VGFiTGlzdEJ1dHRvbl9Jbml0X2FkZEV2ZW50TGlzdGVuZXJzX2FkZEV2ZW50TGlzdGVuZXJzIiwibG9hZCJdLCJtYXBwaW5ncyI6IkNB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
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "saveButton", function() { return /* binding */ main_saveButton; });
+__webpack_require__.d(__webpack_exports__, "tabListSection", function() { return /* binding */ tabListSection; });
+__webpack_require__.d(__webpack_exports__, "listContainer", function() { return /* binding */ listContainer; });
+__webpack_require__.d(__webpack_exports__, "addListButton", function() { return /* binding */ main_addListButton; });
+
+// CONCATENATED MODULE: ./dev/scripts/core/Utils/createElement.js
+/**
+ *
+ * @param {String} tagName
+ * @param {String} className
+ * @return {HTMLElement}
+ */
+function createElement(tagName, className) {
+  const elem = document.createElement(tagName);
+  elem.className = className;
+  return elem;
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Utils/makeElementEditable.js
+function makeElementEditable(target) {
+  target.contentEditable = true;
+  target.spellcheck = false;
+
+  //remove formatting on paste
+  target.addEventListener("paste", (e) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData("text/plain");
+    document.execCommand("insertHTML", false, text);
+  });
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Type.js
+const Type = Object.freeze({
+  TAB_LIST: 0,
+  TAB_LIST_ITEM: 1,
+});
+
+// CONCATENATED MODULE: ./dev/scripts/core/Utils/insertElementAfter.js
+/**
+ * insert an element after a given target element
+ * @param {HTMLElement} target element to insert after.
+ * @param {HTMLElement} item item to insert.
+ */
+function insertElementAfter(target, item) {
+  const parent = target.parentElement;
+
+  if (parent) {
+    if (target.nextElementSibling)
+      parent.insertBefore(item, target.nextElementSibling);
+    else parent.appendChild(item);
+
+    return;
+  }
+
+  throw ReferenceError(
+    "target item does not have a parent, therefore can not be insert after."
+  );
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Utils/insertElementBefore.js
+/**
+ * insert an element before a given target element
+ * @param {HTMLElement} target element to insert before.
+ * @param {HTMLElement} item item to insert.
+ */
+function insertElementBefore(target, item) {
+  const parent = target.parentElement;
+
+  if (parent) {
+    parent.insertBefore(item, target);
+    return;
+  }
+
+  throw ReferenceError(
+    `target item (${target.constructor.name}) does not have a parent, therefore can not be insert before.`
+  );
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Utils.js
+
+
+
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveSystem/SavableObjects.js
+let _stack = [];
+/**
+ * A stack that store objects needed to be saved (such as tab lists).
+ */
+class SavableObjects {
+  static add(saveable) {
+    _stack.push(saveable);
+  }
+
+  static *[Symbol.iterator]() {
+    for (const savable of _stack) yield savable;
+  }
+
+  static clear() {
+    _stack = [];
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveSystem/ObjectLoader.js
+
+
+
+
+class ObjectLoader {
+  //for fuck sakes, js do not allow static const. god i hate this.
+  static get _parseByType() {
+    return parseByTypeHandlers;
+  }
+
+  static parse(savableObjectJSON) {
+    this._parseByType[savableObjectJSON.type](savableObjectJSON);
+  }
+}
+
+//init
+const parseByTypeHandlers = [];
+parseByTypeHandlers[Type.TAB_LIST] = _parseTabList;
+
+function _parseTabList(tabListJSON) {
+  TabList_TabList.FromJSON(listContainer, tabListJSON);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveSystem/ChangesDetector.js
+let _changed = false;
+const _listenersData = {
+  onChange: [],
+  onSave: [],
+};
+
+/**
+ * Class that detects changes and dispatches events related to changes.
+ */
+class ChangesDetector {
+  static haveChangesBeenMade() {
+    return _changed;
+  }
+
+  /**
+   * Add listener, called when things have changed.
+   * @param {"onChange" | "onSave"} type the event type.
+   * @param {function} listener the function/method to call to
+   * @param {object | null} thisArg the object to call method from (null if is a function)
+   */
+  static addEventListener(type, listener, thisArg, ...args) {
+    _listenersData[type].push({
+      listener,
+      thisArg,
+      args,
+    });
+  }
+
+  static _dispatchEvent(type) {
+    const listenersData = _listenersData[type];
+    //callback
+    for (const { listener, thisArg, args } of listenersData) {
+      listener.apply(thisArg, args);
+    }
+  }
+
+  /**
+   * call to inform that changes have been made.
+   * dispatch "onChange" event only if changes have not been made before.
+   */
+  static detected() {
+    //only call once.
+    if (_changed) return;
+
+    _changed = true;
+
+    ChangesDetector._dispatchEvent("onChange");
+  }
+
+  /**
+   * call to inform that changes have been saved.
+   * dispatch "onSave" event.
+   */
+  static resetState() {
+    _changed = false;
+
+    ChangesDetector._dispatchEvent("onSave");
+  }
+
+  static isKeyCauseChanges(key) {
+    if (
+      key === "Control" ||
+      key === "Shift" ||
+      key === "Enter" ||
+      key === "Alt" ||
+      key === "Tab" ||
+      key === "CapsLock" ||
+      key === "ArrowUp" ||
+      key === "ArrowDown" ||
+      key === "ArrowLeft" ||
+      key === "ArrowRight"
+    )
+      return false;
+
+    return true;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveSystem/LocalStorage.js
+
+
+
+
+const storage = window.localStorage;
+
+class LocalStorage_LocalStorage {
+  /**
+   * save changes.
+   * @returns {boolean} returns true if changes are saved. false if there are no changes or failed to save.
+   */
+  static save() {
+    //if nothing has changed, do nothing.
+    if (!ChangesDetector.haveChangesBeenMade()) return false;
+
+    let id = 0;
+    for (const savable of SavableObjects) {
+      //for some fucking reason, numbers (or number strings) as key do not work properly.
+      storage.setItem(`+${id}`, savable.stringify());
+      id++;
+    }
+
+    //things are now unchanged.
+    ChangesDetector.resetState();
+
+    return true;
+  }
+
+  static load() {
+    const savableObjectsData = getSavableObjectsData();
+
+    this._removeCurrentlyRunningObjects();
+    SavableObjects.clear();
+
+    for (const data of savableObjectsData) {
+      ObjectLoader.parse(data);
+    }
+  }
+
+  static _clear() {
+    storage.clear();
+  }
+
+  static _removeCurrentlyRunningObjects() {
+    for (const savable of SavableObjects) {
+      savable.remove();
+    }
+  }
+}
+
+//
+function getSavableObjectsData() {
+  const savableObjectsData = [];
+  for (let i = 0; i < storage.length; i++) {
+    //get data
+    const key = storage.key(i);
+    savableObjectsData.push(JSON.parse(storage.getItem(key)));
+  }
+  return savableObjectsData;
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveSystem.js
+
+
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/MinimizeButton/Init/addEventListeners.js
+function addEventListeners(minimizeButton) {
+  minimizeButton.addEventListener("click", toggleMinimization);
+
+  minimizeButton.addEventListener("mouseover", () =>
+    minimizeButton.toggleText()
+  );
+
+  minimizeButton.addEventListener("mouseout", () =>
+    minimizeButton.toggleText()
+  );
+}
+
+function toggleMinimization() {
+  this.getOwner().toggleMinimization();
+  this.updateText();
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/MinimizeButton/Init/addFunctionalities.js
+function addFunctionalities(minimizeButton) {
+  minimizeButton.getOwner = function () {
+    return this._owner;
+  };
+
+  minimizeButton.toggleText = function () {
+    if (this.textContent) this.textContent = "";
+    else minimizeButton.updateText();
+  };
+
+  minimizeButton.updateText = function () {
+    const minimized = this.getOwner().isMinimized();
+
+    this.textContent = minimized ? "maximize" : "minimize";
+  };
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/MinimizeButton/Init.js
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/MinimizeButton.js
+
+
+class MinimizeButton_MinimizeButton {
+  static Create(tabList) {
+    const button = document.createElement("div", "");
+
+    button.classList.add("list__minimize-button");
+    button._owner = tabList;
+    button._minimize = false;
+
+    addFunctionalities(button);
+    addEventListeners(button);
+
+    return button;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/ItemContainer.js
+
+
+class ItemContainer_ItemContainer {
+  static Create(tabList) {
+    const itemContainer = createElement("div", "list__item-wrapper");
+
+    return itemContainer;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Title/Init/addEventListeners.js
+
+
+function addEventListeners_addEventListeners(title, tabList) {
+  title.addEventListener("keydown", (e) => {
+    detectChanges(e);
+
+    if (e.key === "ArrowDown" || e.key === "Enter") {
+      e.preventDefault();
+      focusOnFirstItem(tabList);
+    }
+  });
+
+  trimContentWhenBlur(title);
+}
+
+function focusOnFirstItem(tabList) {
+  if (tabList.getItemCount() === 0) tabList.getFutureItem().focus();
+  else tabList.getItems()[0].getContentElem().focus();
+}
+
+function detectChanges(e) {
+  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+}
+
+function trimContentWhenBlur(title) {
+  title.addEventListener("blur", () => {
+    title.textContent = title.textContent.trim();
+  });
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Title/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Title.js
+
+
+
+class Title_Title {
+  static Create(tabList, titleName = "Title") {
+    const title = document.createElement("div");
+    title.className = "list__title";
+    title.textContent = titleName;
+
+    makeElementEditable(title);
+
+    addEventListeners_addEventListeners(title, tabList);
+
+    return title;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/FutureItem/Init/addEventListeners.js
+
+
+function Init_addEventListeners_addEventListeners(tabList, futureItem) {
+  futureItem.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") focusOnPreviousElem(tabList);
+    if (e.key !== "Enter") return;
+
+    //prevent line-break
+    e.preventDefault();
+
+    futureItem.textContent = futureItem.textContent.trim();
+    newItemIfNotEmpty(tabList);
+  });
+
+  futureItem.addEventListener("blur", () => {
+    futureItem.textContent = futureItem.textContent.trim();
+  });
+}
+
+function focusOnPreviousElem(tabList) {
+  const itemCount = tabList.getItemCount();
+  if (itemCount) tabList.getItems()[itemCount - 1].getContentElem().focus();
+  else tabList.getTitle().focus();
+}
+
+function newItemIfNotEmpty(tabList) {
+  const futureItem = tabList.getFutureItem();
+
+  if (!futureItem.textContent.length) return;
+
+  ChangesDetector.detected();
+
+  //transfer text to newly created item and append.
+  tabList.newItem(futureItem.textContent);
+  futureItem.textContent = "";
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/FutureItem/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/FutureItem.js
+
+
+
+class FutureItem_FutureItem {
+  static Create(tabList) {
+    const futureItem = createElement("div", "list__item list__item--add-more");
+    makeElementEditable(futureItem);
+
+    Init_addEventListeners_addEventListeners(tabList, futureItem);
+
+    return futureItem;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/Init/addFunctionalities.js
+
+
+function addFunctionalities_addFunctionalities(item) {
+  item.setOrderNumber = function (orderNumber) {
+    if (orderNumber === 0) this._order.textContent = "";
+    else this._order.textContent = orderNumber + ".";
+    this._orderNumber = orderNumber;
+  };
+
+  /**
+   * return it's parent (the list that contain itself)
+   */
+  item.getOwner = function () {
+    return this._owner;
+  };
+
+  item.getOrderNumber = function () {
+    return this._orderNumber;
+  };
+
+  item.getContentElem = function () {
+    return this._contentBox;
+  };
+
+  item.getURL = function () {
+    if (this._contentBox.textContent.startsWith("https://"))
+      return this._contentBox.textContent;
+    else return `https://${this._contentBox.textContent}`;
+  };
+
+  item.getContent = function () {
+    return this._contentBox.textContent;
+  };
+
+  item.next = function () {
+    const nextItem = this.nextElementSibling;
+    if (this._isValidItem(nextItem)) return nextItem;
+    return null;
+  };
+
+  item.prev = function () {
+    const prevItem = this.previousElementSibling;
+    if (this._isValidItem(prevItem)) return prevItem;
+    return null;
+  };
+
+  item._isValidItem = function (item) {
+    if (!item || item._type !== Type.TAB_LIST_ITEM) return false;
+    return true;
+  };
+
+  item.setClickable = function (state) {
+    const contentClassList = this._contentBox.classList;
+
+    if (state) {
+      this._clickable = true;
+      contentClassList.add("--clickable");
+      return;
+    }
+
+    this._clickable = false;
+    if (contentClassList.contains("--clickable"))
+      contentClassList.remove("--clickable");
+  };
+
+  item.isClickable = function () {
+    return this._clickable;
+  };
+
+  item.toggleURLHeaderTitleBox = function () {
+    this._titleBox.classList.toggle("--collapse");
+  };
+
+  item.updateTitleBox = function () {
+    this._titleBox.updateTitle();
+  };
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/Init/addEventListeners.js
+
+
+
+// GLOBAL VARIABLE USED FOR ALL ITEMS
+let draggedItem = null;
+
+function Item_Init_addEventListeners_addEventListeners(item) {
+  const contentBox = item.getContentElem();
+
+  contentBox.addEventListener("keydown", (e) => {
+    addEventListeners_detectChanges(e);
+    doThingsWhenCertainKeysIsPressed(e, item);
+  });
+
+  contentBox.addEventListener("focus", () => showButtons(item));
+
+  contentBox.addEventListener("blur", () => cleanUp(item));
+
+  contentBox.addEventListener("click", () => openLinkInNewTabIfClickable(item));
+
+  item.addEventListener("dragstart", (e) => showDraggingEffect(e, item));
+
+  item.addEventListener("dragover", (e) => moveItemAway(e, item));
+
+  item.addEventListener("dragend", removeDraggingEffect);
+
+  item.addEventListener("mouseenter", (e) => {
+    item._mouseOver = true;
+    item.toggleURLHeaderTitleBox();
+  });
+  item.addEventListener("mouseleave", () => {
+    item._mouseOver = false;
+    item.setClickable(false);
+    item.toggleURLHeaderTitleBox();
+  });
+
+  document.addEventListener("keydown", (e) => clickableWhenCtrl(e, item));
+  document.addEventListener("keyup", (e) =>
+    notClickableWhenReleaseCtrl(e, item)
+  );
+}
+
+//KEY DOWN EVENTS
+function doThingsWhenCertainKeysIsPressed(e, item) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    focusOnNextItemOf(item);
+    item.updateTitleBox();
+  }
+
+  if (e.altKey && e.code === "ArrowUp") {
+    putItemOnTopOf(item.prev(), item);
+    item.getContentElem().focus();
+  }
+
+  if (e.altKey && e.code === "ArrowDown") {
+    putItemOnBottomOf(item.next(), item);
+    item.getContentElem().focus();
+  }
+
+  if (!e.altKey && e.code === "ArrowUp") focusOnPrevItemOf(item);
+  if (!e.altKey && e.code === "ArrowDown") focusOnNextItemOf(item);
+}
+
+function addEventListeners_detectChanges(e) {
+  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+}
+
+function focusOnNextItemOf(item) {
+  const nextItem = item.next();
+
+  if (nextItem) nextItem.getContentElem().focus();
+  else item.getOwner().getFutureItem().focus();
+}
+
+function focusOnPrevItemOf(item) {
+  const prevItem = item.prev();
+
+  if (prevItem) prevItem.getContentElem().focus();
+  else item.getOwner().getTitle().focus();
+}
+
+function clickableWhenCtrl(e, item) {
+  if (item._mouseOver && e.ctrlKey) item.setClickable(true);
+}
+
+function notClickableWhenReleaseCtrl(e, item) {
+  if (item._mouseOver && e.code === "ControlLeft") item.setClickable(false);
+}
+
+function openLinkInNewTabIfClickable(item) {
+  if (item.isClickable()) window.open(item.getURL());
+}
+
+function showButtons(item) {
+  item.getContentElem().toggleButtons();
+}
+
+//BLUR
+function cleanUp(item) {
+  const tabList = item.getOwner();
+  const itemContentBox = item.getContentElem();
+  itemContentBox.textContent = itemContentBox.textContent.trim();
+
+  //if item is empty, remove and focus on next item.
+  if (!itemContentBox.textContent.length) {
+    tabList.removeItem(item);
+    fixOrderNumber(tabList);
+  }
+}
+
+//DRAG EVENTS
+function showDraggingEffect(e, item) {
+  draggedItem = item;
+  item.getContentElem().classList.add("list__item-content-box--dragging");
+
+  //blank image element as "ghost" image
+  e.dataTransfer.setDragImage(document.createElement("img"), 0, 0);
+}
+
+function removeDraggingEffect() {
+  {
+    ChangesDetector.detected();
+
+    draggedItem
+      .getContentElem()
+      .classList.remove("list__item-content-box--dragging");
+    //clean up
+    draggedItem = null;
+  }
+}
+
+function moveItemAway(e, item) {
+  e.preventDefault();
+
+  //not in the same tabList
+  if (item.getOwner() !== draggedItem.getOwner()) return;
+
+  const box = item.getBoundingClientRect();
+  const offsetY = e.clientY - (box.top + box.height / 2);
+  const draggedItemIsOnTopOfItem = offsetY < 0;
+
+  if (draggedItemIsOnTopOfItem) putItemOnTopOf(item, draggedItem);
+  else putItemOnBottomOf(item, draggedItem);
+}
+
+//OTHERS
+function fixOrderNumber(tabList) {
+  const itemContainer = tabList.getItemContainer();
+  // - 1 to exclude title and future item
+  const range = itemContainer.children.length - 1;
+  for (let i = 0; i < range; i++) {
+    const item = itemContainer.children[i];
+    item.setOrderNumber(i + 1);
+  }
+}
+
+function putItemOnTopOf(target, item) {
+  if (!target || !item || target === item) return;
+
+  insertElementBefore(target, item);
+  fixOrderNumber(item.getOwner());
+}
+
+function putItemOnBottomOf(target, item) {
+  if (!target || !item || target === item) return;
+
+  insertElementAfter(target, item);
+  fixOrderNumber(item.getOwner());
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/Init.js
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox/Init/addFunctionalities.js
+function Init_addFunctionalities_addFunctionalities(titleBox) {
+  titleBox.updateTitle = async function () {
+    if (document.defaultView.origin === "null") return;
+
+    const res = await fetch(this._owner.getURL(), {
+      method: "GET",
+      mode: "cors",
+    });
+
+    if (!res.ok) return;
+
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const title = doc.querySelector("head > title");
+
+    if (title) {
+      this.textContent = title.textContent;
+      this.classList.remove("--hidden");
+    }
+  };
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/TitleBox.js
+
+
+
+class TitleBox_TitleBox {
+  static Create(item) {
+    const titleBox = createElement("div", "list__item-title-box --hidden");
+    item.append(titleBox);
+    titleBox._owner = item;
+
+    Init_addFunctionalities_addFunctionalities(titleBox);
+    titleBox.updateTitle();
+
+    return titleBox;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/ContentBox/Init/addFunctionalities.js
+function ContentBox_Init_addFunctionalities_addFunctionalities(contentBox) {
+  contentBox.toggleButtons = function () {};
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/ContentBox/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item/contentBox.js
+
+
+
+class contentBox_ContentBox {
+  static Create(item, textContent = "") {
+    const contentBox = createElement("div", "list__item-content-box");
+    makeElementEditable(contentBox);
+    contentBox._owner = item;
+
+    ContentBox_Init_addFunctionalities_addFunctionalities(contentBox);
+
+    contentBox.textContent = textContent;
+    return contentBox;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Item.js
+
+
+
+
+
+
+
+class Item_Item {
+  static Create(tabList, orderNumber, textContent = "") {
+    const item = createElement("div", "list__item");
+    insertElementBefore(tabList.getFutureItem(), item);
+
+    item.draggable = true;
+
+    item._type = Type.TAB_LIST_ITEM;
+    item._orderNumber = orderNumber;
+    item._owner = tabList;
+    item._mouseOver = false;
+    item._clickable = false;
+    // layout:
+    // <order>. <contentBox>
+    // e.g: 9. worms.com
+    item._order = createElement("div", "list__item-order");
+    item._order.textContent = orderNumber + ".";
+
+    item._contentBox = contentBox_ContentBox.Create(item, textContent);
+
+    item.appendChild(item._order);
+    item.appendChild(item._contentBox);
+
+    addFunctionalities_addFunctionalities(item);
+    Item_Init_addEventListeners_addEventListeners(item);
+
+    // THIS ONLY WORKS ONLINE SO... WASTED MY TIME FOR NOTHING.
+    item._titleBox = TitleBox_TitleBox.Create(item);
+    item._titleBox.classList.add("--collapse");
+
+    return item;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/addFunctionalities.js
+
+
+function TabList_Init_addFunctionalities_addFunctionalities(tabList) {
+  tabList.addEventListener("contextmenu", showMenu);
+
+  tabList.getItemCount = function () {
+    return this._itemCount;
+  };
+
+  tabList.removeItem = function (item) {
+    item.remove();
+    this._itemCount--;
+  };
+
+  tabList.getTitleName = function () {
+    return this._title.textContent;
+  };
+
+  tabList.getTitle = function () {
+    return this._title;
+  };
+
+  tabList.getItems = function () {
+    return Array.from(this._itemContainer.children).slice(0, this._itemCount);
+  };
+
+  tabList.getFutureItem = function () {
+    return this._futureItem;
+  };
+
+  tabList.getItemContainer = function () {
+    return this._itemContainer;
+  };
+
+  tabList.getMinimizeButton = function () {
+    return this._minimizeButton;
+  };
+
+  tabList.newItem = function (url = "") {
+    this._itemCount++;
+    const item = Item_Item.Create(this, this._itemCount, url);
+
+    return item;
+  };
+
+  tabList.toggleMinimization = function () {
+    const itemContainer = this.getItemContainer();
+    tabList._minimized = itemContainer.classList.toggle("--collapse");
+  };
+
+  tabList.isMinimized = function () {
+    return this._minimized;
+  };
+
+  tabList.stringify = function () {
+    const urls = getContentsFrom(this.getItems());
+    return JSON.stringify({
+      type: this._type,
+      settings: this._settings,
+      titleName: this.getTitleName(),
+      urls: urls,
+    });
+  };
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/newDefaultSettings.js
+function newDefaultSettings() {
+  return {};
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Menu/Option.js
+
+
+class Option_Option {
+  static NewCheckBoxOption(menu, name, checked) {
+    const option = createElement("div", "list-menu__option");
+
+    const cBox = createElement("input", "list-menu__option-box");
+    cBox.type = "checkbox";
+    cBox.checked = checked;
+
+    //apparently mousedown happened before focus.
+    //this is to make check box not on focus, so that the menu won't close.
+    cBox.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+    });
+
+    const optionName = createElement("div", "list-menu__option-name");
+    optionName.textContent = name;
+
+    option.append(cBox, optionName);
+    menu.append(option);
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Menu/Init/addOptions.js
+
+
+function addOptions(menu, options) {
+  //priority
+  const oPriority = Option_Option.NewCheckBoxOption(menu, "Priority", false);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Menu/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Menu.js
+
+
+class Menu_Menu {
+  static NewMenu(x, y, list, options) {
+    const menu = createElement("div", "menu");
+    document.body.appendChild(menu);
+
+    menu.tabIndex = 9; //random number, so that div can be focus-able.
+    menu.focus();
+
+    menu.owner = list;
+    menu.x = x;
+    menu.y = y;
+    //set position
+    menu.style.left = x + "px";
+    menu.style.top = y + "px";
+
+    addOptions(menu, options);
+
+    //outline the target list to inform the user.
+    menu.owner.style.outline = "4px solid rgba(100, 158, 180, 0.8)";
+
+    //destructor
+    menu.addEventListener("blur", (e) => {
+      document.body.removeChild(menu);
+      menu.owner.style.outline = "";
+    });
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/showMenu.js
+
+
+function showMenu(e) {
+  e.preventDefault();
+  const oldScrollX = window.scrollX;
+  const oldScrollY = window.scrollY;
+
+  Menu_Menu.NewMenu(e.clientX + oldScrollX, e.clientY + oldScrollY, this);
+
+  //keep scroll at old position after creating menu.
+  window.scrollTo(oldScrollX, oldScrollY);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/initProperties.js
+
+
+
+function initProperties(tabList) {
+  tabList._type = Type.TAB_LIST;
+  tabList._itemCount = 0;
+  tabList._settings = newDefaultSettings();
+  tabList._minimizeButton = MinimizeButton_MinimizeButton.Create(tabList);
+  tabList._itemContainer = ItemContainer_ItemContainer.Create(tabList);
+  //for some reason using 'title' as variable name results in undefined value.
+  tabList._title = Title_Title.Create(tabList);
+  tabList._futureItem = FutureItem_FutureItem.Create(tabList);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/assembleComponentsAndAppend.js
+function assembleComponentsAndAppend(tabList, appendTarget) {
+  const itemContainer = tabList.getItemContainer();
+  itemContainer.append(tabList.getFutureItem());
+
+  tabList.append(
+    tabList.getMinimizeButton(),
+    tabList.getTitle(),
+    itemContainer
+  );
+  appendTarget.appendChild(tabList);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/initPropertiesFromJSON.js
+
+
+
+function initPropertiesFromJSON(tabList, tabListJSON) {
+  tabList._type = Type.TAB_LIST;
+  tabList._itemCount = 0;
+  tabList._settings = tabListJSON.settings;
+  tabList._minimizeButton = MinimizeButton_MinimizeButton.Create(tabList);
+  tabList._itemContainer = ItemContainer_ItemContainer.Create(tabList);
+  //for some reason using 'title' as variable name results in undefined value.
+  tabList._title = Title_Title.Create(tabList, tabListJSON.titleName);
+  tabList._futureItem = FutureItem_FutureItem.Create(tabList);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/addItemsToTabListFromURLs.js
+function addItemsToTabListFromURLs(tabList, urls) {
+  for (const url of urls) {
+    tabList.newItem(url);
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init/getContentsFrom.js
+function getContentsFrom(items) {
+  const urls = [];
+
+  for (const item of items) {
+    const url = item.getContent();
+    if (url) urls.push(url);
+  }
+  return urls;
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList/Init.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/TabList.js
+
+
+
+
+class TabList_TabList {
+  static _createTabListElement() {
+    return createElement("div", "list --tab-list-un-minimize-animation");
+  }
+
+  static Create(appendTarget) {
+    ChangesDetector.detected();
+    const tabList = TabList_TabList._createTabListElement();
+    SavableObjects.add(tabList);
+
+    TabList_Init_addFunctionalities_addFunctionalities(tabList);
+    initProperties(tabList);
+    assembleComponentsAndAppend(tabList, appendTarget);
+
+    return tabList;
+  }
+
+  static FromJSON(appendTarget, tabListJSON) {
+    const tabList = TabList_TabList._createTabListElement();
+    SavableObjects.add(tabList);
+
+    TabList_Init_addFunctionalities_addFunctionalities(tabList);
+    initPropertiesFromJSON(tabList, tabListJSON);
+    assembleComponentsAndAppend(tabList, appendTarget);
+    addItemsToTabListFromURLs(tabList, tabListJSON.urls);
+
+    return tabList;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/NewTabListButton/Init/addEventListeners.js
+
+
+
+function NewTabListButton_Init_addEventListeners_addEventListeners(addListButton) {
+  addListButton.addEventListener("click", createNewTabList);
+}
+
+function createNewTabList() {
+  const tabList = TabList_TabList.Create(listContainer);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/NewTabListButton/Init.js
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/NewTabListButton.js
+
+
+class NewTabListButton_NewTabListButton {
+  /**
+   * create new "add new list" button.
+   * @param {HTMLElement} appendTarget append to given target (default: null).
+   */
+  static Create(appendTarget = null) {
+    const addListButton = document.createElement("button");
+
+    if (appendTarget) appendTarget.appendChild(addListButton);
+
+    addListButton.className = "btn btn--padding";
+    addListButton.textContent = "Add new list";
+    addListButton._listsElem = addListButton.previousElementSibling;
+
+    NewTabListButton_Init_addEventListeners_addEventListeners(addListButton);
+
+    return addListButton;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Events/saveWhenCtrlS.js
+
+/**
+ *
+ * @param {KeyboardEvent} e
+ */
+function saveWhenCtrlS() {
+  document.body.addEventListener("keydown", (e) => {
+    if (e.shiftKey || e.altKey) return;
+    if (!e.ctrlKey || (e.key !== "s" && e.key !== "S")) return;
+    e.preventDefault();
+    LocalStorage_LocalStorage.save();
+  });
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Events/saveEveryTenSec.js
+
+
+function saveEveryTenSec() {
+  setTimeout(function repeat() {
+    LocalStorage_LocalStorage.save();
+    setTimeout(repeat, 10000);
+  }, 10000);
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/Events.js
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveButton/Init/addFunctionalities.js
+/**
+ *
+ * @param {HTMLImageElement} saveButton
+ */
+
+function SaveButton_Init_addFunctionalities_addFunctionalities(saveButton) {
+  /**
+   * toggle gray scale for image.
+   * @param {boolean} state turn on or off grayScale (true/false)
+   */
+  saveButton.toggleGrayScale = function (state) {
+    // DEBUG
+    saveButton.classList.remove("--gray-scale");
+
+    if (state) saveButton.classList.add("--gray-scale");
+    else saveButton.classList.remove("--gray-scale");
+  };
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveButton/Init/addEventListeners.js
+
+
+function SaveButton_Init_addEventListeners_addEventListeners(saveButton) {
+  ChangesDetector.addEventListener(
+    "onChange",
+    saveButton.toggleGrayScale,
+    saveButton,
+    false
+  );
+
+  //when saved, remove gray scale.
+  ChangesDetector.addEventListener(
+    "onSave",
+    saveButton.toggleGrayScale,
+    saveButton,
+    true
+  );
+
+  saveButton.addEventListener("click", () => {
+    if (!ChangesDetector.haveChangesBeenMade()) return;
+
+    LocalStorage_LocalStorage.save();
+  });
+}
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveButton/Init.js
+
+
+
+// CONCATENATED MODULE: ./dev/scripts/core/SaveButton.js
+
+
+class SaveButton_SaveButton {
+  /** make existing <img/> tag into a save button.
+   *  @param {HTMLImageElement} elem
+   */
+  static FromExistingElem(elem) {
+    elem.classList.add("--gray-scale");
+
+    SaveButton_Init_addFunctionalities_addFunctionalities(elem);
+    SaveButton_Init_addEventListeners_addEventListeners(elem);
+    return elem;
+  }
+}
+
+// CONCATENATED MODULE: ./dev/scripts/main.js
+
+
+
+
+
+//BASIC FUNCTIONALITIES.
+saveWhenCtrlS();
+saveEveryTenSec();
+
+//MAIN COMPONENTS.
+const main_saveButton = SaveButton_SaveButton.FromExistingElem(
+  document.querySelector(".save-btn")
+);
+const tabListSection = document.querySelector(".tab-list-section");
+const listContainer = document.querySelector(".list-container");
+const main_addListButton = NewTabListButton_NewTabListButton.Create(tabListSection);
+
+//LOAD PREVIOUSLY SAVED OBJECTS.
+
+LocalStorage_LocalStorage.load();
+
+
+/***/ })
+/******/ ]);

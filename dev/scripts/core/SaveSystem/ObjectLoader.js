@@ -1,4 +1,4 @@
-import { Type } from "../Utils.js";
+import { Type } from "../Type.js";
 import { TabList } from "../TabList.js";
 import { listContainer } from "../../main.js";
 
@@ -15,7 +15,7 @@ export class ObjectLoader {
 
 //init
 const parseByTypeHandlers = [];
-parseByTypeHandlers[Type.TabList] = _parseTabList;
+parseByTypeHandlers[Type.TAB_LIST] = _parseTabList;
 
 function _parseTabList(tabListJSON) {
   TabList.FromJSON(listContainer, tabListJSON);

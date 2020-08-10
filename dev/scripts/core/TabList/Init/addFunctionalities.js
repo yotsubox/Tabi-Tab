@@ -1,9 +1,8 @@
-import { Type } from "../../Utils.js";
-import { Item, showMenu, getURLsFrom } from "../Init.js";
+import { Item, getContentsFrom } from "../Init.js";
+import { ChangesDetector } from "../../SaveSystem.js";
+import { SavableObjects } from "../../SaveSystem/SavableObjects.js";
 
 export function addFunctionalities(tabList) {
-  tabList.addEventListener("contextmenu", showMenu);
-
   tabList.getItemCount = function () {
     return this._itemCount;
   };
@@ -11,6 +10,7 @@ export function addFunctionalities(tabList) {
   tabList.removeItem = function (item) {
     item.remove();
     this._itemCount--;
+    this.fixOrderNumber();
   };
 
   tabList.getTitleName = function () {
@@ -38,30 +38,73 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.newItem = function (url = "") {
+    ChangesDetector.detected();
+
     this._itemCount++;
     const item = Item.Create(this, this._itemCount, url);
+
+    if (this._settings.unorderedList) item.toggleUnordered();
 
     return item;
   };
 
   tabList.toggleMinimization = function () {
-    const itemContainer = tabList.getItemContainer();
+    ChangesDetector.detected();
 
+    const itemContainer = this.getItemContainer();
     this._minimized = itemContainer.classList.toggle("--collapse");
+    this._minimizePadding.classList.toggle("--collapse");
+
+    this._settings.minimized = !this._settings.minimized;
+  };
+
+  tabList.toggleUnorderedListStyle = function () {
+    ChangesDetector.detected();
+
+    const items = this.getItems();
+    for (let i = 0; i < items.length; i++) {
+      items[i].toggleUnordered();
+    }
+
+    this._futureItem.toggleUnorderedListStyle();
+
+    this._settings.unorderedList = !this._settings.unorderedList;
   };
 
   tabList.isMinimized = function () {
     return this._minimized;
   };
 
-  tabList.stringify = function () {
-    const urls = getURLsFrom(this.getItems());
+  tabList.fixOrderNumber = function () {
+    ChangesDetector.detected();
 
+    const items = this.getItems();
+    for (let i = 0; i < items.length; i++) {
+      items[i].setOrderNumber(i + 1);
+    }
+  };
+
+  tabList.clearItems = function () {
+    ChangesDetector.detected();
+
+    this.getItems().forEach((item) => item.remove());
+    this._itemCount = 0;
+  };
+
+  tabList.remove = function () {
+    ChangesDetector.detected();
+
+    if (this.parentNode) this.parentNode.removeChild(this);
+    SavableObjects.delete(this);
+  };
+
+  tabList.stringify = function () {
+    if (tabList.getTitleName() === "" && tabList._itemCount === 0) return null;
     return JSON.stringify({
-      type: Type.TabList,
+      type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
-      urls: urls,
+      itemContents: getContentsFrom(this.getItems()),
     });
   };
 }
