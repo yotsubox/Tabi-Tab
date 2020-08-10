@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "compile": "webpack --config webpack.config.js",
-    "c-install": "npm install --save-dev webpack webpack-cli clean-webpack-plugin copy-webpack-plugin html-loader html-webpack-plugin style-loader"
+    "get-dependencies": "npm install --save-dev webpack webpack-cli clean-webpack-plugin copy-webpack-plugin html-loader html-webpack-plugin style-loader"
   },
   "keywords": [],
   "author": "yotsubox",
