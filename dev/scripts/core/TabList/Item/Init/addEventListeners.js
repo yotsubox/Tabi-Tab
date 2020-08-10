@@ -31,6 +31,7 @@ export function addEventListeners(item) {
     item._mouseOver = true;
     item.toggleURLHeaderTitleBox();
   });
+
   item.addEventListener("mouseleave", () => {
     item._mouseOver = false;
     item.setClickable(false);
@@ -88,7 +89,11 @@ function clickableWhenCtrl(e, item) {
 }
 
 function notClickableWhenReleaseCtrl(e, item) {
-  if (item._mouseOver && e.code === "ControlLeft") item.setClickable(false);
+  if (
+    item._mouseOver &&
+    (e.code === "ControlLeft" || e.code === "ControlRight")
+  )
+    item.setClickable(false);
 }
 
 function openLinkInNewTabIfClickable(item) {
@@ -119,7 +124,7 @@ function removeDraggingEffect() {
     draggedItem
       .getContentBox()
       .classList.remove("list__item-content-box--dragging");
-    //clean up
+
     draggedItem = null;
   }
 }
@@ -139,7 +144,6 @@ function moveItemAway(e, item) {
 }
 
 //OTHERS
-
 function putItemOnTopOf(target, item) {
   if (!target || !item || target === item) return;
 

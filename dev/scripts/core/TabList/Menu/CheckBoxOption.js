@@ -33,11 +33,21 @@ function addFunctionalities(option) {
 }
 
 function addEventListeners(option) {
+  const checkbox = option._checkBox;
+
   //apparently mousedown happened before focus.
   //this is to make check box not on focus, so that the menu won't close.
-  option._checkBox.addEventListener("mousedown", (e) => {
+  option.addEventListener("mousedown", (e) => {
     e.preventDefault();
   });
 
-  option._checkBox.addEventListener("click", () => option._dispatchEvent());
+  option.addEventListener("click", () => {
+    option._dispatchEvent();
+    checkbox.checked = !checkbox.checked;
+  });
+
+  checkbox.addEventListener("click", (e) => {
+    //unchanged checkbox checked state (since option click event already handle that)
+    checkbox.checked = !checkbox.checked;
+  });
 }

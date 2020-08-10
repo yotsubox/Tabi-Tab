@@ -29,4 +29,5 @@ function initProperties(menu, tabList) {
 
 function addEventListener(menu) {
   menu.addEventListener("blur", menu.hide);
+  menu.addEventListener("contextmenu", (e) => e.preventDefault());
 }
