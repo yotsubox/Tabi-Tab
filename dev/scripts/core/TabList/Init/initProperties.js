@@ -6,6 +6,7 @@ import {
   MinimizePadding,
   MinimizeButton,
   newDefaultSettings,
+  decorate,
 } from "../Init.js";
 import { Type } from "../../Type.js";
 
@@ -13,6 +14,7 @@ export function initProperties(tabList) {
   tabList._unorderedList = false;
   tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;
+  tabList._decoration = decorate(tabList);
   tabList._settings = newDefaultSettings();
   tabList._minimizeButton = MinimizeButton.Create(tabList);
   tabList._minimizePadding = MinimizePadding.Create();

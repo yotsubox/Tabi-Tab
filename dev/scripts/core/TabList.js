@@ -3,6 +3,7 @@ import { SavableObjects, ChangesDetector } from "./SaveSystem.js";
 import {
   addFunctionalities,
   addEventListeners,
+  decorate,
   initProperties,
   initPropertiesFromJSON,
   addItemsToTabListFromItemContents,
@@ -11,7 +12,7 @@ import {
 
 export class TabList {
   static _createTabListElement() {
-    return createElement("div", "list --tab-list-un-minimize-animation");
+    return createElement("div", "list");
   }
   static Create(appendTarget) {
     ChangesDetector.detected();
@@ -23,6 +24,7 @@ export class TabList {
     initProperties(tabList);
     assembleComponentsAndAppend(tabList, appendTarget);
 
+    tabList._decoration.margin.updateHeight();
     return tabList;
   }
 
@@ -34,9 +36,11 @@ export class TabList {
     addEventListeners(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
     assembleComponentsAndAppend(tabList, appendTarget);
+
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
     executeOptions(tabList, tabList._settings);
 
+    tabList._decoration.margin.updateHeight();
     return tabList;
   }
 }

@@ -1,5 +1,6 @@
 :root {
   --default-font-family: "Pangolin", "Times New Roman", Times, serif;
+  --list-margin-default-background-color: #d63f3f;
   --list-default-background-color: white;
   --list__item-order-min-width: 4rem;
   --list__item-order-padding-right: 0.2rem;
@@ -11,6 +12,7 @@
   --default-focus-outline-color: rgb(133, 158, 180);
   --list__item-btn-size: 20px;
   --list__item-btn-left-margin: 10px;
+  --list-default-max-width: 900px;
 
   --list__item-btn-count: 2;
 }
@@ -46,8 +48,18 @@ body {
   max-height: 2rem;
 }
 
-.btn--padding {
-  margin-right: 2em;
+.new-list-btn {
+  font-family: var(--default-font-family);
+  font-style: italic;
+  font-size: 1.2rem;
+  text-align: center;
+
+  max-width: var(--list-default-max-width);
+  background-color: var(--list-default-background-color);
+  padding: 0.2rem;
+  outline: #0000007a 2px dashed;
+  box-sizing: border-box;
+  box-shadow: var(--gray-box-shadow);
 }
 
 /* TAB LIST */
@@ -66,15 +78,32 @@ body {
 }
 
 .list {
-  max-width: 900px;
-  background-color: var(--list-default-background-color);
+  max-width: var(--list-default-max-width);
+  position: relative;
   box-shadow: var(--gray-box-shadow);
   display: block;
   margin-bottom: 1em;
+  background-color: var(--list-default-background-color);
+  background: repeating-linear-gradient(
+    180deg,
+    #5454af4d,
+    #5454af4d 0.5px,
+    var(--list-default-background-color) 1px,
+    var(--list-default-background-color) 40px
+  );
 }
 
 .list--outline {
   outline: 4px solid rgba(100, 158, 180, 0.8);
+}
+
+.list-margin {
+  background-color: var(--list-margin-default-background-color);
+  width: 2px;
+
+  position: absolute;
+  top: 0px;
+  left: 38px;
 }
 
 .list__minimize-btn {
@@ -85,12 +114,12 @@ body {
 
   height: 1.2em;
   color: rgba(0, 0, 0, 0.5);
-  background-color: var(--list-default-background-color);
 }
 
 .list__minimize-padding {
   text-align: center;
   font-size: 2rem;
+  user-select: none;
 
   position: relative;
   bottom: 1rem;
@@ -99,7 +128,7 @@ body {
 .list__title {
   font-size: 1.2em;
 
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   margin-bottom: 0.2rem;
   margin-left: var(--list__item-order-min-width);
   margin-right: var(--list__item-order-min-width);
@@ -118,6 +147,7 @@ body {
   /* background-color: yellow; */
   display: flex;
   margin-left: var(--list__item-margin-left);
+  margin-top: 0.1rem;
   position: relative;
 }
 
@@ -223,6 +253,15 @@ body {
 .list__item-content-box:focus,
 .list__title:focus {
   outline: 1px solid var(--default-focus-outline-color);
+}
+
+.new-list-btn:hover {
+  background-color: #f1fffe;
+  cursor: pointer;
+}
+
+.new-list-btn:active {
+  background-color: #e1f7f5;
 }
 
 .list-menu__option:hover:not(:focus),
