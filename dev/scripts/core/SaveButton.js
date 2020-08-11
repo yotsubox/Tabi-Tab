@@ -6,6 +6,7 @@ export class SaveButton {
    */
   static FromExistingElem(elem) {
     elem.classList.add("--gray-scale");
+    elem.classList.add("--low-opacity");
 
     addFunctionalities(elem);
     addEventListeners(elem);

@@ -3,7 +3,7 @@ import { ChangesDetector, LocalStorage } from "../../SaveSystem.js";
 export function addEventListeners(saveButton) {
   ChangesDetector.addEventListener(
     "onChange",
-    saveButton.toggleGrayScale,
+    saveButton.setSavable,
     saveButton,
     false
   );
@@ -11,7 +11,7 @@ export function addEventListeners(saveButton) {
   //when saved, remove gray scale.
   ChangesDetector.addEventListener(
     "onSave",
-    saveButton.toggleGrayScale,
+    saveButton.setSavable,
     saveButton,
     true
   );
