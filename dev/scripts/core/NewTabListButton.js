@@ -1,4 +1,5 @@
 import { addEventListeners } from "./NewTabListButton/Init.js";
+import { createElement } from "./Utils/createElement.js";
 
 export class NewTabListButton {
   /**
@@ -6,12 +7,11 @@ export class NewTabListButton {
    * @param {HTMLElement} appendTarget append to given target (default: null).
    */
   static Create(appendTarget = null) {
-    const addListButton = document.createElement("button");
+    const addListButton = createElement("div", "new-list-btn");
 
     if (appendTarget) appendTarget.appendChild(addListButton);
 
-    addListButton.className = "btn btn--padding";
-    addListButton.textContent = "Add new list";
+    addListButton.textContent = "New List";
     addListButton._listsElem = addListButton.previousElementSibling;
 
     addEventListeners(addListButton);

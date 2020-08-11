@@ -11,6 +11,7 @@ export function addFunctionalities(tabList) {
     item.remove();
     this._itemCount--;
     this.fixOrderNumber();
+    this._decoration.margin.updateHeight();
   };
 
   tabList.getTitleName = function () {
@@ -45,6 +46,7 @@ export function addFunctionalities(tabList) {
 
     if (this._settings.unorderedList) item.toggleUnordered();
 
+    this._decoration.margin.updateHeight();
     return item;
   };
 
@@ -56,6 +58,7 @@ export function addFunctionalities(tabList) {
     this._minimizePadding.classList.toggle("--collapse");
 
     this._settings.minimized = !this._settings.minimized;
+    this._decoration.margin.updateHeight();
   };
 
   tabList.toggleUnorderedListStyle = function () {
@@ -99,7 +102,6 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.stringify = function () {
-    if (tabList.getTitleName() === "" && tabList._itemCount === 0) return null;
     return JSON.stringify({
       type: this._type,
       settings: this._settings,

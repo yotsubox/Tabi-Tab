@@ -13,3 +13,4 @@ export { assembleComponentsAndAppend } from "./Init/assembleComponentsAndAppend.
 export { initPropertiesFromJSON } from "./Init/initPropertiesFromJSON.js";
 export { addItemsToTabListFromItemContents } from "./Init/addItemsToTabListFromItemContents.js";
 export { getContentsFrom } from "./Init/getContentsFrom.js";
+export { decorate } from "./Init/decorate.js";

@@ -5,6 +5,7 @@ import {
   Title,
   MinimizeButton,
   MinimizePadding,
+  decorate,
 } from "../Init.js";
 import { Type } from "../../Type.js";
 
@@ -12,6 +13,7 @@ export function initPropertiesFromJSON(tabList, tabListJSON) {
   tabList._unorderedList = tabListJSON.settings.unorderedList;
   tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;
+  tabList._decoration = decorate(tabList);
   tabList._settings = tabListJSON.settings;
   tabList._minimizeButton = MinimizeButton.Create(tabList);
   tabList._minimizePadding = MinimizePadding.Create();
