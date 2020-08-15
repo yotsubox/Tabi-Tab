@@ -29,13 +29,19 @@ function addText(infoForm) {
     "Made by Yotsubox (2020)"
   );
 
-  const instruction = createElementWithTextContent(
+  const instructions = createElementWithTextContent(
     "pre",
     "",
-    "To change background:\n1. Go to ./dev/images.\n2. Replace content of 'bg.png' with your desire image.\n3. Recompile."
+    "Tab List:\n" +
+      " + 'Right click' to open menu.\n\n" +
+      "When edit item:\n" +
+      " + 'Up/down arrow' to edit previous/next item.\n" +
+      " + 'Alt + Up/down arrow' to move item.\n" +
+      " + 'Hold Ctrl + left click' to open link in new tab.\n\n" +
+      "To change background:\n 1. Go to folder 'images'.\n 2. Replace content of 'bg.png' with your desire background.\n 3. restart Tabi Tab."
   );
 
-  infoForm.append(webAppName, authorText, instruction);
+  infoForm.append(webAppName, authorText, instructions);
 }
 
 function createElementWithTextContent(tagName, className, textContent) {

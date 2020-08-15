@@ -3,12 +3,16 @@ import { LocalStorage } from "./core/SaveSystem.js";
 import { saveWhenCtrlS, saveEveryTenSec } from "./core/Events.js";
 import { SaveButton } from "./core/SaveButton.js";
 import { InfoButton } from "./core/InfoButton.js";
+import { Background } from "./core/BackGround.js";
 
 //BASIC FUNCTIONALITIES.
 saveWhenCtrlS();
 saveEveryTenSec();
 
 //MAIN COMPONENTS.
+export const background = Background.FromExistingElem(
+  document.querySelector(".--background")
+);
 export const saveButton = SaveButton.FromExistingElem(
   document.querySelector(".save-btn")
 );
