@@ -13,4 +13,9 @@ export function addFunctionalities(minimizeButton) {
 
     this.textContent = minimized ? "maximize" : "minimize";
   };
+
+  minimizeButton.toggleMinimization = function () {
+    this.getOwner().toggleMinimization();
+    this.updateText();
+  };
 }

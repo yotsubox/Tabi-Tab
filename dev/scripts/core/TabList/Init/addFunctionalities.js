@@ -54,7 +54,7 @@ export function addFunctionalities(tabList) {
     ChangesDetector.detected();
 
     const itemContainer = this.getItemContainer();
-    this._minimized = itemContainer.classList.toggle("--collapse");
+    itemContainer.classList.toggle("--collapse");
     this._minimizePadding.classList.toggle("--collapse");
 
     this._settings.minimized = !this._settings.minimized;
@@ -75,7 +75,7 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.isMinimized = function () {
-    return this._minimized;
+    return this._settings.minimized;
   };
 
   tabList.fixOrderNumber = function () {

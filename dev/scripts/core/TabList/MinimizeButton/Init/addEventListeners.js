@@ -1,5 +1,10 @@
+import { background } from "../../../../main.js";
+
 export function addEventListeners(minimizeButton) {
-  minimizeButton.addEventListener("click", toggleMinimization);
+  minimizeButton.addEventListener("click", () => {
+    minimizeButton.toggleMinimization();
+    background.updatePosition();
+  });
 
   minimizeButton.addEventListener("mouseover", () =>
     minimizeButton.toggleText()
@@ -8,9 +13,4 @@ export function addEventListeners(minimizeButton) {
   minimizeButton.addEventListener("mouseout", () =>
     minimizeButton.toggleText()
   );
-}
-
-function toggleMinimization() {
-  this.getOwner().toggleMinimization();
-  this.updateText();
 }
