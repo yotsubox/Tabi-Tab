@@ -1,7 +1,5 @@
 export class Background {
   static FromExistingElem(background) {
-    background.style.width = window.screen.width + "px";
-
     const bgStyle = getComputedStyle(background);
     background._height = parseFloat(bgStyle.height);
     background._movableHeight = background._height - window.innerHeight;
