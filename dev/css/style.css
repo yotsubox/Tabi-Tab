@@ -9,7 +9,7 @@
   --list__item-margin-left: 1.2rem;
   --list__item-margin-right: 4rem;
   --list__item-wrapper-margin-left: 1rem;
-  --default-focus-outline-color: rgb(133, 158, 180);
+  --default-focus-outline-color: #618cb1;
   --list__item-btn-size: 20px;
   --list__item-btn-left-margin: 10px;
   --list-default-max-width: 900px;
@@ -121,7 +121,7 @@ body {
 }
 
 .list--outline {
-  outline: 4px solid rgba(100, 158, 180, 0.8);
+  outline: 4px solid #88acf8d2;
 }
 
 .list-margin {
@@ -280,26 +280,33 @@ body {
 .list__item-content-box:focus,
 .list__title:focus {
   outline: 1.5px solid var(--default-focus-outline-color);
+  background-color: var(--list-default-background-color);
 }
 
-.new-list-btn:hover {
+.new-list-btn:hover,
+.list-menu__option:hover {
   background-color: #e6f5f4;
   cursor: pointer;
 }
 
-.new-list-btn:active {
-  background-color: #caeeeb;
+.list__minimize-btn:hover {
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
-.list-menu__option:hover:not(:focus),
 .list__future-item:hover:not(:focus),
 .list__item-content-box:hover:not(:focus):not(.list__item-content-box--dragging),
 .list__title:hover:not(:focus) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.list__minimize-btn:hover {
-  background-color: rgba(0, 0, 0, 0.02);
+.info-btn:hover,
+.save-btn:hover:not(.--gray-scale) {
+  filter: brightness(1.2);
+}
+
+.new-list-btn:active,
+.list-menu__option:active {
+  background-color: #d9f7f4;
 }
 
 /* ANIMATION */

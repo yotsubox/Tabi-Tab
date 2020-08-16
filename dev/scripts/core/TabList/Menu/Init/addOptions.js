@@ -26,6 +26,7 @@ function addClearListButton(menu) {
 
   clearListButton.addListener(() => {
     menu.getOwner().clearItems();
+    menu.blur();
   });
 
   menu.appendChild(clearListButton);
@@ -37,6 +38,7 @@ function addDeleteListButton(menu) {
 
   deleteListButton.addListener(() => {
     menu.getOwner().remove();
+    menu.remove();
   });
 
   menu.appendChild(deleteListButton);
