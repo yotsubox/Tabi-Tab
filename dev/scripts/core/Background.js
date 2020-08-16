@@ -2,7 +2,8 @@ export class Background {
   static FromExistingElem(background) {
     const bgStyle = getComputedStyle(background);
     background._height = parseFloat(bgStyle.height);
-    background._movableHeight = background._height - window.innerHeight;
+    background._movableHeight =
+      background._height - window.innerHeight / window.devicePixelRatio;
 
     addFunctionalities(background);
     if (background._movableHeight > 0) moveBackgroundWhenScroll(background);
@@ -13,13 +14,20 @@ export class Background {
 
 function addFunctionalities(background) {
   background.updatePosition = function () {
+    const bgStyle = getComputedStyle(background);
+    background._height = parseFloat(bgStyle.height);
+    background._movableHeight = background._height - window.innerHeight;
+
     const scrollHeight = document.body.scrollHeight;
-    if (scrollHeight < background.height) background._moveByPosition();
+    const maxScrollY =
+      scrollHeight - window.innerHeight / window.devicePixelRatio;
+
+    if (maxScrollY < background._movableHeight) background._moveByPosition();
     else background._moveByRatio();
   };
 
   background._moveByPosition = function () {
-    this.style.top = -scrollY + "px";
+    this.style.top = -window.scrollY + "px";
   };
 
   background._moveByRatio = function () {
@@ -27,10 +35,13 @@ function addFunctionalities(background) {
     const scrollY = window.scrollY;
     const movableHeight = background._movableHeight;
 
-    const EndOfScrollRatio =
+    const maxScrollY =
       scrollHeight - window.innerHeight / window.devicePixelRatio;
+    const EndOfScrollRatio = -scrollY / maxScrollY;
 
-    background.style.top = (-scrollY / EndOfScrollRatio) * movableHeight + "px";
+    console.log(EndOfScrollRatio);
+
+    background.style.top = EndOfScrollRatio * movableHeight + "px";
   };
 }
 

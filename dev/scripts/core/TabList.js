@@ -3,7 +3,6 @@ import { SavableObjects, ChangesDetector } from "./SaveSystem.js";
 import {
   addFunctionalities,
   addEventListeners,
-  decorate,
   initProperties,
   initPropertiesFromJSON,
   addItemsToTabListFromItemContents,

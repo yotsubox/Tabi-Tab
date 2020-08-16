@@ -6,8 +6,8 @@ export function addEventListeners(title, tabList) {
 
     if (e.key === "ArrowDown" || e.key === "Enter") {
       e.preventDefault();
-      if (tabList.isMinimized()) title.blur();
-      else focusOnFirstItem(tabList);
+      if (tabList.isMinimized() && e.key === "Enter") title.blur();
+      else if (!tabList.isMinimized()) focusOnFirstItem(tabList);
     }
   });
 

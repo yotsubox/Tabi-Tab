@@ -38,7 +38,7 @@ function addDeleteListButton(menu) {
 
   deleteListButton.addListener(() => {
     menu.getOwner().remove();
-    menu.remove();
+    menu.blur();
   });
 
   menu.appendChild(deleteListButton);

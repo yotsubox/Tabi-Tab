@@ -29,13 +29,11 @@ export function addEventListeners(item) {
 
   item.addEventListener("mouseenter", (e) => {
     item._mouseOver = true;
-    item.toggleURLHeaderTitleBox();
   });
 
   item.addEventListener("mouseleave", () => {
     item._mouseOver = false;
     item.setClickable(false);
-    item.toggleURLHeaderTitleBox();
   });
 
   document.addEventListener("keydown", (e) => clickableWhenCtrl(e, item));
@@ -49,7 +47,6 @@ function doThingsWhenCertainKeysIsPressed(e, item) {
   if (e.key === "Enter") {
     e.preventDefault();
     focusOnNextItemOf(item);
-    item.updateTitleBox();
   }
 
   if (e.altKey && e.code === "ArrowUp") {
