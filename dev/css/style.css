@@ -18,7 +18,7 @@
 }
 
 body {
-  background-color: rgb(199, 207, 214);
+  background-color: #c7cfd6;
   color: black;
   margin: 0;
   width: 100%;
@@ -49,6 +49,7 @@ body {
 .header__item {
   margin-top: 0.5rem;
   margin-left: 0.7rem;
+  user-select: none;
 }
 
 .header__title {
@@ -78,7 +79,6 @@ body {
 
 .new-list-btn {
   font-family: var(--default-font-family);
-  font-style: italic;
   font-size: 1.2rem;
   text-align: center;
 
@@ -87,6 +87,7 @@ body {
   padding: 0.2rem;
   box-sizing: border-box;
   box-shadow: var(--gray-box-shadow);
+  border-radius: 1.4%;
 }
 
 /* TAB LIST */
@@ -94,6 +95,7 @@ body {
   margin-top: 7%;
   margin-bottom: 7%;
   margin-left: 12%;
+  margin-right: 12%;
 }
 
 .list-container {
@@ -105,7 +107,7 @@ body {
 
 .list {
   position: relative;
-  width: var(--list-default-max-width);
+  max-width: var(--list-default-max-width);
   box-shadow: var(--gray-box-shadow);
   display: block;
   margin-bottom: 1em;
@@ -114,9 +116,9 @@ body {
     180deg,
     var(--list-default-background-color) 0px 40px,
     #3c3b81 40px,
-    #3c3b81 40.8px
+    #3c3b81 40.7px
   );
-  animation: skew-in 0.4s ease forwards;
+  animation: list-animation 0.4s ease forwards;
 }
 
 .list--outline {
@@ -163,14 +165,10 @@ body {
 }
 
 .list__item-wrapper {
-  /* D */
-  /* background-color: blue; */
   margin: 0 2rem var(--list__item-wrapper-margin-left);
 }
 
 .list__item {
-  /* D */
-  /* background-color: yellow; */
   display: flex;
   margin-left: var(--list__item-margin-left);
   margin-top: 0.1rem;
@@ -185,9 +183,6 @@ body {
 }
 
 .list__item-content-box {
-  /* D */
-  /* background-color: red; */
-
   flex-grow: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -208,18 +203,6 @@ body {
   margin-left: 10px;
   max-height: var(--list__item-btn-size);
   cursor: pointer;
-}
-
-.list__item-title-box {
-  background: var(--list-default-background-color);
-
-  position: absolute;
-  padding: 0.2rem;
-  margin-left: 120px;
-  left: 100%;
-  outline: 4px solid var(--default-focus-outline-color);
-
-  white-space: nowrap;
 }
 
 .list__future-item {
@@ -279,7 +262,8 @@ body {
 .list__item-content-box:focus,
 .list__title:focus {
   outline: 1.5px solid var(--default-focus-outline-color);
-  background-color: var(--list-default-background-color);
+  background-color: #ffffffce;
+  animation: focus-animation 0.1s ease forwards;
 }
 
 .new-list-btn:hover,
@@ -320,9 +304,9 @@ body {
   }
 }
 
-@keyframes skew-in {
+@keyframes list-animation {
   0% {
-    transform: scaleX(0.1) skew(-45deg);
+    transform: scaleX(0) skew(-45deg);
   }
 
   100% {
@@ -344,6 +328,12 @@ body {
 
   85% {
     transform: rotate(2deg);
+  }
+}
+
+@keyframes focus-animation {
+  0% {
+    outline-offset: 9px;
   }
 }
 
