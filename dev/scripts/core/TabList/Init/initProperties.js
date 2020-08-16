@@ -22,5 +22,4 @@ export function initProperties(tabList) {
   //for some reason using 'title' as variable name results in undefined value.
   tabList._title = Title.Create(tabList);
   tabList._futureItem = FutureItem.Create(tabList);
-  tabList._menu = Menu.Create(tabList, tabList._settings);
 }

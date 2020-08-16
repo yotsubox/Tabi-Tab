@@ -1,11 +1,15 @@
+import { Menu } from "../Menu.js";
+
 export function addEventListeners(tabList) {
   tabList.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    showMenu(e, tabList._menu);
+    showMenu(e, tabList);
   });
 }
 
-export function showMenu(e, menu) {
+export function showMenu(e, tabList) {
+  const menu = Menu.Create(tabList, tabList._settings);
+
   const oldScrollX = window.scrollX;
   const oldScrollY = window.scrollY;
 

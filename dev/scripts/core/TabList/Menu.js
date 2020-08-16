@@ -28,6 +28,10 @@ function initProperties(menu, tabList) {
 }
 
 function addEventListener(menu) {
-  menu.addEventListener("blur", menu.hide);
+  menu.addEventListener("blur", () => {
+    menu.remove();
+    menu._owner.classList.remove("list--outline");
+  });
+
   menu.addEventListener("contextmenu", (e) => e.preventDefault());
 }
