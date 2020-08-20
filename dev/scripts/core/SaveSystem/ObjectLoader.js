@@ -18,5 +18,6 @@ const parseByTypeHandlers = [];
 parseByTypeHandlers[Type.TAB_LIST] = _parseTabList;
 
 function _parseTabList(tabListJSON) {
-  TabList.FromJSON(listContainer, tabListJSON);
+  const tabList = TabList.FromJSON(tabListJSON);
+  listContainer.appendChild(tabList);
 }

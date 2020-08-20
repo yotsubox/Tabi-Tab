@@ -74,6 +74,10 @@ export function addFunctionalities(tabList) {
     this._settings.unorderedList = !this._settings.unorderedList;
   };
 
+  tabList.runFocusAnimation = function () {
+    tabList.classList.add("list--focus-animation");
+  };
+
   tabList.isMinimized = function () {
     return this._settings.minimized;
   };
@@ -88,6 +92,7 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.clearItems = function () {
+    if (tabList.getItemCount() === 0) return;
     ChangesDetector.detected();
 
     this.getItems().forEach((item) => item.remove());
@@ -96,6 +101,8 @@ export function addFunctionalities(tabList) {
 
   tabList.remove = function () {
     ChangesDetector.detected();
+    this._navigationHeading.previousElementSibling.remove();
+    this._navigationHeading.remove();
 
     if (this.parentNode) this.parentNode.removeChild(this);
     SavableObjects.delete(this);

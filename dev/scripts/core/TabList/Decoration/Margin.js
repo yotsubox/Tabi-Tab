@@ -7,7 +7,6 @@ export class Margin {
 
     addFunctionalities(margin);
 
-    margin.updateHeight();
     return margin;
   }
 }

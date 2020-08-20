@@ -7,40 +7,44 @@ import {
   initProperties,
   initPropertiesFromJSON,
   addItemsToTabListFromItemContents,
-  assembleComponentsAndAppend,
+  assembleComponents,
 } from "./TabList/Init.js";
+import { navigationLine, hiddenElement, listContainer } from "../main.js";
 
 export class TabList {
   static _createTabListElement() {
-    return createElement("div", "list");
+    return createElement("div", "list list--start-animation");
   }
-  static Create(appendTarget) {
+  static Create() {
     ChangesDetector.detected();
+
     const tabList = TabList._createTabListElement();
     SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
     addEventListeners(tabList);
     initProperties(tabList);
-    assembleComponentsAndAppend(tabList, appendTarget);
+    assembleComponents(tabList);
 
-    tabList._decoration.margin.updateHeight();
+    tabList._navigationHeading = navigationLine.add(tabList);
+    updateHeightAfterAppend(tabList);
     return tabList;
   }
 
-  static FromJSON(appendTarget, tabListJSON) {
+  static FromJSON(tabListJSON) {
     const tabList = TabList._createTabListElement();
     SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
     addEventListeners(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
-    assembleComponentsAndAppend(tabList, appendTarget);
+    assembleComponents(tabList);
 
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
     executeOptions(tabList, tabList._settings);
 
-    tabList._decoration.margin.updateHeight();
+    tabList._navigationHeading = navigationLine.add(tabList);
+    updateHeightAfterAppend(tabList);
     return tabList;
   }
 }
@@ -57,4 +61,10 @@ function executeOptions(tabList, settings) {
 
   //changes made here do not count
   ChangesDetector.resetState();
+}
+
+function updateHeightAfterAppend(tabList) {
+  listContainer.appendChild(tabList);
+  tabList._decoration.margin.updateHeight();
+  listContainer.removeChild(tabList);
 }

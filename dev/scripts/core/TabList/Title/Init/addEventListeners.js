@@ -1,6 +1,8 @@
 import { ChangesDetector } from "../../../SaveSystem.js";
 
-export function addEventListeners(title, tabList) {
+export function addEventListeners(title) {
+  const tabList = title._owner;
+
   title.addEventListener("keydown", (e) => {
     detectChanges(e);
 

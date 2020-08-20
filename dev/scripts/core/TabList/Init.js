@@ -9,7 +9,7 @@ export { addFunctionalities } from "./Init/addFunctionalities.js";
 export { addEventListeners } from "./Init/addEventListeners.js";
 export { newDefaultSettings } from "./Init/newDefaultSettings.js";
 export { initProperties } from "./Init/initProperties.js";
-export { assembleComponentsAndAppend } from "./Init/assembleComponentsAndAppend.js";
+export { assembleComponents } from "./Init/assembleComponents.js";
 export { initPropertiesFromJSON } from "./Init/initPropertiesFromJSON.js";
 export { addItemsToTabListFromItemContents } from "./Init/addItemsToTabListFromItemContents.js";
 export { getContentsFrom } from "./Init/getContentsFrom.js";
