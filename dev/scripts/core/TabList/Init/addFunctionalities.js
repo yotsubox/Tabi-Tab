@@ -98,13 +98,12 @@ export function addFunctionalities(tabList) {
 
     this.getItems().forEach((item) => item.remove());
     this._itemCount = 0;
+    this._decoration.margin.updateHeight();
   };
 
   tabList.remove = function () {
     ChangesDetector.detected();
     this._eventManager.triggerEvent(EventType.REMOVED);
-    // this._navigationHeading.previousElementSibling.remove();
-    // this._navigationHeading.remove();
 
     if (this.parentNode) this.parentNode.removeChild(this);
     SavableObjects.delete(this);

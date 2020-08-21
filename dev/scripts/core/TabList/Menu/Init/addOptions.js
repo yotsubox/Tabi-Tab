@@ -7,11 +7,7 @@ export function addOptions(menu, settings) {
 }
 
 function addUnorderedListCheckBox(menu, settings) {
-  const unorderedListCheckBox = Option.CreateCheckBox(
-    menu,
-    "Unordered",
-    settings.unorderedList
-  );
+  const unorderedListCheckBox = Option.CreateCheckBox(menu, "Unordered", settings.unorderedList);
 
   unorderedListCheckBox.addListener(() => {
     menu.getOwner().toggleUnorderedListStyle();

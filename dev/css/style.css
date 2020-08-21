@@ -300,6 +300,7 @@ body {
 
 .nav-line__heading {
   font-family: var(--default-font-family);
+  user-select: none;
   cursor: pointer;
   font-size: 1rem;
   height: 1rem;
