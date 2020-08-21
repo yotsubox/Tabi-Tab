@@ -6,7 +6,7 @@ export class Heading {
     const heading = createElement("div", "nav-line__heading");
     heading._owner = tabList;
     heading._tabListTitle = tabList.getTitle();
-    heading._lengthLimit = 27;
+    heading._lengthLimit = 50;
 
     addEventListeners(heading);
     addFunctionalities(heading);

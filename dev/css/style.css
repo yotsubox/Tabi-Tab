@@ -292,7 +292,8 @@ body {
   animation: nav-line-start-animation 0.8s ease none;
 }
 
-.nav-line__decoration {
+.nav-line__decoration,
+.nav-line__minimize-btn {
   font-family: "Times New Roman", Times, serif;
   user-select: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -327,6 +328,10 @@ body {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
+.nav-line__minimize-btn:hover {
+  background-color: rgba(0, 0, 0, 0.623);
+}
+
 .list__future-item:hover:not(:focus),
 .list__item-content-box:hover:not(:focus):not(.list__item-content-box--dragging),
 .list__title:hover:not(:focus) {
@@ -341,6 +346,10 @@ body {
 .new-list-btn:active,
 .list-menu__option:active {
   background-color: #d9f7f4;
+}
+
+.nav-line__minimize-btn:active {
+  background-color: rgba(0, 0, 0, 0.781);
 }
 
 /* ANIMATION */
