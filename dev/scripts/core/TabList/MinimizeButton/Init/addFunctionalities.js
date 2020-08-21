@@ -10,8 +10,6 @@ export function addFunctionalities(minimizeButton) {
 
   minimizeButton.updateText = function () {
     const minimized = this.getOwner().isMinimized();
-
-    this.textContent = minimized ? "maximize" : "minimize";
   };
 
   minimizeButton.toggleMinimization = function () {

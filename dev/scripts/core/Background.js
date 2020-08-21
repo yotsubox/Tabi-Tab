@@ -21,7 +21,6 @@ function addFunctionalities(background) {
     background._movableHeight = background._height - window.innerHeight;
 
     const maxScrollY = getPageHeight() - window.innerHeight;
-    console.log(maxScrollY, scrollY);
     if (maxScrollY < background._movableHeight) background._moveByPosition();
     else background._moveByRatio();
   };
@@ -31,12 +30,11 @@ function addFunctionalities(background) {
   };
 
   background._moveByRatio = function () {
-    const scrollY = window.scrollY;
     const movableHeight = background._movableHeight;
+    const maxScrollY = getPageHeight() - window.innerHeight;
 
-    const EndOfScrollRatio = getPageHeight() - window.innerHeight;
-
-    background.style.top = EndOfScrollRatio * movableHeight + "px";
+    const endOfScrollRatio = window.scrollY / maxScrollY;
+    background.style.top = -endOfScrollRatio * movableHeight + "px";
   };
 }
 
