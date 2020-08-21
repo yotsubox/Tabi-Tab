@@ -1,4 +1,15 @@
+<<<<<<< HEAD
 import { ItemContainer, FutureItem, Title, MinimizeButton, MinimizePadding, decorate } from "../Init.js";
+=======
+import {
+  ItemContainer,
+  FutureItem,
+  Title,
+  MinimizeButton,
+  MinimizePadding,
+  decorate,
+} from "../Init.js";
+>>>>>>> f127c3a6263e96f903db6a0300e392a0bac108e7
 import { Type } from "../../Type.js";
 import { EventManager } from "../../EventManager.js";
 import { EventType } from "../EventType.js";

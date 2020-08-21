@@ -8,13 +8,6 @@ export function addFunctionalities(tabList) {
     return this._itemCount;
   };
 
-  tabList.removeItem = function (item) {
-    item.remove();
-    this._itemCount--;
-    this.fixOrderNumber();
-    this._decoration.margin.updateHeight();
-  };
-
   tabList.getTitleName = function () {
     return this._title.textContent;
   };
@@ -39,27 +32,38 @@ export function addFunctionalities(tabList) {
     return this._minimizeButton;
   };
 
-  tabList.newItem = function (url = "") {
-    ChangesDetector.detected();
+  tabList.removeItem = function (item) {
+    item.remove();
+    this._itemCount--;
 
+    this.fixOrderNumber();
+    this._decoration.margin.updateHeight();
+    background.updatePosition();
+  };
+
+  tabList.newItem = function (url = "") {
     this._itemCount++;
     const item = Item.Create(this, this._itemCount, url);
+    insertElementBefore(tabList.getFutureItem(), item);
 
     if (this._settings.unorderedList) item.toggleUnordered();
 
+    ChangesDetector.detected();
     this._decoration.margin.updateHeight();
+    background.updatePosition();
     return item;
   };
 
   tabList.toggleMinimization = function () {
-    ChangesDetector.detected();
-
     const itemContainer = this.getItemContainer();
     itemContainer.classList.toggle("--collapse");
     this._minimizePadding.classList.toggle("--collapse");
 
     this._settings.minimized = !this._settings.minimized;
+
+    ChangesDetector.detected();
     this._decoration.margin.updateHeight();
+    background.updatePosition();
   };
 
   tabList.toggleUnorderedListStyle = function () {

@@ -71,14 +71,6 @@ export function addFunctionalities(item) {
     return this._clickable;
   };
 
-  item.toggleURLHeaderTitleBox = function () {
-    this._titleBox.classList.toggle("--collapse");
-  };
-
-  item.updateTitleBox = function () {
-    this._titleBox.updateTitle();
-  };
-
   item.toggleButtons = function () {
     this._deleteButton.classList.toggle("--hidden");
     this._copyButton.classList.toggle("--hidden");
