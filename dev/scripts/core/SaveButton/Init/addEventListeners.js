@@ -1,23 +1,14 @@
 import { ChangesDetector, LocalStorage } from "../../SaveSystem.js";
+import { EventType } from "../../SaveSystem/ChangesDetector/EventType.js";
 
 export function addEventListeners(saveButton) {
-  ChangesDetector.addEventListener(
-    "onChange",
-    saveButton.setSavable,
-    saveButton,
-    false
-  );
+  ChangesDetector.addEventListener(EventType.CHANGED, () => saveButton.setSavable(true));
 
   //when saved, remove gray scale.
-  ChangesDetector.addEventListener(
-    "onSave",
-    saveButton.setSavable,
-    saveButton,
-    true
-  );
+  ChangesDetector.addEventListener(EventType.SAVED, () => saveButton.setSavable(false));
 
   saveButton.addEventListener("click", () => {
-    if (!ChangesDetector.haveChangesBeenMade()) return;
+    if (!ChangesDetector.hasChangesBeenMade()) return;
 
     LocalStorage.save();
   });

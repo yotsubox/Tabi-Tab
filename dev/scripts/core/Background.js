@@ -1,3 +1,5 @@
+import { getPageHeight } from "./Utils.js";
+
 export class Background {
   static FromExistingElem(background) {
     const bgStyle = getComputedStyle(background);
@@ -13,22 +15,26 @@ export class Background {
 
 function addFunctionalities(background) {
   background.updatePosition = function () {
-    const scrollHeight = document.body.scrollHeight;
-    if (scrollHeight < background.height) background._moveByPosition();
+    //update height because of scroll bar.
+    const bgStyle = getComputedStyle(background);
+    background._height = parseFloat(bgStyle.height);
+    background._movableHeight = background._height - window.innerHeight;
+
+    const maxScrollY = getPageHeight() - window.innerHeight;
+    console.log(maxScrollY, scrollY);
+    if (maxScrollY < background._movableHeight) background._moveByPosition();
     else background._moveByRatio();
   };
 
   background._moveByPosition = function () {
-    this.style.top = -scrollY + "px";
+    this.style.top = -window.scrollY + "px";
   };
 
   background._moveByRatio = function () {
-    const scrollHeight = document.body.scrollHeight;
     const scrollY = window.scrollY;
     const movableHeight = background._movableHeight;
 
-    const EndOfScrollRatio =
-      scrollHeight - window.innerHeight / window.devicePixelRatio;
+    const EndOfScrollRatio = getPageHeight() - window.innerHeight;
 
     background.style.top = (-scrollY / EndOfScrollRatio) * movableHeight + "px";
   };

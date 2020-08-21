@@ -3,13 +3,12 @@ import { SavableObjects, ChangesDetector } from "./SaveSystem.js";
 import {
   addFunctionalities,
   addEventListeners,
-  decorate,
   initProperties,
   initPropertiesFromJSON,
   addItemsToTabListFromItemContents,
   assembleComponents,
 } from "./TabList/Init.js";
-import { navigationLine, hiddenElement, listContainer } from "../main.js";
+import { listContainer } from "../main.js";
 
 export class TabList {
   static _createTabListElement() {
@@ -25,9 +24,8 @@ export class TabList {
     addEventListeners(tabList);
     initProperties(tabList);
     assembleComponents(tabList);
+    updateMarginHeightWithoutAppend(tabList);
 
-    tabList._navigationHeading = navigationLine.add(tabList);
-    updateHeightAfterAppend(tabList);
     return tabList;
   }
 
@@ -39,12 +37,10 @@ export class TabList {
     addEventListeners(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
     assembleComponents(tabList);
-
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
     executeOptions(tabList, tabList._settings);
+    updateMarginHeightWithoutAppend(tabList);
 
-    tabList._navigationHeading = navigationLine.add(tabList);
-    updateHeightAfterAppend(tabList);
     return tabList;
   }
 }
@@ -63,7 +59,7 @@ function executeOptions(tabList, settings) {
   ChangesDetector.resetState();
 }
 
-function updateHeightAfterAppend(tabList) {
+function updateMarginHeightWithoutAppend(tabList) {
   listContainer.appendChild(tabList);
   tabList._decoration.margin.updateHeight();
   listContainer.removeChild(tabList);

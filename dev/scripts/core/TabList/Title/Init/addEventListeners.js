@@ -13,6 +13,9 @@ export function addEventListeners(title) {
     }
   });
 
+  title.addEventListener("cut", () => ChangesDetector.detected());
+  title.addEventListener("paste", () => ChangesDetector.detected());
+
   trimContentWhenBlur(title);
 }
 
@@ -22,7 +25,7 @@ function focusOnFirstItem(tabList) {
 }
 
 function detectChanges(e) {
-  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+  if (ChangesDetector.isKeyboardEventCauseChanges(e)) ChangesDetector.detected();
 }
 
 function trimContentWhenBlur(title) {

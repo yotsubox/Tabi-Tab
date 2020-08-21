@@ -1,5 +1,4 @@
 import {
-  Menu,
   ItemContainer,
   FutureItem,
   Title,
@@ -9,8 +8,11 @@ import {
   decorate,
 } from "../Init.js";
 import { Type } from "../../Type.js";
+import { EventManager } from "../../EventManager.js";
+import { EventType } from "../EventType.js";
 
 export function initProperties(tabList) {
+  tabList._eventManager = new EventManager(EventType);
   tabList._unorderedList = false;
   tabList._type = Type.TAB_LIST;
   tabList._itemCount = 0;

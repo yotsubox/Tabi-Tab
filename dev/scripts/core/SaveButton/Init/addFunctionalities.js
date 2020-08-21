@@ -9,7 +9,7 @@ export function addFunctionalities(saveButton) {
    * @param {boolean} state turn on or off grayScale (true/false)
    */
   saveButton.setSavable = function (state) {
-    if (state) {
+    if (state === false) {
       saveButton.classList.add("--gray-scale");
       saveButton.classList.add("--low-opacity");
     } else {

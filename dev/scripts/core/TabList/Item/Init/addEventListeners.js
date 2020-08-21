@@ -12,6 +12,9 @@ export function addEventListeners(item) {
     doThingsWhenCertainKeysIsPressed(e, item);
   });
 
+  contentBox.addEventListener("cut", () => ChangesDetector.detected());
+  contentBox.addEventListener("paste", () => ChangesDetector.detected());
+
   contentBox.addEventListener("focus", () => item.toggleButtons());
 
   contentBox.addEventListener("blur", () => {
@@ -39,9 +42,7 @@ export function addEventListeners(item) {
   });
 
   document.addEventListener("keydown", (e) => clickableWhenCtrl(e, item));
-  document.addEventListener("keyup", (e) =>
-    notClickableWhenReleaseCtrl(e, item)
-  );
+  document.addEventListener("keyup", (e) => notClickableWhenReleaseCtrl(e, item));
 }
 
 //KEY DOWN EVENTS
@@ -67,7 +68,7 @@ function doThingsWhenCertainKeysIsPressed(e, item) {
 }
 
 function detectChanges(e) {
-  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+  if (ChangesDetector.isKeyboardEventCauseChanges(e)) ChangesDetector.detected();
 }
 
 function focusOnNextItemOf(item) {
@@ -89,11 +90,7 @@ function clickableWhenCtrl(e, item) {
 }
 
 function notClickableWhenReleaseCtrl(e, item) {
-  if (
-    item._mouseOver &&
-    (e.code === "ControlLeft" || e.code === "ControlRight")
-  )
-    item.setClickable(false);
+  if (item._mouseOver && (e.code === "ControlLeft" || e.code === "ControlRight")) item.setClickable(false);
 }
 
 function openLinkInNewTabIfClickable(item) {
@@ -121,9 +118,7 @@ function showDraggingEffect(e, item) {
 
 function removeDraggingEffect() {
   {
-    draggedItem
-      .getContentBox()
-      .classList.remove("list__item-content-box--dragging");
+    draggedItem.getContentBox().classList.remove("list__item-content-box--dragging");
 
     draggedItem = null;
   }

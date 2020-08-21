@@ -1,4 +1,5 @@
 import { createElement } from "../Utils/createElement.js";
+import { EventType } from "../TabList/EventType.js";
 
 export class Heading {
   static Create(tabList) {
@@ -28,6 +29,11 @@ function addEventListeners(heading) {
     heading._owner.scrollIntoView();
     heading._owner.runFocusAnimation();
     window.scrollBy(0, -100);
+  });
+
+  heading._owner.addEventListenerExtended(EventType.REMOVED, () => {
+    heading.previousElementSibling.remove();
+    heading.remove();
   });
 
   heading._tabListTitle.addEventListener("keyup", () => heading.updateHeading());

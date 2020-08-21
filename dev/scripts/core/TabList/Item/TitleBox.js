@@ -8,6 +8,7 @@ export class TitleBox {
     titleBox._owner = item;
 
     addFunctionalities(titleBox);
+
     titleBox.updateTitle();
 
     return titleBox;

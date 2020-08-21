@@ -8,7 +8,7 @@ export function addEventListeners(tabList) {
 
   tabList.addEventListener("animationend", (e) => {
     if (e.animationName === "list-focus-animation") tabList.classList.remove("list--focus-animation");
-    else if (e.animationName === "list-animation") tabList.classList.remove("list--start-animation");
+    else if (e.animationName === "list-start-animation") tabList.classList.remove("list--start-animation");
   });
 }
 

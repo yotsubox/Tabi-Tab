@@ -1,6 +1,7 @@
 import { Item, getContentsFrom } from "../Init.js";
 import { ChangesDetector } from "../../SaveSystem.js";
 import { SavableObjects } from "../../SaveSystem/SavableObjects.js";
+import { EventType } from "../EventType.js";
 
 export function addFunctionalities(tabList) {
   tabList.getItemCount = function () {
@@ -101,11 +102,16 @@ export function addFunctionalities(tabList) {
 
   tabList.remove = function () {
     ChangesDetector.detected();
-    this._navigationHeading.previousElementSibling.remove();
-    this._navigationHeading.remove();
+    this._eventManager.triggerEvent(EventType.REMOVED);
+    // this._navigationHeading.previousElementSibling.remove();
+    // this._navigationHeading.remove();
 
     if (this.parentNode) this.parentNode.removeChild(this);
     SavableObjects.delete(this);
+  };
+
+  tabList.addEventListenerExtended = function (eventType, listener) {
+    this._eventManager.addEventListener(eventType, listener);
   };
 
   tabList.stringify = function () {

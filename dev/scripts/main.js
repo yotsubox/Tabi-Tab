@@ -12,8 +12,6 @@ saveWhenCtrlS();
 saveEveryTenSec();
 
 //MAIN COMPONENTS.
-export const hiddenElement = createElement("div", "hidden-element");
-document.body.appendChild(hiddenElement);
 export const background = Background.FromExistingElem(document.querySelector(".--background"));
 export const saveButton = SaveButton.FromExistingElem(document.querySelector(".save-btn"));
 InfoButton.FromExistingElem(document.querySelector(".info-btn"));

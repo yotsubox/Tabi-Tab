@@ -11,7 +11,7 @@ export class LocalStorage {
    */
   static save() {
     //if nothing has changed, do nothing.
-    if (!ChangesDetector.haveChangesBeenMade()) return false;
+    if (!ChangesDetector.hasChangesBeenMade()) return false;
     LocalStorage._clear();
 
     let id = 0;

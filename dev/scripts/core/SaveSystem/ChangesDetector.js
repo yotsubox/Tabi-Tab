@@ -1,14 +1,15 @@
+import { EventManager } from "../EventManager.js";
+import { EventType } from "./ChangesDetector/EventType.js";
+
 let _changed = false;
-const _listenersData = {
-  onChange: [],
-  onSave: [],
-};
+const _eventManager = new EventManager();
+_eventManager.registerEvents(EventType);
 
 /**
  * Class that detects changes and dispatches events related to changes.
  */
 export class ChangesDetector {
-  static haveChangesBeenMade() {
+  static hasChangesBeenMade() {
     return _changed;
   }
 
@@ -18,19 +19,8 @@ export class ChangesDetector {
    * @param {function} listener the function/method to call to
    * @param {object | null} thisArg the object to call method from (null if is a function)
    */
-  static addEventListener(type, listener, thisArg, ...args) {
-    _listenersData[type].push({
-      listener,
-      thisArg,
-      args,
-    });
-  }
-
-  static _dispatchEvent(type) {
-    const listenersData = _listenersData[type];
-    //callback
-    for (const { listener, thisArg, args } of listenersData)
-      listener.apply(thisArg, args);
+  static addEventListener(eventType, listener) {
+    _eventManager.addEventListener(eventType, listener);
   }
 
   /**
@@ -43,7 +33,7 @@ export class ChangesDetector {
 
     _changed = true;
 
-    ChangesDetector._dispatchEvent("onChange");
+    _eventManager.triggerEvent(EventType.CHANGED);
   }
 
   /**
@@ -53,10 +43,13 @@ export class ChangesDetector {
   static resetState() {
     _changed = false;
 
-    ChangesDetector._dispatchEvent("onSave");
+    _eventManager.triggerEvent(EventType.SAVED);
   }
 
-  static isKeyCauseChanges(key) {
+  static isKeyboardEventCauseChanges(event) {
+    const key = event.key;
+    if (event.altKey || event.ctrlKey) return false;
+
     if (
       key === "Control" ||
       key === "Shift" ||
