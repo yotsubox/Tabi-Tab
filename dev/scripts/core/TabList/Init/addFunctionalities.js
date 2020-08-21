@@ -1,7 +1,9 @@
 import { Item, getContentsFrom } from "../Init.js";
 import { ChangesDetector } from "../../SaveSystem.js";
 import { SavableObjects } from "../../SaveSystem/SavableObjects.js";
+import { insertElementBefore } from "../../Utils/insertElementBefore.js";
 import { EventType } from "../EventType.js";
+import { background } from "../../../main.js";
 
 export function addFunctionalities(tabList) {
   tabList.getItemCount = function () {
