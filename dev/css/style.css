@@ -318,7 +318,7 @@ body {
 .list__future-item:hover:not(:focus),
 .list__item-content-box:hover:not(:focus):not(.list__item-content-box--dragging),
 .list__title:hover:not(:focus) {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #2c4d7911;
 }
 
 .info-btn:hover,
