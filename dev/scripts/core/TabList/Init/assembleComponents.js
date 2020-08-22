@@ -1,4 +1,4 @@
-export function assembleComponentsAndAppend(tabList, appendTarget) {
+export function assembleComponents(tabList) {
   tabList._itemContainer.append(tabList._futureItem);
   const decoration = tabList._decoration;
 
@@ -9,6 +9,4 @@ export function assembleComponentsAndAppend(tabList, appendTarget) {
     tabList._minimizePadding,
     decoration.margin
   );
-  
-  appendTarget.appendChild(tabList);
 }

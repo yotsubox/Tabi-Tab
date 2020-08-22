@@ -6,11 +6,14 @@ export class Title {
     const title = document.createElement("div");
     title.className = "list__title";
     title.textContent = titleName;
+    title._owner = tabList;
 
     makeElementEditable(title);
 
-    addEventListeners(title, tabList);
+    addEventListeners(title);
+    addFunctionalities(title);
 
     return title;
   }
 }
+function addFunctionalities() {}

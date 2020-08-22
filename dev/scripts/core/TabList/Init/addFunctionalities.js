@@ -1,8 +1,9 @@
 import { Item, getContentsFrom } from "../Init.js";
 import { ChangesDetector } from "../../SaveSystem.js";
 import { SavableObjects } from "../../SaveSystem/SavableObjects.js";
-import { background } from "../../../main.js";
 import { insertElementBefore } from "../../Utils/insertElementBefore.js";
+import { EventType } from "../EventType.js";
+import { background } from "../../../main.js";
 
 export function addFunctionalities(tabList) {
   tabList.getItemCount = function () {
@@ -80,6 +81,10 @@ export function addFunctionalities(tabList) {
     this._settings.unorderedList = !this._settings.unorderedList;
   };
 
+  tabList.runFocusAnimation = function () {
+    tabList.classList.add("list--focus-animation");
+  };
+
   tabList.isMinimized = function () {
     return this._settings.minimized;
   };
@@ -94,19 +99,24 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.clearItems = function () {
+    if (tabList.getItemCount() === 0) return;
     ChangesDetector.detected();
 
     this.getItems().forEach((item) => item.remove());
     this._itemCount = 0;
-
     this._decoration.margin.updateHeight();
   };
 
   tabList.remove = function () {
     ChangesDetector.detected();
+    this._eventManager.triggerEvent(EventType.REMOVED);
 
     if (this.parentNode) this.parentNode.removeChild(this);
     SavableObjects.delete(this);
+  };
+
+  tabList.addEventListenerExtended = function (eventType, listener) {
+    this._eventManager.addEventListener(eventType, listener);
   };
 
   tabList.stringify = function () {

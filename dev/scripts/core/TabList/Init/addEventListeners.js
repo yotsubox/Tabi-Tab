@@ -5,6 +5,11 @@ export function addEventListeners(tabList) {
     e.preventDefault();
     showMenu(e, tabList);
   });
+
+  tabList.addEventListener("animationend", (e) => {
+    if (e.animationName === "list-focus-animation") tabList.classList.remove("list--focus-animation");
+    else if (e.animationName === "list-start-animation") tabList.classList.remove("list--start-animation");
+  });
 }
 
 export function showMenu(e, tabList) {

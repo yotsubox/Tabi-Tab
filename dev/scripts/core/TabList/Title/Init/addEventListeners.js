@@ -1,6 +1,8 @@
 import { ChangesDetector } from "../../../SaveSystem.js";
 
-export function addEventListeners(title, tabList) {
+export function addEventListeners(title) {
+  const tabList = title._owner;
+
   title.addEventListener("keydown", (e) => {
     detectChanges(e);
 
@@ -11,6 +13,9 @@ export function addEventListeners(title, tabList) {
     }
   });
 
+  title.addEventListener("cut", () => ChangesDetector.detected());
+  title.addEventListener("paste", () => ChangesDetector.detected());
+
   trimContentWhenBlur(title);
 }
 
@@ -20,7 +25,7 @@ function focusOnFirstItem(tabList) {
 }
 
 function detectChanges(e) {
-  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+  if (ChangesDetector.isKeyboardEventCauseChanges(e)) ChangesDetector.detected();
 }
 
 function trimContentWhenBlur(title) {

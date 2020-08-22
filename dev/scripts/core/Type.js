@@ -1,4 +1,3 @@
-export const Type = Object.freeze({
-  TAB_LIST: 0,
-  TAB_LIST_ITEM: 1,
-});
+import { Enum } from "./Utils/Enum.js";
+
+export const Type = Enum.Create("TAB_LIST", "TAB_LIST_ITEM");
