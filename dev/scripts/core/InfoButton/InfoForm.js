@@ -17,17 +17,9 @@ function addFunctionalities(infoForm) {
 }
 
 function addText(infoForm) {
-  const webAppName = createElementWithTextContent(
-    "p",
-    "",
-    "Tabi Tab - Personal Tab List."
-  );
+  const webAppName = createElementWithTextContent("p", "", "Tabi Tab - Personal Tab List.");
 
-  const authorText = createElementWithTextContent(
-    "p",
-    "",
-    "Made by Yotsubox (2020)"
-  );
+  const authorText = createElementWithTextContent("p", "", "Made by Yotsubox");
 
   const instructions = createElementWithTextContent(
     "pre",
@@ -43,6 +35,12 @@ function addText(infoForm) {
 
   infoForm.append(webAppName, authorText, instructions);
 }
+
+const references = createElementWithTextContent(
+  "pre",
+  "",
+  "Special Thanks to:" + "\nJemoticons, emoticonfun: Emoticon References" + "\n"
+);
 
 function createElementWithTextContent(tagName, className, textContent) {
   const elem = createElement(tagName, className);

@@ -7,8 +7,9 @@
     <link href="./css/fonts.css" rel="stylesheet" />
     <title>Tabi Tab</title>
   </head>
-  <body>
-    <img src="./images/bg.png" class="--background"></img>
+  <body class="--collapse">
+
+    <img rel="preload" src="./images/bg.png" class="--background"></img>
 
     <div id="header">
       <div class="flex-group left">
@@ -16,8 +17,8 @@
       </div>
 
       <div class="flex-group right">
-        <img class="header__item save-btn" src="./images/save icon.png" />
-        <img class="header__item info-btn" src="./images/info icon.png" />
+        <img class="header__item save-btn" src="./images/save-icon.png" />
+        <img class="header__item info-btn" src="./images/info-icon.png" />
       </div>
     </div>
 
@@ -28,5 +29,7 @@
     <div class="nav-line">
       <div class="nav-line__heading-container"></div>
     </div>
+
+    <div class="notification-container"></div>
   </body>
 </html>

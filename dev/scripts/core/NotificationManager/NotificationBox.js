@@ -23,8 +23,8 @@ function addFunctionalities(notificationBox) {
 }
 
 function addEventListeners(notificationBox) {
-  notificationBox.addEventListener("animationend", () => {
-    notificationBox.remove();
+  notificationBox.addEventListener("animationend", (e) => {
+    if (e.animationName === "notification-box-remove-effect") notificationBox.remove();
   });
 }
 
