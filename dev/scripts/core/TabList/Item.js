@@ -2,7 +2,7 @@ import { createElement } from "../Utils.js";
 import { addFunctionalities, addEventListeners } from "./Item/Init.js";
 import { Type } from "../Type.js";
 import { ContentBox } from "./Item/contentBox.js";
-import { DeleteButton } from "./Item/DeleteButton.js";
+import { RemoveButton } from "./Item/RemoveButton.js";
 import { CopyButton } from "./Item/CopyButton.js";
 
 export class Item {
@@ -23,7 +23,7 @@ export class Item {
     item._order.textContent = orderNumber + ".";
 
     item._contentBox = ContentBox.Create(item, textContent);
-    item._deleteButton = DeleteButton.Create(item);
+    item._removeButton = RemoveButton.Create(item);
     item._copyButton = CopyButton.Create(item);
 
     assembleComponents(item);
@@ -37,6 +37,6 @@ export class Item {
 function assembleComponents(item) {
   item.appendChild(item._order);
   item.appendChild(item._contentBox);
-  item.appendChild(item._deleteButton);
+  item.appendChild(item._removeButton);
   item.appendChild(item._copyButton);
 }

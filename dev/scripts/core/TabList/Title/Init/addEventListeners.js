@@ -20,7 +20,7 @@ export function addEventListeners(title) {
 }
 
 function focusOnFirstItem(tabList) {
-  if (tabList.getItemCount() === 0) tabList.getFutureItem().focus();
+  if (tabList.getItemCount() === 0) tabList.getFutureItem().getContentBox().focus();
   else tabList.getItems()[0].getContentBox().focus();
 }
 

@@ -1,0 +1,9 @@
+export const submit = "./images/submit-icon.png";
+export const remove = "./images/remove-icon.svg";
+export const copyLink = "./images/copy-link-icon.png";
+export const save = "./images/save-icon.png";
+export const info = "./images/info-icon.png";
+export const add = "./images/add-icon.png";
+export const deleteList = "./images/delete-list-icon.png";
+export const saved = "./images/saved-icon.png";
+export const clear = "./images/clear-icon.png";

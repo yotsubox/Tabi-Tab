@@ -72,7 +72,7 @@ function focusOnNextItemOf(item) {
   const nextItem = item.next();
 
   if (nextItem) nextItem.getContentBox().focus();
-  else item.getOwner().getFutureItem().focus();
+  else item.getOwner().getFutureItem().getContentBox().focus();
 }
 
 function focusOnPrevItemOf(item) {

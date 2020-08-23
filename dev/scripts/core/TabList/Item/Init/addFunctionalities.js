@@ -27,8 +27,7 @@ export function addFunctionalities(item) {
   };
 
   item.getURL = function () {
-    if (this._contentBox.textContent.startsWith("https://"))
-      return this._contentBox.textContent;
+    if (this._contentBox.textContent.startsWith("https://")) return this._contentBox.textContent;
     else return `https://${this._contentBox.textContent}`;
   };
 
@@ -63,8 +62,7 @@ export function addFunctionalities(item) {
     }
 
     this._clickable = false;
-    if (contentClassList.contains("--clickable"))
-      contentClassList.remove("--clickable");
+    if (contentClassList.contains("--clickable")) contentClassList.remove("--clickable");
   };
 
   item.isClickable = function () {
@@ -72,7 +70,7 @@ export function addFunctionalities(item) {
   };
 
   item.toggleButtons = function () {
-    this._deleteButton.classList.toggle("--hidden");
+    this._removeButton.classList.toggle("--hidden");
     this._copyButton.classList.toggle("--hidden");
   };
 }

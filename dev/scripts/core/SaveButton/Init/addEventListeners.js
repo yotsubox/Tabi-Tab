@@ -1,5 +1,7 @@
 import { ChangesDetector, LocalStorage } from "../../SaveSystem.js";
 import { EventType } from "../../SaveSystem/ChangesDetector/EventType.js";
+import { notificationManager } from "../../../main.js";
+import { submit } from "../../ImagePaths.js";
 
 export function addEventListeners(saveButton) {
   ChangesDetector.addEventListener(EventType.CHANGED, () => saveButton.setSavable(true));
@@ -11,5 +13,6 @@ export function addEventListeners(saveButton) {
     if (!ChangesDetector.hasChangesBeenMade()) return;
 
     LocalStorage.save();
+    notificationManager.newNotification("Saved!", submit);
   });
 }
