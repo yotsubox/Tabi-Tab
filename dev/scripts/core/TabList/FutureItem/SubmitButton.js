@@ -1,7 +1,8 @@
 import { createElement } from "../../Utils/createElement.js";
+import { submit as defaultPath } from "../../ImagePaths.js";
 
 export class SubmitButton {
-  static Create(futureItem, imgPath = "./images/submit-button.png") {
+  static Create(futureItem, imgPath = defaultPath) {
     const submitButton = createElement("img", "list__future-item-submit-button --hidden");
     submitButton.src = imgPath;
     submitButton._owner = futureItem;
