@@ -1,7 +1,7 @@
 import { LocalStorage } from "../SaveSystem.js";
 import { ChangesDetector } from "../SaveSystem/ChangesDetector.js";
 import { notificationManager } from "../../main.js";
-import { submit } from "../ImagePaths.js";
+import { saved } from "../ImagePaths.js";
 
 export function saveEveryTenSec() {
   setTimeout(function repeat() {
@@ -13,5 +13,5 @@ export function saveEveryTenSec() {
 }
 
 function makeNotification() {
-  notificationManager.newNotification("Autosaved.", submit);
+  notificationManager.newNotification("Autosaved.", saved);
 }

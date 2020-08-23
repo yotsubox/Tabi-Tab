@@ -24,8 +24,3 @@ export const notificationManager = new NotificationManager(document.querySelecto
 
 //LOAD PREVIOUSLY SAVED OBJECTS.
 LocalStorage.load();
-notificationManager.newNotification(
-  "FUCKO osjodajo jsojfoasj ojojjasf asf safsa asf asfsaf asf asf asfasf",
-  null,
-  10000
-);
