@@ -6,6 +6,7 @@ import { InfoButton } from "./core/InfoButton.js";
 import { Background } from "./core/BackGround.js";
 import { NavigationLine } from "./core/NavigationLine.js";
 import { NotificationManager } from "./core/NotificationManager.js";
+import { submit } from "./core/ImagePaths.js";
 
 //BASIC FUNCTIONALITIES.
 saveWhenCtrlS();
@@ -23,3 +24,8 @@ export const notificationManager = new NotificationManager(document.querySelecto
 
 //LOAD PREVIOUSLY SAVED OBJECTS.
 LocalStorage.load();
+notificationManager.newNotification(
+  "FUCKO osjodajo jsojfoasj ojojjasf asf safsa asf asfsaf asf asf asfasf",
+  null,
+  10000
+);

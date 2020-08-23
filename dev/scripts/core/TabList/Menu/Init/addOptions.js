@@ -1,4 +1,6 @@
 import { Option } from "../Option.js";
+import { notificationManager } from "../../../../main.js";
+import { remove, submit } from "../../../ImagePaths.js";
 
 export function addOptions(menu, settings) {
   addUnorderedListCheckBox(menu, settings);
@@ -23,6 +25,7 @@ function addClearListButton(menu) {
   clearListButton.addListener(() => {
     menu.getOwner().clearItems();
     menu.blur();
+    notificationManager.newNotification("Items Cleared!", submit);
   });
 
   menu.appendChild(clearListButton);
@@ -35,6 +38,7 @@ function addDeleteListButton(menu) {
   deleteListButton.addListener(() => {
     menu.getOwner().remove();
     menu.blur();
+    notificationManager.newNotification("List Deleted", remove);
   });
 
   menu.appendChild(deleteListButton);

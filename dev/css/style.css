@@ -314,9 +314,12 @@ body {
   right: 10px;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
 
 .notification-box {
+  width: max-content;
+  max-width: 25vw;
   padding: 10px;
   outline: var(--dark-blue) 3px solid;
   margin-bottom: 10px;
@@ -333,7 +336,6 @@ body {
 
 .notification-box__content-box {
   font-family: var(--default-font-family);
-  max-width: 400px;
   font-size: 1.2rem;
 }
 

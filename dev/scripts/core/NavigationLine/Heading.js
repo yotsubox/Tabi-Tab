@@ -32,7 +32,7 @@ function addEventListeners(heading) {
   });
 
   heading._owner.addEventListenerExtended(EventType.REMOVED, () => {
-    heading.previousElementSibling.remove();
+    heading.nextElementSibling.remove();
     heading.remove();
   });
 

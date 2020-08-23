@@ -8,10 +8,10 @@ export class NotificationManager {
   /**
    * Popup a new notification.
    * @param {string} message
-   * @param {number} duration (in milliseconds)
    * @param {string} iconPath path to an image for notification box icon (optional)
+   * @param {number} duration (in milliseconds) (default is 2000 milliseconds)
    */
-  newNotification(message, duration, iconPath = null) {
+  newNotification(message, iconPath = null, duration = 2000) {
     const notificationBox = NotificationBox.Create(message, iconPath);
 
     this.container.append(notificationBox);
