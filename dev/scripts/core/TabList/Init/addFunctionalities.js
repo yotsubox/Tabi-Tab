@@ -119,12 +119,16 @@ export function addFunctionalities(tabList) {
     this._eventManager.addEventListener(eventType, listener);
   };
 
-  tabList.stringify = function () {
-    return JSON.stringify({
+  tabList.getType = function () {
+    return this._type;
+  };
+
+  tabList.toSavableForm = function () {
+    return {
       type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
       itemContents: getContentsFrom(this.getItems()),
-    });
+    };
   };
 }

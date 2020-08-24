@@ -1,5 +1,5 @@
 import { NewTabListButton } from "./core/NewTabListButton.js";
-import { LocalStorage } from "./core/SaveSystem.js";
+import { LocalStorage, saveData } from "./core/SaveSystem.js";
 import { saveWhenCtrlS, saveEveryTenSec, showPage } from "./core/Events.js";
 import { SaveButton } from "./core/SaveButton.js";
 import { InfoButton } from "./core/InfoButton.js";
@@ -25,7 +25,11 @@ export const listContainer = document.querySelector(".list-container");
 export const addListButton = NewTabListButton.Create(tabListSection);
 export const navigationLine = NavigationLine.FromExistingElem(document.querySelector(".nav-line"));
 
-//LOAD PREVIOUSLY SAVED OBJECTS.
+//OTHERS
+LocalStorage.updateTimestamp();
+export const timestampPassedSinceLastOpened = saveData.timestamp.timestampPassedSinceLastOpened;
+
+//INIT.
 LocalStorage.load();
 
 //Greet User :)
