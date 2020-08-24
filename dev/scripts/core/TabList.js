@@ -22,7 +22,6 @@ export class TabList {
     addEventListeners(tabList);
     initProperties(tabList);
     assembleComponents(tabList);
-    updateMarginHeightWithoutAppend(tabList);
 
     SavableObjects.add(tabList);
     return tabList;
@@ -37,7 +36,6 @@ export class TabList {
     assembleComponents(tabList);
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
     executeOptions(tabList, tabList._settings);
-    updateMarginHeightWithoutAppend(tabList);
 
     SavableObjects.add(tabList);
     return tabList;
@@ -56,10 +54,4 @@ function executeOptions(tabList, settings) {
 
   //changes made here do not count
   ChangesDetector.resetState();
-}
-
-function updateMarginHeightWithoutAppend(tabList) {
-  setTimeout(() => {
-    tabList._decoration.margin.updateHeight();
-  }, 0);
 }

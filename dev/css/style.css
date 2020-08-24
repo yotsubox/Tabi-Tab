@@ -196,6 +196,7 @@ pre {
 .list-margin {
   background-color: var(--list-margin-default-background-color);
   width: 2px;
+  height: 100%;
 
   position: absolute;
   top: 0px;
