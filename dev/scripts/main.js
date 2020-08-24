@@ -17,11 +17,11 @@ saveEveryTenSec();
 export const notificationManager = new NotificationManager(document.querySelector(".notification-container"));
 
 //MAIN COMPONENTS.
+export const tabListSection = document.querySelector(".tab-list-section");
+export const listContainer = document.querySelector(".list-container");
 export const background = Background.FromExistingElem(document.querySelector(".--background"));
 export const saveButton = SaveButton.FromExistingElem(document.querySelector(".save-btn"));
 export const infoButton = InfoButton.FromExistingElem(document.querySelector(".info-btn"));
-export const tabListSection = document.querySelector(".tab-list-section");
-export const listContainer = document.querySelector(".list-container");
 export const addListButton = NewTabListButton.Create(tabListSection);
 export const navigationLine = NavigationLine.FromExistingElem(document.querySelector(".nav-line"));
 
@@ -32,5 +32,6 @@ export const timestampPassedSinceLastOpened = saveData.timestamp.timestampPassed
 //INIT.
 LocalStorage.load();
 
-//Greet User :)
-notificationManager.newNotification(Greetings.pick(), null, 10000);
+//Greet User :) (every one hour since last opened)
+if (timestampPassedSinceLastOpened >= 3.6e6 || timestampPassedSinceLastOpened === 0)
+  notificationManager.newNotification(Greetings.pick(), null, 10000);

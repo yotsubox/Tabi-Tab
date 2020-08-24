@@ -22,15 +22,13 @@ export class LocalStorage {
   }
 
   static load() {
-    const saveData = JSON.parse(storage.getItem("saveData"));
     _removeCurrentlyRunningToBeReplacedObjects();
     SavableObjects.clear();
 
-    for (const tabListData of saveData.tabLists) {
-      ObjectLoader.parse(tabListData);
-    }
-
-    // TODO:
+    if (saveData.tabLists)
+      for (const tabListData of saveData.tabLists) {
+        ObjectLoader.parse(tabListData);
+      }
   }
 
   static _clear() {
@@ -68,7 +66,6 @@ function _updateSaveData() {
 
 function _putToStorage() {
   storage.setItem("saveData", JSON.stringify(saveData));
-  console.log(saveData);
 }
 
 function _removeCurrentlyRunningToBeReplacedObjects() {

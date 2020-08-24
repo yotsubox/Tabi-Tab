@@ -1,3 +1,24 @@
+export const _firstTimeGreeting =
+  "Hello and nice to meet you! I'm Tabi Tab!" +
+  " Although I don't have much to offer, I still hope that you would enjoy using me." +
+  " Click the top right button for help on how to use me.";
+
+export const _longTimeGreetings = [
+  "Long time no see.",
+  "Welcome back!",
+  "How have you been?",
+  "Look who's back!",
+  "Hey!!",
+  "Fellow human is back!!",
+];
+export const _longTimeExtraLines = [
+  "Haven't seen you in a while.",
+  "Life's been busy huh?",
+  "It's been a long while.",
+  "Man, I miss you.",
+  "Been busy ey?",
+  "Good to see you!",
+];
 export const _greetings = [
   getGreetingByTimeOfDay(new Date().getHours()),
   "Sup, fellow human.",
