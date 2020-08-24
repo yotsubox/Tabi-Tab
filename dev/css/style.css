@@ -33,19 +33,24 @@ body {
   height: 100%;
 }
 
+pre {
+  font-family: "Consolas", "monaco", monospace;
+}
 .--overflow-hidden {
   overflow: hidden;
 }
 
 #loading-section {
-  position: relative;
   overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
   background-color: black;
   color: white;
 }
@@ -68,7 +73,8 @@ body {
   font-size: 3rem;
 }
 
-.loading-text-title {
+.loading-text-credit {
+  font-family: "Consolas", "monaco", monospace;
   font-size: 1.2rem;
   position: absolute;
   bottom: 0.5rem;

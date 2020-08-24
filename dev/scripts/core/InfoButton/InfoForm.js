@@ -33,14 +33,16 @@ function addText(infoForm) {
       "To change background:\n 1. Go to folder 'images'.\n 2. Replace content of 'bg.png' with your desire background.\n 3. restart Tabi Tab."
   );
 
-  infoForm.append(webAppName, authorText, instructions);
-}
+  const references = createElementWithTextContent(
+    "pre",
+    "",
+    "Special Thanks to:" +
+      "\nJemoticons, emoticonfun: Emoticon References," +
+      "\nu/franklinsteinnn: Background (so good!)."
+  );
 
-const references = createElementWithTextContent(
-  "pre",
-  "",
-  "Special Thanks to:" + "\nJemoticons, emoticonfun: Emoticon References" + "\n"
-);
+  infoForm.append(webAppName, authorText, instructions, references);
+}
 
 function createElementWithTextContent(tagName, className, textContent) {
   const elem = createElement(tagName, className);

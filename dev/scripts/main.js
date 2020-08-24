@@ -1,6 +1,6 @@
 import { NewTabListButton } from "./core/NewTabListButton.js";
 import { LocalStorage } from "./core/SaveSystem.js";
-import { saveWhenCtrlS, saveEveryTenSec, showPageWhenEverythingIsLoaded } from "./core/Events.js";
+import { saveWhenCtrlS, saveEveryTenSec, showPage } from "./core/Events.js";
 import { SaveButton } from "./core/SaveButton.js";
 import { InfoButton } from "./core/InfoButton.js";
 import { Background } from "./core/BackGround.js";
@@ -9,7 +9,7 @@ import { NotificationManager } from "./core/NotificationManager.js";
 import { Greetings } from "./core/Greetings.js";
 
 //BASIC FUNCTIONALITIES.
-showPageWhenEverythingIsLoaded();
+showPage();
 saveWhenCtrlS();
 saveEveryTenSec();
 

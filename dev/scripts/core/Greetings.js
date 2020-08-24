@@ -5,6 +5,7 @@ const _greetings = [
   "Sup, fellow human.",
   "Hey.",
   "Howdy.",
+  "What is up!",
 ];
 const _extraLines = [
   "",
@@ -22,7 +23,7 @@ const _extraLines = [
   "Anything of interest today?",
   "Gimme more RAM!!!",
   "'Happy Birthday!!' Is what I'll say on your birthday. Hah wouldn't it be nice if today was your birthday? To bad I'll never know",
-  "By the way, nice...",
+  "By the way, about that, nice...",
   "The stuff on your other tabs are quite interesting I must say, especially those incognito ones",
   ":>",
   ":)",
@@ -38,7 +39,7 @@ export class Greetings {
   static pick() {
     const hour = _time.getHours();
 
-    if (hour > 0 && hour < 6) return _greetings[0];
+    if (hour >= 0 && hour < 6) return _greetings[0];
 
     const greeting = _greetings[iRandom(0, _greetings.length - 1)];
     const extra = _extraLines[iRandom(0, _extraLines.length - 1)];
