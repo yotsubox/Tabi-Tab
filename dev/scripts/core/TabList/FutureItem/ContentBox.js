@@ -18,7 +18,11 @@ function addEventListeners(contentBox) {
     if (e.key === "Enter") {
       //prevent line-break
       e.preventDefault();
+      const prevTop = contentBox.getBoundingClientRect().top;
+
       contentBox._owner.newItemIfNotEmpty();
+
+      window.scrollBy(0, contentBox.getBoundingClientRect().top - prevTop);
     }
   });
 
