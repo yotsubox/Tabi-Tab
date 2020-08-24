@@ -59,7 +59,7 @@ function executeOptions(tabList, settings) {
 }
 
 function updateMarginHeightWithoutAppend(tabList) {
-  listContainer.appendChild(tabList);
-  tabList._decoration.margin.updateHeight();
-  listContainer.removeChild(tabList);
+  setTimeout(() => {
+    tabList._decoration.margin.updateHeight();
+  }, 0);
 }
