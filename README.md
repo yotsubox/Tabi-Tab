@@ -2,7 +2,7 @@
 
 A simple web-app for storing url links
 
-> "npm run get-dependencies" to install necessary dependencies for compiling program.
+> "npm run get-dependencies" to install necessary dependencies for compiling.
 
 > "npm run compile" to compile.
 

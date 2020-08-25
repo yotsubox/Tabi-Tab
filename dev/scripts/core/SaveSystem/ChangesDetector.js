@@ -25,7 +25,7 @@ export class ChangesDetector {
 
   /**
    * call to inform that changes have been made.
-   * dispatch "onChange" event only if changes have not been made before.
+   * dispatch "CHANGED" event only if changes have not been made before.
    */
   static detected() {
     //only call once.
@@ -38,7 +38,7 @@ export class ChangesDetector {
 
   /**
    * call to inform that changes have been saved.
-   * dispatch "onSave" event.
+   * dispatch "SAVED" event.
    */
   static resetState() {
     _changed = false;
@@ -60,7 +60,17 @@ export class ChangesDetector {
       key === "ArrowUp" ||
       key === "ArrowDown" ||
       key === "ArrowLeft" ||
-      key === "ArrowRight"
+      key === "ArrowRight" ||
+      key === "NumLock" ||
+      key === "Clear" ||
+      key === "PageUp" ||
+      key === "PageDown" ||
+      key === "End" ||
+      key === "Home" ||
+      key === "Meta" ||
+      key === "Escape" ||
+      key === "Insert" ||
+      /F[1-9][0-2]*/.test(key)
     )
       return false;
 

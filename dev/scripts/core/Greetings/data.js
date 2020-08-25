@@ -11,6 +11,7 @@ export const _longTimeGreetings = [
   "Hey!!",
   "Fellow human is back!!",
 ];
+
 export const _longTimeExtraLines = [
   "Haven't seen you in a while.",
   "Life's been busy huh?",
@@ -19,14 +20,21 @@ export const _longTimeExtraLines = [
   "Been busy ey?",
   "Good to see you!",
 ];
+
 export const _greetings = [
   getGreetingByTimeOfDay(new Date().getHours()),
+  "Greetings.",
   "Sup, fellow human.",
+  "Nice to see you.",
   "Hey.",
   "Howdy.",
   "What is up!",
-  "Greetings.",
+  "Heya!",
+  "Hiya!",
+  "Yo!",
+  "G'day mate.",
 ];
+
 export const _extraLines = [
   "",
   "How have things been?",
@@ -35,28 +43,48 @@ export const _extraLines = [
   "Anything of interest today?",
   "By the way, how's life going?",
   "And the weather outside, How is it?",
+  "Feels productive?",
   "Don't overworked yourself okay?",
+  "Look behind you. Just kidding hehehe",
+  "Quite a day already!",
   "Remember to drink water!",
-  "Oh boy, looking pretty over there!",
-  "Wow, I was just about to say something but then I forgot",
-  "If you're feeling bad, just know that you'll be happy, maybe tomorrow, maybe longer, but you'll be happy, so... don't lose hope, okay!",
-  "Good to know that you're alive, although I do not understand such concept, for I am a tab!",
   "Living the dream!!",
+  "Oh boy, looking pretty over there!",
+  "Glad to be of your service",
+  "...I got nothing. Glad to see you!",
+  "Wow, I was just about to say something but then I forgot",
+  "If you're feeling bad, just know that you'll be happy, maybe tomorrow, maybe longer, " +
+    "but you'll be happy, so... don't lose hope, okay!",
+  "Good to know that you're alive, although I do not understand such concept, for I am a tab!",
   "Tabi is my name, managing lists is my game",
-  "Also nicely done! That thing you did today that I have no knowledge of!",
+  "Also nicely done! That thing that you did today that I have no knowledge of!",
   "Gimme more RAM!!!",
-  "'Happy Birthday!!' Is what I'll say on your birthday. Hah wouldn't it be nice if today was your birthday? To bad I'll never know",
+  "Do not Alt F4 on me OKAY!!",
+  "Progress progress!",
+  "I like to overuse exclamation marks!!!!",
+  "I'm still here, executing instructions as usual!",
+  "Happy Birthday!... Is what I'll say on your birthday. Hah wouldn't it be nice if today was your birthday?",
   "The stuff on your other tabs are quite interesting I must say, especially those incognito ones",
-  "I'm just here, executing instructions as usual.",
-  ":>",
+  "The font is 'Pangolin', by the way",
+  "list with millions of characters, I might get corrupted! But don't worry though that won't happen anytime soon",
+  "Fun fact about me: I can only remember at most 5MB of information! So If you have a cosmically large " + ":>",
+  "The programmer that created me decided that you shouldn't have to type in your name, gender and birthday in order " +
+    "to use me. So sorry if I can't get to say your name and get to know you a little more",
+  "Here's a great quote: 'We can forget happy things. We can probably forget sad things too. " +
+    "People have the power to forget.' -Reggie from Mother 3",
   ":)",
   ":D",
   "(¬､¬)",
+  "(¬‿¬)",
   "(´﹃｀)",
   "(＾ω＾)",
+  "(´・ω・｀)",
   "(─‿─)",
   "(ゝ◡╹)ノ♡",
+  "(￣▽￣)ノ",
+  "ヾ(＾∇＾)",
   "(´～`)",
+  "(＾＾)ｂ",
 ];
 
 function getGreetingByTimeOfDay(hour) {

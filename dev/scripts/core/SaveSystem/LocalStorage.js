@@ -1,6 +1,7 @@
 import { SavableObjects } from "./SavableObjects.js";
 import { ObjectLoader } from "./ObjectLoader.js";
 import { ChangesDetector } from "./ChangesDetector.js";
+import { save } from "../ImagePaths.js";
 
 const storage = window.localStorage;
 export const saveData = storage.getItem("saveData") ? JSON.parse(storage.getItem("saveData")) : {};
@@ -53,14 +54,28 @@ export class LocalStorage {
 
     _putToStorage();
   }
+
+  static initGreetingIndicesArray() {
+    if (saveData.greetings) return;
+
+    //first time
+    saveData.greetings = {
+      greetingIndices: [],
+      extraLineIndices: [],
+      longTimeGreetingIndices: [],
+      longTimeExtraLineIndices: [],
+    };
+  }
 }
 
 //
 function _updateSaveData() {
   const timestampData = saveData.timestamp;
+  const greetingsData = saveData.greetings;
   LocalStorage._clear();
 
   saveData.timestamp = timestampData;
+  saveData.greetings = greetingsData;
   saveData.tabLists = _getTabListSavableForms();
 }
 

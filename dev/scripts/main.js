@@ -1,5 +1,5 @@
 import { NewTabListButton } from "./core/NewTabListButton.js";
-import { LocalStorage, saveData } from "./core/SaveSystem.js";
+import { LocalStorage, saveData, ChangesDetector } from "./core/SaveSystem.js";
 import { saveWhenCtrlS, saveEveryTenSec, showPage } from "./core/Events.js";
 import { SaveButton } from "./core/SaveButton.js";
 import { InfoButton } from "./core/InfoButton.js";
@@ -29,9 +29,14 @@ export const navigationLine = NavigationLine.FromExistingElem(document.querySele
 LocalStorage.updateTimestamp();
 export const timestampPassedSinceLastOpened = saveData.timestamp.timestampPassedSinceLastOpened;
 
-//INIT.
+//Load stuff.
 LocalStorage.load();
 
 //Greet User :) (every one hour since last opened)
-if (timestampPassedSinceLastOpened >= 3.6e6 || timestampPassedSinceLastOpened === 0)
-  notificationManager.newNotification(Greetings.pick(), null, 10000);
+LocalStorage.initGreetingIndicesArray();
+if (timestampPassedSinceLastOpened >= 3.6e6 || timestampPassedSinceLastOpened === 0) {
+  notificationManager.newNotification(Greetings.pick(), null, 15000);
+  //save greetings indices' changes.
+  ChangesDetector.detected();
+  LocalStorage.save();
+}

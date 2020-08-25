@@ -7,10 +7,6 @@ const _objects = {
  * A stack that store objects needed to be saved (such as tab lists).
  */
 export class SavableObjects {
-  static debug() {
-    console.log(_objects);
-  }
-
   static add(saveable) {
     _addByType[saveable.getType()](saveable);
   }

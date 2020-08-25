@@ -30,7 +30,10 @@ function addText(infoForm) {
       " + 'Up/down arrow' to edit previous/next item.\n" +
       " + 'Alt + Up/down arrow' to move item.\n" +
       " + 'Hold Ctrl + left click' to open link in new tab.\n\n" +
-      "To change background:\n 1. Go to folder 'images'.\n 2. Replace content of 'bg.png' with your desire background.\n 3. restart Tabi Tab."
+      "To change background:\n" +
+      " 1. Go to folder 'images'.\n" +
+      " 2. Replace content of 'bg.png' with your desire background.\n" +
+      " 3. restart Tabi Tab."
   );
 
   const references = createElementWithTextContent(
