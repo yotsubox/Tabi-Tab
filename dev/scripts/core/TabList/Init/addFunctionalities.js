@@ -39,7 +39,6 @@ export function addFunctionalities(tabList) {
     this._itemCount--;
 
     this.fixOrderNumber();
-    this._decoration.margin.updateHeight();
     background.updatePosition();
   };
 
@@ -51,7 +50,6 @@ export function addFunctionalities(tabList) {
     if (this._settings.unorderedList) item.toggleUnordered();
 
     ChangesDetector.detected();
-    this._decoration.margin.updateHeight();
     background.updatePosition();
     return item;
   };
@@ -64,7 +62,6 @@ export function addFunctionalities(tabList) {
     this._settings.minimized = !this._settings.minimized;
 
     ChangesDetector.detected();
-    this._decoration.margin.updateHeight();
     background.updatePosition();
   };
 
@@ -104,7 +101,6 @@ export function addFunctionalities(tabList) {
 
     this.getItems().forEach((item) => item.remove());
     this._itemCount = 0;
-    this._decoration.margin.updateHeight();
   };
 
   tabList.remove = function () {
@@ -119,12 +115,16 @@ export function addFunctionalities(tabList) {
     this._eventManager.addEventListener(eventType, listener);
   };
 
-  tabList.stringify = function () {
-    return JSON.stringify({
+  tabList.getType = function () {
+    return this._type;
+  };
+
+  tabList.toSavableForm = function () {
+    return {
       type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
       itemContents: getContentsFrom(this.getItems()),
-    });
+    };
   };
 }

@@ -15,6 +15,11 @@ export class SubmitButton {
 function addEventListeners(submitButton) {
   submitButton.addEventListener("mousedown", (e) => {
     e.preventDefault();
+
+    const prevTop = submitButton._owner.getBoundingClientRect().top;
+
     submitButton._owner.newItemIfNotEmpty();
+
+    window.scrollBy(0, submitButton._owner.getBoundingClientRect().top - prevTop);
   });
 }

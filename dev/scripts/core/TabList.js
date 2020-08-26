@@ -18,20 +18,17 @@ export class TabList {
     ChangesDetector.detected();
 
     const tabList = TabList._createTabListElement();
-    SavableObjects.add(tabList);
-
     addFunctionalities(tabList);
     addEventListeners(tabList);
     initProperties(tabList);
     assembleComponents(tabList);
-    updateMarginHeightWithoutAppend(tabList);
 
+    SavableObjects.add(tabList);
     return tabList;
   }
 
   static FromJSON(tabListJSON) {
     const tabList = TabList._createTabListElement();
-    SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
     addEventListeners(tabList);
@@ -39,8 +36,8 @@ export class TabList {
     assembleComponents(tabList);
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
     executeOptions(tabList, tabList._settings);
-    updateMarginHeightWithoutAppend(tabList);
 
+    SavableObjects.add(tabList);
     return tabList;
   }
 }
@@ -57,10 +54,4 @@ function executeOptions(tabList, settings) {
 
   //changes made here do not count
   ChangesDetector.resetState();
-}
-
-function updateMarginHeightWithoutAppend(tabList) {
-  listContainer.appendChild(tabList);
-  tabList._decoration.margin.updateHeight();
-  listContainer.removeChild(tabList);
 }
