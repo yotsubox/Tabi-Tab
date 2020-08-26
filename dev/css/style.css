@@ -33,9 +33,6 @@ body {
   height: 100%;
 }
 
-pre {
-  font-family: "Consolas", "monaco", monospace;
-}
 .--overflow-hidden {
   overflow: hidden;
 }
@@ -138,14 +135,44 @@ pre {
 }
 
 .info-form {
-  font-family: var(--default-font-family);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  max-width: 40%;
   position: fixed;
   background-color: var(--list-default-background-color);
   outline: var(--dark-blue) 4px solid;
   padding: 1rem;
   right: 20px;
   top: 4rem;
+}
+
+.info-form__h {
+  font-size: 1em !important;
+  margin-bottom: 0.5em !important;
+  font-family: var(--default-font-family) !important;
+}
+
+.info-form__p {
+  font-size: 0.9em;
+  font-family: "Consolas", "monaco", monospace !important;
+  font-weight: normal !important;
+}
+
+.info-form__p-bold {
+  font-size: 0.9em;
+  font-family: "Consolas", "monaco", monospace !important;
+  font-weight: bold !important;
+}
+
+.info-form__s {
+  font-size: 0.9em;
+  font-family: "Consolas", "monaco", monospace !important;
+  font-weight: bold !important;
+}
+
+.info-form__h > *,
+.info-form__p > *,
+.info-form__s > * {
+  margin-left: 1em;
 }
 
 .new-list-btn {
