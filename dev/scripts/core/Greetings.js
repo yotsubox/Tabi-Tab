@@ -6,7 +6,7 @@ import {
   _longTimeExtraLines,
 } from "./Greetings/data.js";
 import { timestampPassedSinceLastOpened } from "../main.js";
-import { saveData } from "./SaveSystem/LocalStorage.js";
+import { LocalStorage } from "./SaveSystem/LocalStorage.js";
 
 const _time = new Date();
 
@@ -24,6 +24,7 @@ export class Greetings {
 
 function updateLinesIndices() {
   //This is what happened when you don't have pointer alias.
+  const saveData = LocalStorage.getSaveData();
 
   if (!saveData.greetings.greetingIndices.length)
     saveData.greetings.greetingIndices = createShuffledIndexArray(_greetings.length);

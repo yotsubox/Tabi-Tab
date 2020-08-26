@@ -7,3 +7,4 @@ export const add = "./images/add-icon.png";
 export const deleteList = "./images/delete-list-icon.png";
 export const saved = "./images/saved-icon.png";
 export const clear = "./images/clear-icon.png";
+export const download = "./images/download-icon.png";

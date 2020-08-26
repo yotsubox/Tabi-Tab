@@ -24,7 +24,8 @@ function addText(infoForm) {
   const instructions = createElementWithTextContent(
     "pre",
     "",
-    "Tab List:\n" +
+    "--INSTRUCTIONS--\n" +
+      "Tab List:\n" +
       " + 'Right click' to open menu.\n\n" +
       "When edit item:\n" +
       " + 'Up/down arrow' to edit previous/next item.\n" +
@@ -40,8 +41,9 @@ function addText(infoForm) {
     "pre",
     "",
     "Special Thanks to:" +
-      "\nJemoticons, emoticonfun: Emoticon References," +
-      "\nu/franklinsteinnn: Background (so good!)."
+      "\nFreesvg: Icons," +
+      "\nJemoticons, emoticonfun: Emoticons," +
+      "\nu/franklinsteinnn: Background (so beautiful!)"
   );
 
   infoForm.append(webAppName, authorText, instructions, references);

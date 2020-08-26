@@ -72,6 +72,7 @@ export const _extraLines = [
     "to use me. So sorry if I can't get to say your name and get to know you a little more",
   "Here's a great quote: 'We can forget happy things. We can probably forget sad things too. " +
     "People have the power to forget.' -Reggie from Mother 3",
+  "You know, I will run out of lines to say at one point but that's okay, for your lists will always be fine. So, don't worry",
   ":)",
   ":D",
   "(¬､¬)",
@@ -84,7 +85,7 @@ export const _extraLines = [
   "(￣▽￣)ノ",
   "ヾ(＾∇＾)",
   "(´～`)",
-  "(＾＾)ｂ",
+  "I'm Ready! (＾＾)ｂ",
 ];
 
 function getGreetingByTimeOfDay(hour) {

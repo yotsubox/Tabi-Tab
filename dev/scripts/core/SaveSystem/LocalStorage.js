@@ -1,10 +1,9 @@
 import { SavableObjects } from "./SavableObjects.js";
 import { ObjectLoader } from "./ObjectLoader.js";
 import { ChangesDetector } from "./ChangesDetector.js";
-import { save } from "../ImagePaths.js";
 
 const storage = window.localStorage;
-export const saveData = storage.getItem("saveData") ? JSON.parse(storage.getItem("saveData")) : {};
+let saveData = storage.getItem("saveData") ? JSON.parse(storage.getItem("saveData")) : {};
 
 export class LocalStorage {
   /**
@@ -65,6 +64,14 @@ export class LocalStorage {
       longTimeGreetingIndices: [],
       longTimeExtraLineIndices: [],
     };
+  }
+
+  static getSaveData() {
+    return saveData;
+  }
+
+  static setSaveData(newSaveData) {
+    saveData = newSaveData;
   }
 }
 
