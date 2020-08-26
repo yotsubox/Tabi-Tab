@@ -31,9 +31,3 @@ function addFunctionalities(infoForm) {
     return elems;
   };
 }
-
-function createElementWithTextContent(tagName, className, textContent) {
-  const elem = createElement(tagName, className);
-  elem.textContent = textContent;
-  return elem;
-}
