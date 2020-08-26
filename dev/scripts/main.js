@@ -32,7 +32,6 @@ export const navigationLine = NavigationLine.FromExistingElem(document.querySele
 //OTHERS
 LocalStorage.updateTimestamp();
 export const timestampPassedSinceLastOpened = LocalStorage.getSaveData().timestamp.timestampPassedSinceLastOpened;
-
 //Load stuff.
 LocalStorage.load();
 
