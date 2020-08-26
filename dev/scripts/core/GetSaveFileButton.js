@@ -21,7 +21,6 @@ function addEventListeners(getSaveFileButton) {
  * @param {Uint8Array} data
  */
 function download(data) {
-  console.log(data);
   let a = document.createElement("a");
 
   let file = new Blob([data], { type: "application/octet-stream" });
