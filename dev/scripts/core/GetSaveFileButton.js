@@ -11,7 +11,7 @@ export class GetSaveFileButton {
 
 function addEventListeners(getSaveFileButton) {
   getSaveFileButton.addEventListener("click", () => {
-    const encryptedSaveData = BinaryConverter.fromString(JSON.stringify(LocalStorage.getSaveData()));
+    const encryptedSaveData = BinaryConverter.fromString(JSON.stringify(LocalStorage.getSaveData().tabLists));
     download(encryptedSaveData);
   });
 }

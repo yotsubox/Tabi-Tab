@@ -44,7 +44,7 @@ function addContent(infoForm) {
   const saveInstructions = " + 'Ctrl + S' to save.\n" + " + Program will auto save every 10 seconds.";
   const getSaveFileInstructions = " - Click the top left button, it will download the save file of your current lists";
   const getSaveFileInstructionsWarning =
-    " (WARNING: a downloaded save file will NOT automatically updated when save," +
+    " (WARNING: a downloaded save file will NOT be automatically updated when save," +
     " you will have to download a new one every time you want to get the UPDATED save file of your current lists)";
 
   const loadSaveFileInstruction =

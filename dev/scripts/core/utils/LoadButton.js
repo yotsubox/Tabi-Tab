@@ -47,19 +47,18 @@ function loadSaveFile(e) {
     return;
   }
 
-  LocalStorage.setSaveData(loadedSaveData);
+  LocalStorage.setSaveDataTabLists(loadedSaveData.tabLists);
   LocalStorage.load();
 
   ChangesDetector.detected();
   LocalStorage.save();
 
   notificationManager.newNotification("Loaded!", submit);
+  console.log(LocalStorage.getSaveData().timestamp);
 }
 
 function isSaveDataValid(saveData) {
-  if (!saveData) return false;
-
-  if (saveData.tabLists && saveData.timestamp && saveData.greetings) return true;
+  if (saveData && saveData.tabLists && saveData.timestamp && saveData.greetings) return true;
 
   return false;
 }
