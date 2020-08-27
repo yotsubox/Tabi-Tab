@@ -108,7 +108,7 @@ export function addFunctionalities(tabList) {
     this._eventManager.triggerEvent(EventType.REMOVED);
 
     if (this.parentNode) this.parentNode.removeChild(this);
-    SavableObjects.delete(this);
+    SavableObjects.remove(this);
   };
 
   tabList.addEventListenerExtended = function (eventType, listener) {

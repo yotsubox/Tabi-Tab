@@ -9,7 +9,7 @@ import { NotificationManager } from "./core/NotificationManager.js";
 import { Greetings } from "./core/Greetings.js";
 import { GetSaveFileButton } from "./core/GetSaveFileButton.js";
 import { LoadButton } from "./core/Utils/LoadButton.js";
-import { DeleteAllButton } from "./DeleteAllButton.js";
+import { RemoveAllButton } from "./RemoveAllButton.js";
 
 //BASIC FUNCTIONALITIES.
 (async function () {
@@ -28,7 +28,7 @@ export const listContainer = document.querySelector(".list-container");
 export const background = Background.FromExistingElem(document.querySelector(".--background"));
 export const getSaveFileButton = GetSaveFileButton.FromExistingElem(document.querySelector(".get-save-file-btn"));
 export const loadButton = LoadButton.FromExistingElem(document.querySelector(".load-btn"));
-export const deleteAllButton = DeleteAllButton.FromExistingElem(document.querySelector(".delete-all-btn"));
+export const removeAllButton = RemoveAllButton.FromExistingElem(document.querySelector(".remove-all-btn"));
 export const saveButton = SaveButton.FromExistingElem(document.querySelector(".save-btn"));
 export const infoButton = InfoButton.FromExistingElem(document.querySelector(".info-btn"));
 export const addListButton = NewTabListButton.Create(tabListSection);

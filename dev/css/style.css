@@ -130,7 +130,7 @@ body {
 .save-btn,
 .get-save-file-btn,
 .load-btn,
-.delete-all-btn {
+.remove-all-btn {
   cursor: pointer;
   max-height: 2rem;
   max-width: 2rem;
@@ -346,7 +346,7 @@ body {
   right: 1em;
 }
 
-.list__item-delete-btn,
+.list__item-remove-btn,
 .list__item-copy-btn {
   margin-left: 10px;
   max-height: var(--list__item-btn-size);
@@ -513,7 +513,7 @@ body {
 }
 
 .list__item-copy-btn:hover:not(:active),
-.list__item-delete-btn:hover:not(:active) {
+.list__item-remove-btn:hover:not(:active) {
   transform: scale(1.1);
 }
 
@@ -523,7 +523,7 @@ body {
 
 .get-save-file-btn:hover:not(:active),
 .load-btn:hover:not(:active),
-.delete-all-btn:hover:not(:active),
+.remove-all-btn:hover:not(:active),
 .info-btn:hover:not(:active),
 .save-btn:hover:not(.--gray-scale):not(:active) {
   filter: brightness(1.2);

@@ -4,7 +4,7 @@ import { remove as defaultPath } from "../../ImagePaths.js";
 
 export class RemoveButton {
   static Create(item, imgPath = defaultPath) {
-    const removeButton = createElement("img", "list__item-delete-btn --hidden");
+    const removeButton = createElement("img", "list__item-remove-btn --hidden");
     removeButton._owner = item;
     removeButton.src = imgPath;
 
