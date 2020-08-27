@@ -19,10 +19,6 @@ export class SavableObjects {
     return _objects.tabLists;
   }
 
-  static *[Symbol.iterator]() {
-    for (const savable of _objects) yield savable;
-  }
-
   static clear() {
     _objects.tabLists.clear();
   }
