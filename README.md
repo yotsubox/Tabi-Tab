@@ -2,17 +2,25 @@
 
 A simple list management web-app. 
 
-### TO COMPILE:
+## HOW TO RUN
+
+### Download from Release:
+1. Extract files
+2. Open 'Tabi Tab.html'
+3. Enjoy!
+
+### From Source code:
 >**Requirement: npm**.
 
-To install necessary dependencies for compiling:
+1. install necessary dependencies for compiling:
 ```
 "npm run get-dependencies"
 ``` 
 
-To build Tabi Tab:
+2. build Tabi Tab:
 ``` 
 "npm run compile"
 ``` 
-Finally, run Tabi-Tab by open index.html in folder .\dist.
+
+3.Finally, run Tabi-Tab by open index.html in folder .\dist.
 
