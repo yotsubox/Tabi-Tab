@@ -28,5 +28,5 @@ function download(data) {
   a.download = "TabiTabListGroup";
   a.click();
 
-  notificationManager.newNotification("Save file downloaded!", downloadIcon);
+  notificationManager.newNotification("Save file is ready!", downloadIcon);
 }

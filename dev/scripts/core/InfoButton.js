@@ -32,7 +32,8 @@ function addContent(infoForm) {
   const author = "Made by Yotsubox (github.com/yotsubox)";
 
   const instructionsHeader = "--INSTRUCTIONS--";
-  const tabListInstructions = " + 'Right click' to open menu.";
+  const tabListInstructions =
+    " + 'Right click' to open menu.\n+'Left-click' on top of list to toggle list minimization";
   const editItemInstructions =
     " + 'Up/down arrow' to edit previous/next item.\n" +
     " + 'Alt + Up/down arrow' to move item.\n" +
@@ -42,13 +43,14 @@ function addContent(infoForm) {
     " 2. Replace content of 'bg.png' with your desire background.\n" +
     " 3. restart Tabi Tab.\n";
   const saveInstructions = " + 'Ctrl + S' to save.\n" + " + Program will auto save every 10 seconds.";
-  const getSaveFileInstructions = " - Click the top left button, it will download the save file of your current lists";
+  const getSaveFileInstructions =
+    " - 'Left-click' the top left button, it will download the save file of your current lists";
   const getSaveFileInstructionsWarning =
     " (WARNING: a downloaded save file will NOT be automatically updated when save," +
     " you will have to download a new one every time you want to get the UPDATED save file of your current lists)";
 
   const loadSaveFileInstruction =
-    " 1. Click on the button next to 'get save file' button.\n" + " 2. Choose your desire save file.";
+    " 1. 'Left-click' on the button next to 'get save file' button.\n" + " 2. Choose your desire save file.";
 
   const specialThanks =
     "Freesvg: Icons," + "\nJemoticons, emoticonfun: Emoticons," + "\nu/franklinsteinnn: Background (so beautiful!)";
@@ -67,7 +69,7 @@ function addContent(infoForm) {
   const changeBackgroundInsHeader = infoForm.addText(TextType.SECTION, "Change background:", headerElem)[0];
   infoForm.addText(TextType.PARAGRAPH, changeBackgroundInstructions, changeBackgroundInsHeader);
 
-  const saveInsHeader = infoForm.addText(TextType.SECTION, "To Save:", headerElem)[0];
+  const saveInsHeader = infoForm.addText(TextType.SECTION, "Save:", headerElem)[0];
   infoForm.addText(TextType.PARAGRAPH, saveInstructions, saveInsHeader);
 
   const loadSaveFileInsHeader = infoForm.addText(TextType.SECTION, "Load save file:", headerElem)[0];

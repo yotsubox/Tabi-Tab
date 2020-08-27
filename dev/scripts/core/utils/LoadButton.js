@@ -53,7 +53,7 @@ function loadSaveFile(e) {
   ChangesDetector.detected();
   LocalStorage.save();
 
-  notificationManager.newNotification("Loaded!", submit);
+  notificationManager.newNotification("Successfully loaded!", submit);
 }
 
 function isSaveDataValid(saveData) {

@@ -13,5 +13,5 @@ export function saveEveryTenSec() {
 }
 
 function makeNotification() {
-  notificationManager.newNotification("Autosaved.", saved);
+  notificationManager.newNotification("Autosaved", saved);
 }
