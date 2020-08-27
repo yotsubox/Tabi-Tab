@@ -1,9 +1,18 @@
 # Tabi-Tab
 
-A simple web-app for storing url links
+A simple list management web-app. 
 
-> "npm run get-dependencies" to install necessary dependencies for compiling.
+### TO COMPILE:
+>**Requirement: npm**.
 
-> "npm run compile" to compile.
+To install necessary dependencies for compiling:
+```
+"npm run get-dependencies"
+``` 
 
-=> Run Tabi-Tab by open ./dist/index.html.
+To build Tabi Tab.
+``` 
+"npm run compile"
+``` 
+Finally, run Tabi-Tab by open index.html in folder .\dist.
+
