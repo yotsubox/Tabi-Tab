@@ -178,9 +178,11 @@ body {
 }
 
 .info-form {
+  overflow-y: scroll;
   z-index: 2;
   font-size: 1.3rem;
-  max-width: 40%;
+  max-width: 40vw;
+  max-height: 80vh;
   position: fixed;
   background-color: var(--list-default-background-color);
   outline: var(--dark-blue) 4px solid;
