@@ -1,9 +1,9 @@
 import { SavableObjects } from "./core/SaveSystem.js";
 import { createElement } from "./core/Utils.js";
-import { deleteList } from "./core/ImagePaths.js";
+import { removeList } from "./core/ImagePaths.js";
 import { notificationManager } from "./main.js";
 
-export class DeleteAllButton {
+export class RemoveAllButton {
   static FromExistingElem(button) {
     button.addEventListener("click", () => {
       const confirmBox = ConfirmBox.Create("Are you sure?");
@@ -13,7 +13,7 @@ export class DeleteAllButton {
       confirmBox.onYes(() => {
         for (const tabList of SavableObjects.getTabLists()) tabList.remove();
 
-        notificationManager.newNotification("Everything deleted", deleteList);
+        notificationManager.newNotification("Everything Removed", removeList);
       });
     });
   }

@@ -1,11 +1,11 @@
 import { Option } from "../Option.js";
 import { notificationManager } from "../../../../main.js";
-import { clear, deleteList } from "../../../ImagePaths.js";
+import { clear, removeList } from "../../../ImagePaths.js";
 
 export function addOptions(menu, settings) {
   addUnorderedListCheckBox(menu, settings);
   addClearListButton(menu);
-  addDeleteListButton(menu);
+  addRemoveListButton(menu);
 }
 
 function addUnorderedListCheckBox(menu, settings) {
@@ -32,15 +32,15 @@ function addClearListButton(menu) {
   return clearListButton;
 }
 
-function addDeleteListButton(menu) {
-  const deleteListButton = Option.CreateButton(menu, "Delete List");
+function addRemoveListButton(menu) {
+  const removeListButton = Option.CreateButton(menu, "Remove List");
 
-  deleteListButton.addListener(() => {
+  removeListButton.addListener(() => {
     menu.getOwner().remove();
     menu.blur();
-    notificationManager.newNotification("List Deleted", deleteList);
+    notificationManager.newNotification("List Removed", removeList);
   });
 
-  menu.appendChild(deleteListButton);
-  return deleteListButton;
+  menu.appendChild(removeListButton);
+  return removeListButton;
 }

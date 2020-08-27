@@ -13,7 +13,7 @@ export function addEventListeners(removeButton) {
 
     focusOnNextItem(removeButton);
 
-    removeButton.deleteItem();
+    removeButton.removeItem();
     notificationManager.newNotification("Item removed", remove);
 
     window.scrollTo(0, prevScrollY);

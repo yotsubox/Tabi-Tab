@@ -1,5 +1,5 @@
 export function addFunctionalities(removeButton) {
-  removeButton.deleteItem = function () {
+  removeButton.removeItem = function () {
     const tabList = this._owner.getOwner();
     tabList.removeItem(this._owner);
   };

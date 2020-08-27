@@ -11,8 +11,8 @@ export class SavableObjects {
     _addByType[saveable.getType()](saveable);
   }
 
-  static delete(savable) {
-    _deleteByType[savable.getType()](savable);
+  static remove(savable) {
+    _removeByType[savable.getType()](savable);
   }
 
   static getTabLists() {
@@ -26,12 +26,12 @@ export class SavableObjects {
 
 //
 const _addByType = [];
-const _deleteByType = [];
+const _removeByType = [];
 
 _addByType[Type.TAB_LIST] = function (tabList) {
   _objects.tabLists.add(tabList);
 };
 
-_deleteByType[Type.TAB_LIST] = function (tabList) {
+_removeByType[Type.TAB_LIST] = function (tabList) {
   _objects.tabLists.delete(tabList);
 };
