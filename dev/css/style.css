@@ -135,6 +135,7 @@ body {
 }
 
 .info-form {
+  z-index: 2;
   font-size: 1.3rem;
   max-width: 40%;
   position: fixed;
@@ -363,6 +364,7 @@ body {
 
 /* NAVIGATION LINE */
 .nav-line {
+  z-index: 1;
   min-width: 200px;
   max-height: 500px;
   position: fixed;

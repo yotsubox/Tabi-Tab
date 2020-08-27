@@ -1,6 +1,6 @@
 import { NewTabListButton } from "./core/NewTabListButton.js";
 import { LocalStorage, ChangesDetector } from "./core/SaveSystem.js";
-import { saveWhenCtrlS, saveEveryTenSec, showPage } from "./core/Events.js";
+import { saveWhenCtrlS, saveEveryTenSec, showPage, scrollToLastOpenedPosition } from "./core/Events.js";
 import { SaveButton } from "./core/SaveButton.js";
 import { InfoButton } from "./core/InfoButton.js";
 import { Background } from "./core/BackGround.js";
@@ -11,9 +11,12 @@ import { GetSaveFileButton } from "./core/GetSaveFileButton.js";
 import { LoadButton } from "./core/Utils/LoadButton.js";
 
 //BASIC FUNCTIONALITIES.
-showPage();
-saveWhenCtrlS();
-saveEveryTenSec();
+(async function () {
+  await showPage();
+  scrollToLastOpenedPosition();
+  saveWhenCtrlS();
+  saveEveryTenSec();
+})();
 
 //INTERNALS OBJECTS
 export const notificationManager = new NotificationManager(document.querySelector(".notification-container"));

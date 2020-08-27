@@ -3,7 +3,7 @@ import { LocalStorage } from "../SaveSystem/LocalStorage.js";
 import { UInt8ArrayConverter } from "./UInt8ArrayConverter.js";
 import { ChangesDetector } from "../SaveSystem/ChangesDetector.js";
 import { notificationManager } from "../../main.js";
-import { submit, remove } from "../ImagePaths.js";
+import { submit, remove, save } from "../ImagePaths.js";
 
 export class LoadButton {
   static FromExistingElem(loadButton) {
@@ -57,6 +57,6 @@ function loadSaveFile(e) {
 }
 
 function isSaveDataValid(saveData) {
-  if (saveData && Array.isArray(saveData)) return true;
+  if (saveData && saveData.tabLists && Array.isArray(saveData.tabLists)) return true;
   return false;
 }
