@@ -22,5 +22,5 @@ A simple list management web-app.
 "npm run compile"
 ``` 
 
-3. Finally, run Tabi-Tab by open index.html in folder .\dist.
+3. Finally, run Tabi-Tab by open 'index.html' in folder .\dist.
 
