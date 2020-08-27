@@ -70,7 +70,7 @@ export class LocalStorage {
     return saveData;
   }
 
-  static setSaveDataTabLists(tabListsData) {
+  static setSaveData(tabListsData) {
     saveData.tabLists = tabListsData;
   }
 }
