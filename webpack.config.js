@@ -43,9 +43,4 @@ module.exports = {
     contentBase: path.join(__dirname, "dist"),
     compress: false,
   },
-
-  //FOR DEBUGGING
-  optimization: {
-    minimize: false,
-  },
 };
