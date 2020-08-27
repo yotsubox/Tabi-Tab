@@ -15,9 +15,9 @@ export class LocalStorage {
     if (!ChangesDetector.hasChangesBeenMade()) return false;
     _updateSaveData();
     _putToStorage();
+
     //things are now unchanged.
     ChangesDetector.resetState();
-
     return true;
   }
 
@@ -70,8 +70,13 @@ export class LocalStorage {
     return saveData;
   }
 
-  static setSaveData(newSaveData) {
-    saveData = newSaveData;
+  static setSaveData(saveFileData) {
+    saveData.tabLists = saveFileData.tabLists;
+    saveData.scrollYPosition = 0;
+  }
+
+  static getSavedScrollY() {
+    return parseInt(storage.getItem("scrollY"));
   }
 }
 
@@ -104,3 +109,7 @@ function _getTabListSavableForms() {
 
   return savableForms;
 }
+
+window.addEventListener("scroll", () => {
+  storage.setItem("scrollY", window.scrollY);
+});

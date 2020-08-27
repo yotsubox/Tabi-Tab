@@ -3,7 +3,7 @@ import { LocalStorage } from "../SaveSystem/LocalStorage.js";
 import { UInt8ArrayConverter } from "./UInt8ArrayConverter.js";
 import { ChangesDetector } from "../SaveSystem/ChangesDetector.js";
 import { notificationManager } from "../../main.js";
-import { submit, save, remove } from "../ImagePaths.js";
+import { submit, remove, save } from "../ImagePaths.js";
 
 export class LoadButton {
   static FromExistingElem(loadButton) {
@@ -15,7 +15,7 @@ function addEventListeners(loadButton) {
   loadButton.addEventListener("click", openAndLoad);
 }
 
-function openAndLoad(e) {
+function openAndLoad() {
   const input = createElement("input");
   input.type = "file";
   input.addEventListener("change", (e) => {
@@ -53,13 +53,10 @@ function loadSaveFile(e) {
   ChangesDetector.detected();
   LocalStorage.save();
 
-  notificationManager.newNotification("Loaded!", submit);
+  notificationManager.newNotification("Successfully loaded!", submit);
 }
 
 function isSaveDataValid(saveData) {
-  if (!saveData) return false;
-
-  if (saveData.tabLists && saveData.timestamp && saveData.greetings) return true;
-
+  if (saveData && saveData.tabLists && Array.isArray(saveData.tabLists)) return true;
   return false;
 }

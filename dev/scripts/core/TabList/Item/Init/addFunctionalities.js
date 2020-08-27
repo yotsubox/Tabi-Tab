@@ -27,7 +27,7 @@ export function addFunctionalities(item) {
   };
 
   item.getURL = function () {
-    if (this._contentBox.textContent.startsWith("https://")) return this._contentBox.textContent;
+    if (/^.+:\/\//.test(this._contentBox.textContent)) return this._contentBox.textContent;
     else return `https://${this._contentBox.textContent}`;
   };
 

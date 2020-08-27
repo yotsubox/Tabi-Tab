@@ -9,9 +9,14 @@ export function addEventListeners(removeButton) {
     //0 = left click
     if (e.button !== 0) return;
 
+    const prevScrollY = window.scrollY;
+
     focusOnNextItem(removeButton);
+
     removeButton.deleteItem();
     notificationManager.newNotification("Item removed", remove);
+
+    window.scrollTo(0, prevScrollY);
   });
 }
 

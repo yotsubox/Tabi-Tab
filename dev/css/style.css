@@ -129,20 +129,67 @@ body {
 .info-btn,
 .save-btn,
 .get-save-file-btn,
-.load-btn {
+.load-btn,
+.delete-all-btn {
+  cursor: pointer;
   max-height: 2rem;
   max-width: 2rem;
 }
 
+.save-btn.--gray-scale {
+  cursor: default;
+}
+
+.confirm-box {
+  user-select: none;
+  padding: 2rem;
+  position: fixed;
+  font-family: var(--default-font-family);
+  font-size: 2rem;
+  background-color: var(--list-default-background-color);
+  outline: #a15465 7px solid;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: confirm-box-start-animation 0.3s ease forwards;
+  box-shadow: 0px 0px 50px rgba(51, 6, 6, 0.747);
+}
+
+.confirm-box__message {
+  color: #6b3333;
+  margin-bottom: 0.5em;
+}
+.confirm-box__yes,
+.confirm-box__no {
+  padding: 0.05em 0.3em;
+  color: var(--list-outline-color);
+  outline: var(--list-outline-color) 3px solid;
+}
+
+.confirm-box__no {
+  outline-color: #a15465;
+  color: #a15465;
+}
+
+.confirm-box__option-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .info-form {
+  overflow-y: scroll;
+  z-index: 2;
   font-size: 1.3rem;
-  max-width: 40%;
+  max-width: 40vw;
+  max-height: 80vh;
   position: fixed;
   background-color: var(--list-default-background-color);
   outline: var(--dark-blue) 4px solid;
   padding: 1rem;
   right: 20px;
   top: 4rem;
+  box-shadow: 0px 0px 50px rgba(51, 0, 92, 0.205);
 }
 
 .info-form__h {
@@ -176,6 +223,7 @@ body {
 }
 
 .new-list-btn {
+  user-select: none;
   font-family: var(--default-font-family);
   font-size: 1.2rem;
   text-align: center;
@@ -329,6 +377,7 @@ body {
 }
 
 .menu {
+  user-select: none;
   display: flex;
   flex-direction: column;
 
@@ -363,6 +412,7 @@ body {
 
 /* NAVIGATION LINE */
 .nav-line {
+  z-index: 1;
   min-width: 200px;
   max-height: 500px;
   position: fixed;
@@ -416,6 +466,7 @@ body {
   align-items: center;
   background-color: var(--list-default-background-color);
   animation: notification-box-start-animation 0.4s ease forwards;
+  box-shadow: 4px 4px 10px rgba(6, 27, 51, 0.719);
 }
 
 .notification-box__icon {
@@ -470,9 +521,33 @@ body {
   transform: translateY(-1px) scale(1.1);
 }
 
-.info-btn:hover,
-.save-btn:hover:not(.--gray-scale) {
+.get-save-file-btn:hover:not(:active),
+.load-btn:hover:not(:active),
+.delete-all-btn:hover:not(:active),
+.info-btn:hover:not(:active),
+.save-btn:hover:not(.--gray-scale):not(:active) {
   filter: brightness(1.2);
+}
+
+.confirm-box__yes:hover,
+.confirm-box__no:hover {
+  background-color: var(--list-outline-color);
+  color: var(--list-default-background-color);
+  transform: scale(1.1);
+}
+
+.confirm-box__no:hover {
+  background-color: #a15465;
+}
+
+.confirm-box__yes:active,
+.confirm-box__no:active {
+  transform: scale(1);
+  color: var(--list-outline-color);
+}
+
+.confirm-box__no:active {
+  color: #a15465;
 }
 
 .new-list-btn:active,
@@ -575,6 +650,19 @@ body {
   100% {
     transform: translate(0%, 0%);
     opacity: 1;
+  }
+}
+
+@keyframes confirm-box-start-animation {
+  0% {
+    border: rgb(146, 5, 36) 100px solid;
+    outline-color: rgb(146, 5, 36);
+    outline-width: 100px;
+    outline-offset: 100px;
+  }
+
+  100% {
+    border: rgb(146, 5, 111) 0 solid;
   }
 }
 

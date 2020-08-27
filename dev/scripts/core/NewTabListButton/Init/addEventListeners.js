@@ -8,7 +8,11 @@ export function addEventListeners(addListButton) {
 
 function createNewTabList() {
   const tabList = TabList.Create(listContainer);
+
+  const prevTop = this.getBoundingClientRect().top;
   listContainer.appendChild(tabList);
+  window.scrollBy(0, this.getBoundingClientRect().top - prevTop);
+
   navigationLine.add(tabList);
   background.updatePosition();
   notificationManager.newNotification("New list created!", add);

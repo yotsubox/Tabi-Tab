@@ -11,7 +11,11 @@ export class GetSaveFileButton {
 
 function addEventListeners(getSaveFileButton) {
   getSaveFileButton.addEventListener("click", () => {
-    const encryptedSaveData = BinaryConverter.fromString(JSON.stringify(LocalStorage.getSaveData()));
+    const saveFileData = {
+      tabLists: LocalStorage.getSaveData().tabLists,
+    };
+
+    const encryptedSaveData = BinaryConverter.fromString(JSON.stringify(saveFileData));
     download(encryptedSaveData);
   });
 }
@@ -28,5 +32,5 @@ function download(data) {
   a.download = "TabiTabListGroup";
   a.click();
 
-  notificationManager.newNotification("Save file downloaded!", downloadIcon);
+  notificationManager.newNotification("Save file is ready!", downloadIcon);
 }
