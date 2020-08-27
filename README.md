@@ -10,7 +10,7 @@ To install necessary dependencies for compiling:
 "npm run get-dependencies"
 ``` 
 
-To build Tabi Tab.
+To build Tabi Tab:
 ``` 
 "npm run compile"
 ``` 
