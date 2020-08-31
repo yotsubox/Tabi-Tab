@@ -61,7 +61,7 @@ function addContent(infoForm) {
     "\nu/franklinsteinnn: Background (so beautiful!)," +
     "\nMDN, w3schools, Stack Overflow: Programming references.";
 
-  const version = "ver 1.0.0";
+  const version = "ver 1.0.1";
 
   infoForm.addText(TextType.HEADER, webAppName);
   infoForm.addText(TextType.HEADER, author);
