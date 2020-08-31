@@ -93,8 +93,7 @@ function getGreetingByTimeOfDay(hour) {
   if (hour >= 10 && hour < 12) return "Hey there!";
   if (hour >= 12 && hour < 16) return "Good afternoon!";
   if (hour >= 16 && hour < 22) return "Good evening!";
-  if (hour >= 22 && hour < 24)
-    return "Working hard ey? Remember to get some sleep!";
+  if (hour >= 22 && hour < 24) return "Working hard ey? Remember to get some sleep!";
   if (hour >= 0 && hour < 6) return "I'm sleepy... (๑ᵕ⌓ᵕ̤)";
   //not gonna happen.
   return "Feels strange...";

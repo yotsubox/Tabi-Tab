@@ -1,7 +1,4 @@
-import {
-  addFunctionalities,
-  addEventListeners,
-} from "./MinimizeButton/Init.js";
+import { addFunctionalities, addEventListeners } from "./MinimizeButton/Init.js";
 
 export class MinimizeButton {
   static Create(tabList) {

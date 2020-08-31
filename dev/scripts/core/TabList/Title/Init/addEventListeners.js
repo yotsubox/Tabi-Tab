@@ -1,25 +1,31 @@
 import { ChangesDetector } from "../../../SaveSystem.js";
 
-export function addEventListeners(title, tabList) {
+export function addEventListeners(title) {
+  const tabList = title._owner;
+
   title.addEventListener("keydown", (e) => {
     detectChanges(e);
 
     if (e.key === "ArrowDown" || e.key === "Enter") {
       e.preventDefault();
-      focusOnFirstItem(tabList);
+      if (tabList.isMinimized() && e.key === "Enter") title.blur();
+      else if (!tabList.isMinimized()) focusOnFirstItem(tabList);
     }
   });
+
+  title.addEventListener("cut", () => ChangesDetector.detected());
+  title.addEventListener("paste", () => ChangesDetector.detected());
 
   trimContentWhenBlur(title);
 }
 
 function focusOnFirstItem(tabList) {
-  if (tabList.getItemCount() === 0) tabList.getFutureItem().focus();
+  if (tabList.getItemCount() === 0) tabList.getFutureItem().getContentBox().focus();
   else tabList.getItems()[0].getContentBox().focus();
 }
 
 function detectChanges(e) {
-  if (ChangesDetector.isKeyCauseChanges(e.key)) ChangesDetector.detected();
+  if (ChangesDetector.isKeyboardEventCauseChanges(e)) ChangesDetector.detected();
 }
 
 function trimContentWhenBlur(title) {

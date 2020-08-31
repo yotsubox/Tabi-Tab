@@ -1,16 +1,13 @@
 import { Item, getContentsFrom } from "../Init.js";
 import { ChangesDetector } from "../../SaveSystem.js";
 import { SavableObjects } from "../../SaveSystem/SavableObjects.js";
+import { insertElementBefore } from "../../Utils/insertElementBefore.js";
+import { EventType } from "../EventType.js";
+import { background } from "../../../main.js";
 
 export function addFunctionalities(tabList) {
   tabList.getItemCount = function () {
     return this._itemCount;
-  };
-
-  tabList.removeItem = function (item) {
-    item.remove();
-    this._itemCount--;
-    this.fixOrderNumber();
   };
 
   tabList.getTitleName = function () {
@@ -37,25 +34,35 @@ export function addFunctionalities(tabList) {
     return this._minimizeButton;
   };
 
-  tabList.newItem = function (url = "") {
-    ChangesDetector.detected();
+  tabList.removeItem = function (item) {
+    item.remove();
+    this._itemCount--;
 
+    this.fixOrderNumber();
+    background.updatePosition();
+  };
+
+  tabList.newItem = function (url = "") {
     this._itemCount++;
     const item = Item.Create(this, this._itemCount, url);
+    insertElementBefore(tabList.getFutureItem(), item);
 
     if (this._settings.unorderedList) item.toggleUnordered();
 
+    ChangesDetector.detected();
+    background.updatePosition();
     return item;
   };
 
   tabList.toggleMinimization = function () {
-    ChangesDetector.detected();
-
     const itemContainer = this.getItemContainer();
-    this._minimized = itemContainer.classList.toggle("--collapse");
+    itemContainer.classList.toggle("--collapse");
     this._minimizePadding.classList.toggle("--collapse");
 
     this._settings.minimized = !this._settings.minimized;
+
+    ChangesDetector.detected();
+    background.updatePosition();
   };
 
   tabList.toggleUnorderedListStyle = function () {
@@ -71,8 +78,12 @@ export function addFunctionalities(tabList) {
     this._settings.unorderedList = !this._settings.unorderedList;
   };
 
+  tabList.runFocusAnimation = function () {
+    tabList.classList.add("list--focus-animation");
+  };
+
   tabList.isMinimized = function () {
-    return this._minimized;
+    return this._settings.minimized;
   };
 
   tabList.fixOrderNumber = function () {
@@ -85,6 +96,7 @@ export function addFunctionalities(tabList) {
   };
 
   tabList.clearItems = function () {
+    if (tabList.getItemCount() === 0) return;
     ChangesDetector.detected();
 
     this.getItems().forEach((item) => item.remove());
@@ -93,18 +105,26 @@ export function addFunctionalities(tabList) {
 
   tabList.remove = function () {
     ChangesDetector.detected();
+    this._eventManager.triggerEvent(EventType.REMOVED);
 
     if (this.parentNode) this.parentNode.removeChild(this);
-    SavableObjects.delete(this);
+    SavableObjects.remove(this);
   };
 
-  tabList.stringify = function () {
-    if (tabList.getTitleName() === "" && tabList._itemCount === 0) return null;
-    return JSON.stringify({
+  tabList.addEventListenerExtended = function (eventType, listener) {
+    this._eventManager.addEventListener(eventType, listener);
+  };
+
+  tabList.getType = function () {
+    return this._type;
+  };
+
+  tabList.toSavableForm = function () {
+    return {
       type: this._type,
       settings: this._settings,
       titleName: this.getTitleName(),
       itemContents: getContentsFrom(this.getItems()),
-    });
+    };
   };
 }

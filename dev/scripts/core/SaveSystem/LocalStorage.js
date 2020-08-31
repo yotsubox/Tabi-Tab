@@ -3,6 +3,7 @@ import { ObjectLoader } from "./ObjectLoader.js";
 import { ChangesDetector } from "./ChangesDetector.js";
 
 const storage = window.localStorage;
+let saveData = storage.getItem("saveData") ? JSON.parse(storage.getItem("saveData")) : {};
 
 export class LocalStorage {
   /**
@@ -11,52 +12,104 @@ export class LocalStorage {
    */
   static save() {
     //if nothing has changed, do nothing.
-    if (!ChangesDetector.haveChangesBeenMade()) return false;
-    LocalStorage._clear();
-
-    let id = 0;
-    for (const savable of SavableObjects) {
-      const savableData = savable.stringify();
-      if (!savableData) continue;
-      //for some fucking reason, numbers (or number strings) as key do not work properly.
-      storage.setItem(`+${id}`, savableData);
-      id++;
-    }
+    if (!ChangesDetector.hasChangesBeenMade()) return false;
+    _updateSaveData();
+    _putToStorage();
 
     //things are now unchanged.
     ChangesDetector.resetState();
-
     return true;
   }
 
   static load() {
-    const savableObjectsData = getSavableObjectsData();
-
-    this._removeCurrentlyRunningObjects();
+    _removeCurrentlyRunningToBeReplacedObjects();
     SavableObjects.clear();
 
-    for (const data of savableObjectsData) {
-      ObjectLoader.parse(data);
-    }
+    if (saveData.tabLists)
+      for (const tabListData of saveData.tabLists) {
+        ObjectLoader.parse(tabListData);
+      }
   }
 
   static _clear() {
     storage.clear();
   }
 
-  static _removeCurrentlyRunningObjects() {
-    for (const savable of SavableObjects) {
-      savable.remove();
+  static updateTimestamp() {
+    const now = Date.now();
+
+    //first time.
+    if (!saveData.timestamp) {
+      saveData.timestamp = {
+        timestampPassedSinceLastOpened: 0,
+        lastOpenedTimestamp: now,
+      };
     }
+
+    saveData.timestamp = {
+      timestampPassedSinceLastOpened: now - saveData.timestamp.lastOpenedTimestamp,
+      lastOpenedTimestamp: now,
+    };
+
+    _putToStorage();
+  }
+
+  static initGreetingIndicesArray() {
+    if (saveData.greetings) return;
+
+    //first time
+    saveData.greetings = {
+      greetingIndices: [],
+      extraLineIndices: [],
+      longTimeGreetingIndices: [],
+      longTimeExtraLineIndices: [],
+    };
+  }
+
+  static getSaveData() {
+    return saveData;
+  }
+
+  static setSaveData(saveFileData) {
+    saveData.tabLists = saveFileData.tabLists;
+    saveData.scrollYPosition = 0;
+  }
+
+  static getSavedScrollY() {
+    return parseInt(storage.getItem("scrollY"));
   }
 }
 
 //
-function getSavableObjectsData() {
-  const savableObjectsData = [];
-  for (let id = 0; id < storage.length; id++) {
-    //get data
-    savableObjectsData.push(JSON.parse(storage.getItem(`+${id}`)));
-  }
-  return savableObjectsData;
+function _updateSaveData() {
+  const timestampData = saveData.timestamp;
+  const greetingsData = saveData.greetings;
+  LocalStorage._clear();
+
+  saveData.timestamp = timestampData;
+  saveData.greetings = greetingsData;
+  saveData.tabLists = _getTabListSavableForms();
 }
+
+function _putToStorage() {
+  storage.setItem("saveData", JSON.stringify(saveData));
+}
+
+function _removeCurrentlyRunningToBeReplacedObjects() {
+  for (const tabList of SavableObjects.getTabLists()) {
+    tabList.remove();
+  }
+}
+
+function _getTabListSavableForms() {
+  const savableForms = [];
+  for (const tabList of SavableObjects.getTabLists()) {
+    savableForms.push(tabList.toSavableForm());
+  }
+
+  return savableForms;
+}
+
+window.addEventListener("scroll", () => {
+  storage.setItem("scrollY", window.scrollY);
+});

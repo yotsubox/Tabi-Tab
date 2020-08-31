@@ -1,6 +1,6 @@
 import { Type } from "../Type.js";
 import { TabList } from "../TabList.js";
-import { listContainer } from "../../main.js";
+import { listContainer, navigationLine, background } from "../../main.js";
 
 export class ObjectLoader {
   //for fuck sakes, js do not allow static const. god i hate this.
@@ -18,5 +18,8 @@ const parseByTypeHandlers = [];
 parseByTypeHandlers[Type.TAB_LIST] = _parseTabList;
 
 function _parseTabList(tabListJSON) {
-  TabList.FromJSON(listContainer, tabListJSON);
+  const tabList = TabList.FromJSON(tabListJSON);
+  navigationLine.add(tabList);
+  listContainer.appendChild(tabList);
+  background.updatePosition();
 }

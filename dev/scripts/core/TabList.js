@@ -6,37 +6,38 @@ import {
   initProperties,
   initPropertiesFromJSON,
   addItemsToTabListFromItemContents,
-  assembleComponentsAndAppend,
+  assembleComponents,
 } from "./TabList/Init.js";
+import { listContainer } from "../main.js";
 
 export class TabList {
   static _createTabListElement() {
-    return createElement("div", "list --tab-list-un-minimize-animation");
+    return createElement("div", "list list--start-animation");
   }
-  static Create(appendTarget) {
+  static Create() {
     ChangesDetector.detected();
-    const tabList = TabList._createTabListElement();
-    SavableObjects.add(tabList);
 
+    const tabList = TabList._createTabListElement();
     addFunctionalities(tabList);
     addEventListeners(tabList);
     initProperties(tabList);
-    assembleComponentsAndAppend(tabList, appendTarget);
+    assembleComponents(tabList);
 
+    SavableObjects.add(tabList);
     return tabList;
   }
 
-  static FromJSON(appendTarget, tabListJSON) {
+  static FromJSON(tabListJSON) {
     const tabList = TabList._createTabListElement();
-    SavableObjects.add(tabList);
 
     addFunctionalities(tabList);
     addEventListeners(tabList);
     initPropertiesFromJSON(tabList, tabListJSON);
-    assembleComponentsAndAppend(tabList, appendTarget);
+    assembleComponents(tabList);
     addItemsToTabListFromItemContents(tabList, tabListJSON.itemContents);
     executeOptions(tabList, tabList._settings);
 
+    SavableObjects.add(tabList);
     return tabList;
   }
 }
